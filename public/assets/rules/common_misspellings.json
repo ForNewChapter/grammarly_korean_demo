@@ -1,0 +1,6 @@
+[
+  {"from":"되요","to":"돼요","reasonTag":"common_misspelling","confidence":0.99},
+  {"from":"왠","to":"웬","reasonTag":"common_misspelling","confidence":0.97},
+  {"from":"삿어요","to":"샀어요","reasonTag":"common_misspelling","confidence":0.99},
+  {"from":"잇어요","to":"있어요","reasonTag":"common_misspelling","confidence":0.96}
+]

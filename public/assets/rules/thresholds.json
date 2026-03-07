@@ -1,0 +1,6 @@
+{
+  "auto_apply_confidence": 0.95,
+  "rerank_margin": 0.2,
+  "max_auto_edit_ratio": 0.15,
+  "reject_edit_ratio": 0.25
+}

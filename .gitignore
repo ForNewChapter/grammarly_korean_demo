@@ -1,0 +1,40 @@
+# macOS
+.DS_Store
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Node / build outputs
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Local tooling state
+.omx/
+logs/
+
+# Large local datasets and preprocessing outputs
+143.인터페이스(자판-음성)별 고빈도 오류 교정 데이터/
+data/raw/
+data/aihub_highfreq/
+data/edit_tagger_dataset/
+data/processed/
+
+# Ad-hoc local artifacts
+best.zip
+releases/
+
+# Generated / stale build artifacts that are not source of truth
+vite.config.js
+vite.config.d.ts
+app.js
+styles.css
+
+# Optional model checkpoints not used by current runtime
+models/kobart-spell-20250814_183630/
+models/kobart-spell-20250815_160551/
+

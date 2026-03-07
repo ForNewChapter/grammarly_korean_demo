@@ -1,0 +1,3 @@
+{
+  "patterns": ["URL", "EMAIL", "PHONE", "NUMBER", "HASHTAG", "MENTION", "ENTITY", "USER_DICT"]
+}
