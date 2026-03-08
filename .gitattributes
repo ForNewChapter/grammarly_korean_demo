@@ -1,1 +1,2 @@
 models/edit_tagger_v1_best/best/model.safetensors filter=lfs diff=lfs merge=lfs -text
+models/edit_tagger_v2_best/best/model.safetensors filter=lfs diff=lfs merge=lfs -text

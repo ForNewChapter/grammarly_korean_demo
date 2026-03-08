@@ -22,6 +22,7 @@ logs/
 data/raw/
 data/aihub_highfreq/
 data/edit_tagger_dataset/
+data/edit_tagger_v2_dataset/
 data/processed/
 
 # Ad-hoc local artifacts
@@ -37,4 +38,4 @@ styles.css
 # Optional model checkpoints not used by current runtime
 models/kobart-spell-20250814_183630/
 models/kobart-spell-20250815_160551/
-
+models/edit_tagger_v2_koelectra/

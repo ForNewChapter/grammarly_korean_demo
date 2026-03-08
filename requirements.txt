@@ -8,3 +8,9 @@ protobuf
 kobert_transformers
 numpy
 scipy
+datasets
+accelerate
+seqeval
+optimum
+onnx
+onnxruntime

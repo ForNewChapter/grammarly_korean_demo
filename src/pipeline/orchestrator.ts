@@ -137,6 +137,7 @@ export class PipelineOrchestrator {
     return {
       original: originalText,
       corrected: api?.finalText ?? originalText,
+      suggestedText: api?.suggestedText ?? api?.finalText ?? originalText,
       profile,
       protectedSpans,
       edits,

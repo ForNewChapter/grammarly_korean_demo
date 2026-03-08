@@ -1,0 +1,1056 @@
+{
+  "generatedFrom": "/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/data/aihub_highfreq/train.jsonl",
+  "count": 123,
+  "items": [
+    {
+      "from": "스태그플래이션으로",
+      "to": "스태그플레이션으로",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9398,
+      "frequency": 44,
+      "dominance": 1.0,
+      "similarity": 0.8889
+    },
+    {
+      "from": "스태그플레이션이",
+      "to": "스태그플래이션이",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.94,
+      "frequency": 50,
+      "dominance": 1.0,
+      "similarity": 0.875
+    },
+    {
+      "from": "모르겟습니다.",
+      "to": "모르겠습니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9344,
+      "frequency": 46,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "감사함니다.",
+      "to": "감사합니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9332,
+      "frequency": 53,
+      "dominance": 1.0,
+      "similarity": 0.8333
+    },
+    {
+      "from": "괜찬을까요?",
+      "to": "괜찮을까요?",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9287,
+      "frequency": 44,
+      "dominance": 1.0,
+      "similarity": 0.8333
+    },
+    {
+      "from": "궁금함니다!",
+      "to": "궁금합니다!",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9597,
+      "frequency": 106,
+      "dominance": 1.0,
+      "similarity": 0.8333
+    },
+    {
+      "from": "궁금함니다.",
+      "to": "궁금합니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.995,
+      "frequency": 607,
+      "dominance": 1.0,
+      "similarity": 0.8333
+    },
+    {
+      "from": "모르겟습니다",
+      "to": "모르겠습니다",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "모르겟어요.",
+      "to": "모르겠어요.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9257,
+      "frequency": 38,
+      "dominance": 1.0,
+      "similarity": 0.8333
+    },
+    {
+      "from": "죄송함니다.",
+      "to": "죄송합니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9222,
+      "frequency": 31,
+      "dominance": 1.0,
+      "similarity": 0.8333
+    },
+    {
+      "from": "질문함니다.",
+      "to": "질문합니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9267,
+      "frequency": 40,
+      "dominance": 1.0,
+      "similarity": 0.8333
+    },
+    {
+      "from": "햇갈립니다.",
+      "to": "헷갈립니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9307,
+      "frequency": 48,
+      "dominance": 1.0,
+      "similarity": 0.8333
+    },
+    {
+      "from": "헷갈리니요.",
+      "to": "헷갈리네요.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9222,
+      "frequency": 31,
+      "dominance": 1.0,
+      "similarity": 0.8333
+    },
+    {
+      "from": "구렛나룻은",
+      "to": "구레나룻은",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.925,
+      "frequency": 50,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "그렇잖아도",
+      "to": "그러잖아도",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.92,
+      "frequency": 40,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "낙시꾼들이",
+      "to": "낚시꾼들이",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9185,
+      "frequency": 37,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "낚시군들이",
+      "to": "낚시꾼들이",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9165,
+      "frequency": 33,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "낭더러지를",
+      "to": "낭떠러지를",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.926,
+      "frequency": 52,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "말이겟지만",
+      "to": "말이겠지만",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.923,
+      "frequency": 46,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "모르겟지만",
+      "to": "모르겠지만",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "아닌가여?",
+      "to": "아닌가요?",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.99,
+      "frequency": 282,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "연예게에서",
+      "to": "연예계에서",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9285,
+      "frequency": 57,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "잇습니다.",
+      "to": "있습니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.918,
+      "frequency": 36,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "짭쪼름해서",
+      "to": "짭조름해서",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9165,
+      "frequency": 33,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "쳐다봣더니",
+      "to": "쳐다봤더니",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.916,
+      "frequency": 32,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "하셧는데,",
+      "to": "하셨는데,",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.917,
+      "frequency": 34,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "하셨는대,",
+      "to": "하셨는데,",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.918,
+      "frequency": 36,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "각출해서",
+      "to": "갹출해서",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.947,
+      "frequency": 94,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "강이에서",
+      "to": "강의에서",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.929,
+      "frequency": 58,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "거어야.",
+      "to": "거야.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9309,
+      "frequency": 39,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "거에요.",
+      "to": "거예요.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9195,
+      "frequency": 39,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "건보로는",
+      "to": "건보료는",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.917,
+      "frequency": 34,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "곁들어진",
+      "to": "곁들여진",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.925,
+      "frequency": 50,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "곰살궃게",
+      "to": "곰살궂게",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9155,
+      "frequency": 31,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "그래서어",
+      "to": "그래서",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9434,
+      "frequency": 64,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그래애서",
+      "to": "그래서",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9549,
+      "frequency": 87,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그러어면",
+      "to": "그러면",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9289,
+      "frequency": 35,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그런어데",
+      "to": "그런데",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9269,
+      "frequency": 31,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그럿다면",
+      "to": "그렇다면",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.971,
+      "frequency": 142,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "그리고오",
+      "to": "그리고",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9269,
+      "frequency": 31,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그으래서",
+      "to": "그래서",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9534,
+      "frequency": 84,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그으런데",
+      "to": "그런데",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9284,
+      "frequency": 34,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그으리고",
+      "to": "그리고",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9304,
+      "frequency": 38,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "끄러니까",
+      "to": "그러니까",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.915,
+      "frequency": 30,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "넘어갓던",
+      "to": "넘어갔던",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.92,
+      "frequency": 40,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "닥달하면",
+      "to": "닦달하면",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.915,
+      "frequency": 30,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "대필가지",
+      "to": "대필까지",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.92,
+      "frequency": 40,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "돌맹이가",
+      "to": "돌멩이가",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.939,
+      "frequency": 78,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "떡복이가",
+      "to": "떡볶이가",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.92,
+      "frequency": 40,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "만나다면",
+      "to": "만난다면",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9175,
+      "frequency": 35,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "멀정하지",
+      "to": "멀쩡하지",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9335,
+      "frequency": 67,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "메스거워",
+      "to": "메스꺼워",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9155,
+      "frequency": 31,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "모르겟다",
+      "to": "모르겠다",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "벌서부터",
+      "to": "벌써부터",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9225,
+      "frequency": 45,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "부매랑이",
+      "to": "부메랑이",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9225,
+      "frequency": 45,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "생각건데",
+      "to": "생각건대",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9815,
+      "frequency": 163,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "생각햇던",
+      "to": "생각했던",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9175,
+      "frequency": 35,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "생대같은",
+      "to": "생때같은",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9165,
+      "frequency": 33,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "손톱깍이",
+      "to": "손톱깎이",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.948,
+      "frequency": 96,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "시각가지",
+      "to": "시각까지",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.92,
+      "frequency": 40,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "실어해서",
+      "to": "싫어해서",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9165,
+      "frequency": 33,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "아저시의",
+      "to": "아저씨의",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9185,
+      "frequency": 37,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "안됀다.",
+      "to": "안된다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.916,
+      "frequency": 32,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "어떻어게",
+      "to": "어떻게",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9294,
+      "frequency": 36,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "어어떻게",
+      "to": "어떻게",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9284,
+      "frequency": 34,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "언재까지",
+      "to": "언제까지",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9175,
+      "frequency": 35,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "언재부터",
+      "to": "언제부터",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9315,
+      "frequency": 63,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "에삿일이",
+      "to": "예삿일이",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.918,
+      "frequency": 36,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "에정인데",
+      "to": "예정인데",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.915,
+      "frequency": 30,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "여분들이",
+      "to": "여러분들이",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9358,
+      "frequency": 36,
+      "dominance": 1.0,
+      "similarity": 0.8889
+    },
+    {
+      "from": "연애인은",
+      "to": "연예인은",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.915,
+      "frequency": 30,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "연에인은",
+      "to": "연예인은",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9205,
+      "frequency": 41,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "오랫만에",
+      "to": "오랜만에",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9235,
+      "frequency": 47,
+      "dominance": 0.9792,
+      "similarity": 0.75
+    },
+    {
+      "from": "이렇게에",
+      "to": "이렇게",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9279,
+      "frequency": 33,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "이렇어게",
+      "to": "이렇게",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9354,
+      "frequency": 48,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "이이렇게",
+      "to": "이렇게",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9364,
+      "frequency": 50,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "일지거니",
+      "to": "일찌거니",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.919,
+      "frequency": 38,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "잇나요?",
+      "to": "있나요?",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9165,
+      "frequency": 33,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "잇으시면",
+      "to": "있으시면",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.918,
+      "frequency": 36,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "있니다.",
+      "to": "있습니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9478,
+      "frequency": 60,
+      "dominance": 1.0,
+      "similarity": 0.8889
+    },
+    {
+      "from": "있습니.",
+      "to": "있습니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9428,
+      "frequency": 50,
+      "dominance": 1.0,
+      "similarity": 0.8889
+    },
+    {
+      "from": "있습다.",
+      "to": "있습니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9453,
+      "frequency": 55,
+      "dominance": 1.0,
+      "similarity": 0.8889
+    },
+    {
+      "from": "장아지가",
+      "to": "장아찌가",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.919,
+      "frequency": 38,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "찌개보다",
+      "to": "찌개보단",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.916,
+      "frequency": 32,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "캐이크를",
+      "to": "케이크를",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.916,
+      "frequency": 32,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "트랜드에",
+      "to": "트렌드에",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.935,
+      "frequency": 70,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "하셧는데",
+      "to": "하셨는데",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9485,
+      "frequency": 97,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "하셨는대",
+      "to": "하셨는데",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9375,
+      "frequency": 75,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "해당되도",
+      "to": "해당돼도",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9245,
+      "frequency": 49,
+      "dominance": 1.0,
+      "similarity": 0.75
+    },
+    {
+      "from": "겁니.",
+      "to": "겁니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9269,
+      "frequency": 31,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "겁다.",
+      "to": "겁니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9279,
+      "frequency": 33,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그니까",
+      "to": "그러니까",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9369,
+      "frequency": 51,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그다에",
+      "to": "그다음에",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9284,
+      "frequency": 34,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그러까",
+      "to": "그러니까",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9394,
+      "frequency": 56,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "그으럼",
+      "to": "그럼",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9175,
+      "frequency": 35,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "그음에",
+      "to": "그다음에",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9279,
+      "frequency": 33,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "근으데",
+      "to": "근데",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9205,
+      "frequency": 41,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "내애가",
+      "to": "내가",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.918,
+      "frequency": 36,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "다음에",
+      "to": "그다음에",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9294,
+      "frequency": 36,
+      "dominance": 0.973,
+      "similarity": 0.8571
+    },
+    {
+      "from": "됩다.",
+      "to": "됩니다.",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9359,
+      "frequency": 49,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "됬는데",
+      "to": "됐는데",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "됬으면",
+      "to": "됐으면",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "러니까",
+      "to": "그러니까",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9514,
+      "frequency": 80,
+      "dominance": 1.0,
+      "similarity": 0.8571
+    },
+    {
+      "from": "삿어요",
+      "to": "샀어요",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "이이게",
+      "to": "이게",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9165,
+      "frequency": 33,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "이이런",
+      "to": "이런",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.932,
+      "frequency": 64,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "이이제",
+      "to": "이제",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.928,
+      "frequency": 56,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "이제에",
+      "to": "이제",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9195,
+      "frequency": 39,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "잇어요",
+      "to": "있어요",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.96
+    },
+    {
+      "from": "있이는",
+      "to": "있는",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9215,
+      "frequency": 43,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "좋겟네",
+      "to": "좋겠네",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "좋겟다",
+      "to": "좋겠다",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "좋겟어",
+      "to": "좋겠어",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "한아번",
+      "to": "한번",
+      "reasonTag": "high_precision_surface_fix",
+      "confidence": 0.9175,
+      "frequency": 35,
+      "dominance": 1.0,
+      "similarity": 0.8
+    },
+    {
+      "from": "되요",
+      "to": "돼요",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "됬고",
+      "to": "됐고",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "됬네",
+      "to": "됐네",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "됬다",
+      "to": "됐다",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "됬어",
+      "to": "됐어",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "해바",
+      "to": "해봐",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.97
+    },
+    {
+      "from": "됀",
+      "to": "된",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "됬",
+      "to": "됐",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "왠",
+      "to": "웬",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.97
+    }
+  ]
+}

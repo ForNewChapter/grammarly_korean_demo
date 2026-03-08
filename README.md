@@ -176,7 +176,7 @@ KoELECTRA는 한국어 문장을 빠르게 판별하는 데 강한 ELECTRA 계�
 
 이 데이터로부터 Edit Tagger 학습용 라벨 데이터를 다시 만들었습니다.
 
-라벨 종류:
+현재 저장소에 포함된 1차 모델의 라벨 종류:
 
 - `KEEP`: 그대로 둔다
 - `OPEN_REPLACE`: 다른 단어 후보를 만들어본다
@@ -200,6 +200,35 @@ Colab에서 아래 조건으로 학습했습니다.
 
 이 모델의 목적은
 “어떤 토큰을 문맥 교정 후보로 볼지”를 안정적으로 잡는 것입니다.
+
+### 현재 추가로 준비된 v2 학습 경로
+
+현재 저장소에는 Edit Tagger를 다시 학습하기 위한 v2 경로도 같이 들어 있습니다.
+
+v2의 핵심 차이:
+
+- 라벨을 `KEEP / SPACE_FIX / OPEN_REPLACE`로 단순화
+- `PUNCT_FIX`를 태거 책임에서 빼고 규칙 단계로 넘김
+- 정답 문장 자체를 `KEEP` 예시로 같이 넣어 false positive를 줄임
+
+관련 파일:
+
+- 데이터셋 생성: [scripts/build_edit_tagger_v2_dataset.py](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/scripts/build_edit_tagger_v2_dataset.py)
+- 학습 스크립트: [scripts/train_edit_tagger_v2.py](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/scripts/train_edit_tagger_v2.py)
+- 설계 문서: [docs/edit_tagger_v2.md](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/docs/edit_tagger_v2.md)
+- Colab 노트북: [notebooks/train_edit_tagger_v2_colab.ipynb](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/notebooks/train_edit_tagger_v2_colab.ipynb)
+
+v2 데이터셋은 현재 로컬에서 아래 규모로 생성되는 것을 확인했습니다.
+
+- train examples: `338,895`
+- validation examples: `43,674`
+
+즉, 현재 저장소에는
+
+- 이미 연결된 1차 파인튜닝 모델
+- 그 다음 단계로 바로 실험할 수 있는 v2 학습 경로
+
+가 같이 들어 있습니다.
 
 ---
 

@@ -92,16 +92,24 @@ export default function App(): JSX.Element {
   );
 
   const corrected = state.pipelineResult?.corrected ?? '';
+  const suggestedText = state.pipelineResult?.suggestedText ?? '';
   const baseForProposal = corrected || state.pipelineResult?.original || state.inputText;
   const suggestEdits = useMemo(
     () => (state.pipelineResult?.edits ?? []).filter((edit) => !edit.autoApplicable && edit.editType === 'OPEN_REPLACE'),
     [state.pipelineResult?.edits]
   );
-  const proposalPreview = useMemo(
+  const localSuggestionPreview = useMemo(
     () => applyEditsWithPreview(baseForProposal, suggestEdits, 'suggestion'),
     [baseForProposal, suggestEdits]
   );
-  const proposalText = proposalPreview.text || baseForProposal;
+  const proposalText = suggestedText || localSuggestionPreview.text || baseForProposal;
+  const proposalPreview = useMemo(
+    () =>
+      suggestedText && suggestedText === localSuggestionPreview.text
+        ? localSuggestionPreview
+        : applyEditsWithPreview(proposalText, [], 'suggestion'),
+    [localSuggestionPreview, proposalText, suggestedText]
+  );
 
   return (
     <div className="app-root">

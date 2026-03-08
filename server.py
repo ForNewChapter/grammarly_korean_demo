@@ -1,3 +1,4 @@
+import json
 import os
 import math
 import re
@@ -19,7 +20,15 @@ os.environ.setdefault("HF_HUB_OFFLINE", "1")
 os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 BASE_DIR = Path(__file__).resolve().parent
-LOCAL_EDIT_TAGGER_DIR = BASE_DIR / "models" / "edit_tagger_v1_best" / "best"
+LOCAL_EDIT_TAGGER_CANDIDATE_DIRS = [
+    BASE_DIR / "models" / "edit_tagger_v2_best" / "best",
+    BASE_DIR / "models" / "edit_tagger_v1_best" / "best",
+]
+TYPED_CONFUSION_GRAPH_PATH = BASE_DIR / "public" / "assets" / "dict" / "typed_confusion_graph.json"
+HIGH_PRECISION_SURFACE_FIXES_PATH = BASE_DIR / "public" / "assets" / "rules" / "high_precision_surface_fixes.json"
+PHRASE_MEMORY_PATH = BASE_DIR / "public" / "assets" / "dict" / "phrase_memory.json"
+PREDICATE_FAMILY_SEEDS_PATH = BASE_DIR / "public" / "assets" / "dict" / "predicate_family_seeds.json"
+LEMMA_FAMILY_GRAPH_PATH = BASE_DIR / "public" / "assets" / "dict" / "lemma_family_graph.json"
 
 RULE_MISSPELLINGS = [
     {"from": "되요", "to": "돼요", "reasonTag": "common_misspelling", "confidence": 0.99},
@@ -52,10 +61,32 @@ MORPHEME_CONFUSION_RULES = {
 TYPO_SIMILARITY_MIN = 0.55
 ROUTING_PROMOTION_MIN_SCORE = 0.55
 ROUTING_PROMOTION_LABELS = {"PUNCT_FIX", "JOSA_FIX", "EOMI_FIX"}
-CURATED_CANDIDATE_SOURCES = {"CONFUSION_SET", "MORPH"}
+CURATED_CANDIDATE_SOURCES = {
+    "CONFUSION_SET",
+    "MORPH",
+    "LEMMA_CONFUSION",
+    "MORPHEME_CONFUSION",
+    "DATA_CONFUSION",
+    "LEMMA_DATA_CONFUSION",
+    "FAMILY_SEED",
+    "AUTO_FAMILY_SEED",
+    "FAMILY_SURFACE_EXAMPLE",
+    "PHRASE_MEMORY",
+}
+RUNTIME_BROAD_LEMMA_TARGETS = {"하다", "되다", "가다", "나다", "나오다", "알다", "있다"}
+RUNTIME_BROAD_LEMMA_ALLOWLIST = {
+    ("잇다", "있다"),
+    ("허다", "하다"),
+    ("돼다", "되다"),
+}
+RUNTIME_BROAD_LEMMA_SOURCES = {"하다", "되다", "가다", "나다", "나오다", "알다", "있다"}
 MLM_SURFACE_TOP_K = 8
 CANDIDATE_PREFILTER_LIMIT = 4
 CHEAP_VERIFIER_LIMIT = 3
+MLM_BACKOFF_PREFILTER_MIN = 0.8
+MLM_BACKOFF_MIN_CANDIDATES = 2
+FAST_PATH_VERIFIER_MIN = 0.82
+FAST_PATH_MARGIN_MIN = 0.14
 TOKEN_PATTERN = re.compile(r"[가-힣A-Za-z0-9]+|[^\s]")
 
 DOMAIN_ENTITIES = ["AirPods Pro 2", "RTX 4060", "ChatGPT"]
@@ -98,30 +129,239 @@ class CorrectionEngine:
         self.edit_tagger_tokenizer = None
         self.edit_tagger_id2label: Dict[int, str] = {}
         self.edit_tagger_source = "heuristic"
+        self._kiwi_analysis_cache: Dict[Tuple[str, int], List[Tuple[Any, float]]] = {}
+        self.typed_confusion_resource = self._load_typed_confusion_resource()
+        self.phrase_memory = self._load_phrase_memory()
+        self.predicate_family_seeds = self._load_predicate_family_seeds()
+        self.lemma_family_graph = self._load_lemma_family_graph()
+        self.phrase_memory_index = self._build_phrase_memory_index()
+        self.rule_misspellings = self._load_surface_fix_rules()
+        self.surface_confusion_map = self._build_surface_confusion_map()
         self.lemma_confusion_map = self._build_lemma_confusion_map()
-        if LOCAL_EDIT_TAGGER_DIR.exists():
-            self.edit_tagger_tokenizer = AutoTokenizer.from_pretrained(str(LOCAL_EDIT_TAGGER_DIR), use_fast=True)
-            self.edit_tagger_model = AutoModelForTokenClassification.from_pretrained(str(LOCAL_EDIT_TAGGER_DIR)).eval()
-            raw_id2label = getattr(self.edit_tagger_model.config, "id2label", {}) or {}
-            self.edit_tagger_id2label = {
-                int(key): value for key, value in raw_id2label.items()
-            }
-            self.edit_tagger_source = str(LOCAL_EDIT_TAGGER_DIR)
+        self._load_local_edit_tagger()
         self.profile_proto_emb = self._build_profile_prototypes(self._sentence_embedding)
         self.profile_proto_emb_electra = self._build_profile_prototypes(
             self._sentence_embedding_koelectra
         )
         self._warmup_runtime()
 
+    def _load_local_edit_tagger(self) -> None:
+        for model_dir in LOCAL_EDIT_TAGGER_CANDIDATE_DIRS:
+            if not model_dir.exists():
+                continue
+            try:
+                self.edit_tagger_tokenizer = AutoTokenizer.from_pretrained(str(model_dir), use_fast=True)
+                self.edit_tagger_model = AutoModelForTokenClassification.from_pretrained(str(model_dir)).eval()
+                raw_id2label = getattr(self.edit_tagger_model.config, "id2label", {}) or {}
+                self.edit_tagger_id2label = {int(key): value for key, value in raw_id2label.items()}
+                self.edit_tagger_source = str(model_dir)
+                return
+            except Exception:
+                self.edit_tagger_model = None
+                self.edit_tagger_tokenizer = None
+                self.edit_tagger_id2label = {}
+                self.edit_tagger_source = "heuristic"
+
+    def _load_typed_confusion_resource(self) -> Dict[str, Any]:
+        if not TYPED_CONFUSION_GRAPH_PATH.exists():
+            return {"surface": {}, "lemma": {}}
+        try:
+            return json.loads(TYPED_CONFUSION_GRAPH_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return {"surface": {}, "lemma": {}}
+
+    def _load_surface_fix_rules(self) -> List[Dict[str, Any]]:
+        merged: Dict[Tuple[str, str], Dict[str, Any]] = {}
+        for item in RULE_MISSPELLINGS:
+            merged[(item["from"], item["to"])] = dict(item)
+        if HIGH_PRECISION_SURFACE_FIXES_PATH.exists():
+            try:
+                payload = json.loads(HIGH_PRECISION_SURFACE_FIXES_PATH.read_text(encoding="utf-8"))
+                for item in payload.get("items", []):
+                    src = item.get("from")
+                    dst = item.get("to")
+                    if not src or not dst:
+                        continue
+                    key = (src, dst)
+                    existing = merged.get(key)
+                    if existing is None or float(item.get("confidence", 0.0)) >= float(existing.get("confidence", 0.0)):
+                        merged[key] = {
+                            "from": src,
+                            "to": dst,
+                            "reasonTag": item.get("reasonTag", "high_precision_surface_fix"),
+                            "confidence": float(item.get("confidence", 0.96)),
+                        }
+            except Exception:
+                pass
+        rows = list(merged.values())
+        rows.sort(key=lambda item: (-len(item["from"]), item["from"], item["to"]))
+        return rows
+
+    def _load_phrase_memory(self) -> Dict[str, Any]:
+        if not PHRASE_MEMORY_PATH.exists():
+            return {"items": []}
+        try:
+            return json.loads(PHRASE_MEMORY_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return {"items": []}
+
+    def _load_predicate_family_seeds(self) -> Dict[str, Any]:
+        if not PREDICATE_FAMILY_SEEDS_PATH.exists():
+            return {"lemmas": {}}
+        try:
+            return json.loads(PREDICATE_FAMILY_SEEDS_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return {"lemmas": {}}
+
+    def _load_lemma_family_graph(self) -> Dict[str, Any]:
+        if not LEMMA_FAMILY_GRAPH_PATH.exists():
+            return {"lemmas": {}}
+        try:
+            return json.loads(LEMMA_FAMILY_GRAPH_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return {"lemmas": {}}
+
+    def _build_phrase_memory_index(self) -> Dict[str, List[Dict[str, Any]]]:
+        index: Dict[str, List[Dict[str, Any]]] = {}
+        for item in self.phrase_memory.get("items", []):
+            source = str(item.get("from") or "").strip()
+            replacement = str(item.get("to") or "").strip()
+            if not source or not replacement or source == replacement:
+                continue
+            parts = self.tokenize_with_ranges(source)
+            if not parts:
+                continue
+            first = parts[0][0]
+            index.setdefault(first, []).append(item)
+        for key in list(index):
+            index[key].sort(
+                key=lambda item: (
+                    -len(str(item.get("from") or "")),
+                    -float(item.get("confidence", 0.0)),
+                    str(item.get("from") or ""),
+                )
+            )
+        return index
+
+    @staticmethod
+    def _merge_candidates(
+        left: List[Dict[str, Any]],
+        right: List[Dict[str, Any]],
+    ) -> List[Dict[str, Any]]:
+        merged: Dict[str, Dict[str, Any]] = {}
+        for item in [*left, *right]:
+            replacement = item["replacement"]
+            existing = merged.get(replacement)
+            if existing is None or float(item.get("generatorScore", 0.0)) > float(existing.get("generatorScore", 0.0)):
+                merged[replacement] = item
+        return list(merged.values())
+
+    def _build_surface_confusion_map(self) -> Dict[str, List[Dict[str, Any]]]:
+        surface_graph: Dict[str, List[Dict[str, Any]]] = {}
+        for surface, replacements in OPEN_REPLACE_MAP.items():
+            surface_graph[surface] = list(replacements)
+        for surface, replacements in (self.typed_confusion_resource.get("surface") or {}).items():
+            existing = surface_graph.get(surface, [])
+            surface_graph[surface] = self._merge_candidates(existing, replacements)
+        return surface_graph
+
     def _build_lemma_confusion_map(self) -> Dict[str, List[Dict[str, Any]]]:
         graph: Dict[str, Dict[str, Dict[str, Any]]] = {}
 
-        def add_edge(left: str, right: str, source: str, score: float) -> None:
+        def should_keep_runtime_edge(left: str, right: str, payload: Dict[str, Any]) -> bool:
+            if (left, right) in RUNTIME_BROAD_LEMMA_ALLOWLIST:
+                return True
+            if right in RUNTIME_BROAD_LEMMA_TARGETS:
+                return False
+            source_name = str(payload.get("source") or "")
+            if left in RUNTIME_BROAD_LEMMA_SOURCES and source_name in {"DATA_CONFUSION", "LEMMA_DATA_CONFUSION", "AUTO_FAMILY_SEED"}:
+                return False
+            return True
+
+        def merge_hint_rows(
+            left: Optional[List[Dict[str, Any]]],
+            right: Optional[List[Dict[str, Any]]],
+        ) -> List[Dict[str, Any]]:
+            merged: Dict[str, int] = {}
+            for item in [*(left or []), *(right or [])]:
+                term = str(item.get("term") or "").strip()
+                if not term:
+                    continue
+                merged[term] = merged.get(term, 0) + int(item.get("count") or 0)
+            return [
+                {"term": term, "count": count}
+                for term, count in sorted(merged.items(), key=lambda pair: (-pair[1], pair[0]))[:12]
+            ]
+
+        def merge_surface_examples(
+            left: Optional[List[Dict[str, Any]]],
+            right: Optional[List[Dict[str, Any]]],
+        ) -> List[Dict[str, Any]]:
+            merged: Dict[Tuple[str, str], int] = {}
+            for item in [*(left or []), *(right or [])]:
+                source = str(item.get("from") or "").strip()
+                target = str(item.get("to") or "").strip()
+                if not source or not target:
+                    continue
+                key = (source, target)
+                merged[key] = merged.get(key, 0) + int(item.get("count") or 0)
+            rows = [
+                {"from": source, "to": target, "count": count}
+                for (source, target), count in sorted(merged.items(), key=lambda pair: (-pair[1], pair[0]))
+            ]
+            return rows[:12]
+
+        def merge_edge_payload(existing: Dict[str, Any], incoming: Dict[str, Any]) -> Dict[str, Any]:
+            merged = dict(existing)
+            incoming_score = float(incoming.get("generatorScore", 0.0))
+            existing_score = float(existing.get("generatorScore", 0.0))
+            if incoming_score >= existing_score:
+                for key in ("source", "generatorScore", "frequency", "surfaceSimilarity", "interfaceType", "pos"):
+                    value = incoming.get(key)
+                    if value not in (None, "", []):
+                        merged[key] = value
+            merged_interface_stats = dict(existing.get("interfaceStats") or {})
+            for channel, count in (incoming.get("interfaceStats") or {}).items():
+                merged_interface_stats[channel] = merged_interface_stats.get(channel, 0) + int(count or 0)
+            if merged_interface_stats:
+                merged["interfaceStats"] = merged_interface_stats
+            merged_error_types = dict(existing.get("errorTypes") or {})
+            for error_type, count in (incoming.get("errorTypes") or {}).items():
+                merged_error_types[error_type] = merged_error_types.get(error_type, 0) + int(count or 0)
+            if merged_error_types:
+                merged["errorTypes"] = merged_error_types
+            merged_source_stats = dict(existing.get("sourceStats") or {})
+            for source_name, count in (incoming.get("sourceStats") or {}).items():
+                merged_source_stats[source_name] = merged_source_stats.get(source_name, 0) + int(count or 0)
+            if merged_source_stats:
+                merged["sourceStats"] = merged_source_stats
+            suffix_slots = sorted(
+                {
+                    str(slot)
+                    for slot in [*(existing.get("suffixSlots") or []), *(incoming.get("suffixSlots") or [])]
+                    if slot
+                }
+            )
+            if suffix_slots:
+                merged["suffixSlots"] = suffix_slots
+            context_hints = merge_hint_rows(existing.get("contextHints"), incoming.get("contextHints"))
+            if context_hints:
+                merged["contextHints"] = context_hints
+            surface_examples = merge_surface_examples(existing.get("surfaceExamples"), incoming.get("surfaceExamples"))
+            if surface_examples:
+                merged["surfaceExamples"] = surface_examples
+            return merged
+
+        def add_edge(left: str, right: str, source: str, score: float, extra: Optional[Dict[str, Any]] = None) -> None:
             graph.setdefault(left, {})
             existing = graph[left].get(right)
-            payload = {"replacement": right, "source": source, "generatorScore": score}
-            if existing is None or payload["generatorScore"] > existing["generatorScore"]:
+            payload = {"replacement": right, "source": source, "generatorScore": score, **(extra or {})}
+            if not should_keep_runtime_edge(left, right, payload):
+                return
+            if existing is None:
                 graph[left][right] = payload
+                return
+            graph[left][right] = merge_edge_payload(existing, payload)
 
         for surface, replacements in OPEN_REPLACE_MAP.items():
             if not surface.endswith("다"):
@@ -139,13 +379,55 @@ class CorrectionEngine:
             add_edge(wrong, correct, "LEMMA_CONFUSION", max(0.88, rule["baseScore"]))
             add_edge(correct, wrong, "LEMMA_CONFUSION", max(0.8, rule["baseScore"] - 0.05))
 
+        for lemma, replacements in (self.typed_confusion_resource.get("lemma") or {}).items():
+            for replacement in replacements:
+                target = replacement["replacement"]
+                add_edge(
+                    lemma,
+                    target,
+                    replacement.get("source", "LEMMA_DATA_CONFUSION"),
+                    float(replacement.get("generatorScore", 0.0)),
+                    {
+                        "frequency": replacement.get("frequency"),
+                        "surfaceSimilarity": replacement.get("surfaceSimilarity"),
+                        "interfaceType": replacement.get("interfaceType"),
+                        "interfaceStats": replacement.get("interfaceStats"),
+                        "errorTypes": replacement.get("errorTypes"),
+                        "sourceStats": replacement.get("sourceStats"),
+                        "contextHints": replacement.get("contextHints"),
+                        "pos": replacement.get("pos"),
+                        "suffixSlots": replacement.get("suffixSlots"),
+                    },
+                )
+
+        for lemma, replacements in (self.predicate_family_seeds.get("lemmas") or {}).items():
+            for replacement in replacements:
+                target = replacement["replacement"]
+                add_edge(
+                    lemma,
+                    target,
+                    replacement.get("source", "FAMILY_SEED"),
+                    float(replacement.get("generatorScore", 0.0)),
+                    {
+                        "frequency": replacement.get("frequency"),
+                        "surfaceSimilarity": replacement.get("surfaceSimilarity"),
+                        "interfaceType": replacement.get("interfaceType"),
+                        "interfaceStats": replacement.get("interfaceStats"),
+                        "errorTypes": replacement.get("errorTypes"),
+                        "sourceStats": replacement.get("sourceStats"),
+                        "contextHints": replacement.get("contextHints"),
+                        "pos": replacement.get("pos"),
+                        "suffixSlots": replacement.get("suffixSlots"),
+                    },
+                )
+
         return {lemma: list(targets.values()) for lemma, targets in graph.items()}
 
     def _warmup_runtime(self) -> None:
         warm_sentence = "오늘 날씨가 좋다"
         try:
             self.kiwi.space(warm_sentence)
-            self.kiwi.analyze(warm_sentence, top_n=1)
+            self._kiwi_analyze_cached(warm_sentence, top_n=1)
         except Exception:
             pass
 
@@ -312,14 +594,173 @@ class CorrectionEngine:
 
         return round(float((0.55 * preserved) + (0.45 * core_similarity)), 4)
 
+    @staticmethod
+    def _normalize_context_token(token: str) -> str:
+        normalized = re.sub(r"^[^가-힣A-Za-z0-9]+|[^가-힣A-Za-z0-9]+$", "", token)
+        if not re.fullmatch(r"[가-힣]+", normalized):
+            return normalized
+        particles = (
+            "으로는",
+            "에게서",
+            "한테서",
+            "이라도",
+            "처럼은",
+            "으로",
+            "에게",
+            "한테",
+            "에서",
+            "부터",
+            "까지",
+            "처럼",
+            "보다",
+            "이랑",
+            "랑",
+            "이나",
+            "나",
+            "은",
+            "는",
+            "이",
+            "가",
+            "을",
+            "를",
+            "에",
+            "의",
+            "와",
+            "과",
+            "도",
+            "만",
+            "로",
+        )
+        for particle in particles:
+            if normalized.endswith(particle) and len(normalized) > len(particle) + 1:
+                return normalized[: -len(particle)]
+        return normalized
+
+    def _context_window_terms(self, sentence: str, start: int, end: int, window: int = 2) -> List[str]:
+        token_spans = self.tokenize_with_ranges(sentence)
+        if not token_spans:
+            return []
+        center_index = None
+        for idx, (_, st, ed) in enumerate(token_spans):
+            if st <= start < ed or st < end <= ed or (st >= start and ed <= end):
+                center_index = idx
+                break
+        if center_index is None:
+            return []
+        terms: List[str] = []
+        for idx in range(max(0, center_index - window), min(len(token_spans), center_index + window + 1)):
+            if idx == center_index:
+                continue
+            token = self._normalize_context_token(token_spans[idx][0])
+            if len(token) < 2 or self._hangul_ratio(token) < 0.5:
+                continue
+            terms.append(token)
+        return terms
+
+    @staticmethod
+    def _hint_lookup(hints: List[Dict[str, Any]]) -> Dict[str, int]:
+        lookup: Dict[str, int] = {}
+        for item in hints:
+            term = item.get("term")
+            if not term:
+                continue
+            normalized = CorrectionEngine._normalize_context_token(str(term))
+            if not normalized:
+                continue
+            lookup[normalized] = lookup.get(normalized, 0) + int(item.get("count", 0))
+        return lookup
+
+    def _context_hint_score(self, sentence: str, start: int, end: int, item: Dict[str, Any]) -> float:
+        hints = item.get("contextHints") or []
+        if not hints:
+            return 0.0
+        context_terms = self._context_window_terms(sentence, start, end)
+        if not context_terms:
+            return 0.0
+        hint_lookup = self._hint_lookup(hints)
+        total = sum(hint_lookup.values()) or 1
+        matched = 0
+        for term in context_terms:
+            matched += hint_lookup.get(term, 0)
+            if matched:
+                continue
+            matched += sum(count for hint, count in hint_lookup.items() if term.startswith(hint) or hint.startswith(term))
+        return round(float(min(1.0, matched / total)), 4)
+
+    @staticmethod
+    def _candidate_interface_score(item: Dict[str, Any], assumed_channel: str = "generic") -> float:
+        stats = item.get("interfaceStats") or {}
+        if not stats:
+            interface_type = item.get("interfaceType")
+            if interface_type == "voice":
+                return 0.32 if assumed_channel == "generic" else 0.9
+            if interface_type == "keyboard":
+                return 0.94 if assumed_channel in {"generic", "keyboard"} else 0.72
+            return 0.86
+
+        total = max(1, sum(int(value) for value in stats.values()))
+        generic_ratio = int(stats.get("generic", 0)) / total
+        keyboard_ratio = int(stats.get("keyboard", 0)) / total
+        voice_ratio = int(stats.get("voice", 0)) / total
+        if assumed_channel == "voice":
+            score = (0.92 * voice_ratio) + (0.55 * generic_ratio) + (0.35 * keyboard_ratio)
+        elif assumed_channel == "keyboard":
+            score = (0.9 * keyboard_ratio) + (0.7 * generic_ratio) + (0.3 * voice_ratio)
+        else:
+            score = (0.92 * generic_ratio) + (0.82 * keyboard_ratio) + (0.22 * voice_ratio)
+        return round(float(max(0.2, min(1.0, score))), 4)
+
+    def _enrich_candidate_context(
+        self,
+        sentence: str,
+        start: int,
+        end: int,
+        candidates: List[Dict[str, Any]],
+        assumed_channel: str = "generic",
+    ) -> List[Dict[str, Any]]:
+        enriched: List[Dict[str, Any]] = []
+        for item in candidates:
+            context_score = self._context_hint_score(sentence, start, end, item)
+            interface_score = self._candidate_interface_score(item, assumed_channel=assumed_channel)
+            if (
+                assumed_channel == "generic"
+                and str(item.get("interfaceType") or "") == "voice"
+                and context_score < 0.12
+            ):
+                interface_score = min(interface_score, 0.3)
+            enriched.append(
+                {
+                    **item,
+                    "contextHintScore": context_score,
+                    "interfaceScore": interface_score,
+                }
+            )
+        return enriched
+
     def _kiwi_sentence_score(self, text: str) -> float:
         try:
-            analyzed = self.kiwi.analyze(text, top_n=1)
+            analyzed = self._kiwi_analyze_cached(text, top_n=1)
         except Exception:
             return -999.0
         if not analyzed:
             return -999.0
         return float(analyzed[0][1])
+
+    @staticmethod
+    def _normalize_phrase_surface(text: str) -> str:
+        return " ".join(TOKEN_PATTERN.findall(text)).strip()
+
+    def _kiwi_analyze_cached(self, text: str, top_n: int = 1) -> List[Tuple[Any, float]]:
+        key = (text, top_n)
+        cached = self._kiwi_analysis_cache.get(key)
+        if cached is not None:
+            return cached
+        try:
+            analyses = self.kiwi.analyze(text, top_n=top_n)
+        except Exception:
+            analyses = []
+        self._kiwi_analysis_cache[key] = analyses
+        return analyses
 
     def _pseudo_logprob_for_replacement(
         self,
@@ -439,9 +880,21 @@ class CorrectionEngine:
     def _candidate_source_prior(source: str) -> float:
         if source == "CONFUSION_SET":
             return 1.0
+        if source == "DATA_CONFUSION":
+            return 0.99
+        if source == "PHRASE_MEMORY":
+            return 0.99
         if source == "MORPHEME_CONFUSION":
             return 0.98
+        if source == "LEMMA_DATA_CONFUSION":
+            return 0.97
+        if source == "FAMILY_SEED":
+            return 0.97
+        if source == "AUTO_FAMILY_SEED":
+            return 0.96
         if source == "LEMMA_CONFUSION":
+            return 0.95
+        if source == "FAMILY_SURFACE_EXAMPLE":
             return 0.95
         if source == "MORPH":
             return 0.9
@@ -453,12 +906,7 @@ class CorrectionEngine:
 
     @staticmethod
     def _is_curated_candidate_source(source: str) -> bool:
-        return source in {
-            "CONFUSION_SET",
-            "MORPH",
-            "LEMMA_CONFUSION",
-            "MORPHEME_CONFUSION",
-        }
+        return source in CURATED_CANDIDATE_SOURCES
 
     @staticmethod
     def _normalize_generator_score(score: float) -> float:
@@ -486,13 +934,25 @@ class CorrectionEngine:
         prefiltered: List[Dict[str, Any]] = []
         for item in self._dedupe_candidates(candidates):
             replacement = item["replacement"]
-            typo_similarity = self._typo_similarity(token, replacement)
-            if typo_similarity < TYPO_SIMILARITY_MIN:
-                continue
             generator_norm = self._normalize_generator_score(float(item.get("generatorScore", 0.0)))
             source_prior = self._candidate_source_prior(item.get("source", "MLM_TOPK"))
+            context_score = float(item.get("contextHintScore", 0.0))
+            interface_score = float(item.get("interfaceScore", 0.86))
+            typo_similarity = self._typo_similarity(token, replacement)
+            min_typo_similarity = TYPO_SIMILARITY_MIN
+            if self._is_curated_candidate_source(str(item.get("source", ""))):
+                if bool(item.get("familyLemmas")) or context_score >= 0.1 or generator_norm >= 0.72:
+                    min_typo_similarity = 0.48
+            if typo_similarity < min_typo_similarity:
+                continue
             prefilter_score = round(
-                float((0.5 * typo_similarity) + (0.35 * generator_norm) + (0.15 * source_prior)),
+                float(
+                    (0.4 * typo_similarity)
+                    + (0.22 * generator_norm)
+                    + (0.12 * source_prior)
+                    + (0.16 * context_score)
+                    + (0.1 * interface_score)
+                ),
                 4,
             )
             prefiltered.append(
@@ -501,11 +961,18 @@ class CorrectionEngine:
                     "candidateSentence": item.get("candidateSentence"),
                     "generatorNorm": round(generator_norm, 4),
                     "typoSimilarity": typo_similarity,
+                    "contextHintScore": round(context_score, 4),
+                    "interfaceScore": round(interface_score, 4),
                     "prefilterScore": prefilter_score,
                 }
             )
         prefiltered.sort(
-            key=lambda x: (x["prefilterScore"], x["typoSimilarity"], x["generatorNorm"]),
+            key=lambda x: (
+                x["prefilterScore"],
+                x.get("contextHintScore", 0.0),
+                x["typoSimilarity"],
+                x["generatorNorm"],
+            ),
             reverse=True,
         )
         return prefiltered[:CANDIDATE_PREFILTER_LIMIT]
@@ -522,9 +989,17 @@ class CorrectionEngine:
         typo_similarity: float,
         electra_delta: float,
         kiwi_delta: float,
+        retrieval_score: float,
+        interface_score: float,
     ) -> float:
         source_prior = self._candidate_source_prior(source)
-        verifier_signal = (electra_delta * 12.0) + (kiwi_delta / 2.5) + ((typo_similarity - 0.55) * 2.0)
+        verifier_signal = (
+            (electra_delta * 10.0)
+            + (kiwi_delta / 2.8)
+            + ((typo_similarity - 0.55) * 1.8)
+            + (retrieval_score * 1.4)
+            + ((interface_score - 0.5) * 0.8)
+        )
         if self._is_curated_candidate_source(source):
             verifier_signal += 0.65
         return 1 / (1 + math.exp(-verifier_signal))
@@ -575,12 +1050,16 @@ class CorrectionEngine:
             typo_bonus = 0.22 * typo_similarity
             source_bonus = 0.14 * source_prior
             prefilter_bonus = 0.18 * item.get("prefilterScore", 0.0)
+            retrieval_bonus = 0.16 * item.get("contextHintScore", 0.0)
+            interface_bonus = 0.08 * item.get("interfaceScore", 0.86)
             semantic_penalty = 0.24 if typo_similarity < 0.6 else 0.0
             context_verifier = self._context_verifier_score(
                 source=source,
                 typo_similarity=typo_similarity,
                 electra_delta=electra_delta,
                 kiwi_delta=kiwi_delta,
+                retrieval_score=float(item.get("contextHintScore", 0.0)),
+                interface_score=float(item.get("interfaceScore", 0.86)),
             )
             arbitration_penalty = 0.0
             curated_bonus = 0.0
@@ -607,6 +1086,8 @@ class CorrectionEngine:
                 + typo_bonus
                 + source_bonus
                 + (0.14 * item.get("prefilterScore", 0.0))
+                + retrieval_bonus
+                + interface_bonus
                 + curated_bonus
                 - edit_penalty
                 - semantic_penalty
@@ -624,6 +1105,8 @@ class CorrectionEngine:
                     "kiwiScore": round(float(kiwi_score), 4),
                     "kiwiDelta": round(float(kiwi_delta), 4),
                     "typoSimilarity": typo_similarity,
+                    "contextHintScore": round(float(item.get("contextHintScore", 0.0)), 4),
+                    "interfaceScore": round(float(item.get("interfaceScore", 0.86)), 4),
                     "contextVerifierScore": round(float(context_verifier), 4),
                     "curatedBonus": round(float(curated_bonus), 4),
                     "arbitrationPenalty": round(float(arbitration_penalty), 4),
@@ -803,31 +1286,13 @@ class CorrectionEngine:
         return "".join(out)
 
     def run_rule_corrector(self, text: str, protected: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        edits: List[Dict[str, Any]] = []
-        for rule in RULE_MISSPELLINGS:
-            at = 0
-            src = rule["from"]
-            while at < len(text):
-                idx = text.find(src, at)
-                if idx < 0:
-                    break
-                span = {"start": idx, "end": idx + len(src)}
-                if not self.is_range_protected(span, protected):
-                    edits.append(
-                        self.create_edit(
-                            stage="RULE",
-                            start=idx,
-                            end=idx + len(src),
-                            source_text=src,
-                            replacement=rule["to"],
-                            edit_type="SPELL",
-                            confidence=rule["confidence"],
-                            auto_applicable=True,
-                            reason_tag=rule["reasonTag"],
-                        )
-                    )
-                at = idx + len(src)
-        return self.dedupe_edits(edits)
+        return self._find_surface_fix_edits(
+            text=text,
+            protected=protected,
+            rules=self.rule_misspellings,
+            stage_name="RULE",
+            reason_prefix="surface_fix",
+        )
 
     @staticmethod
     def dedupe_edits(edits: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
@@ -840,6 +1305,60 @@ class CorrectionEngine:
             seen.add(key)
             out.append(e)
         return out
+
+    @staticmethod
+    def non_overlapping_edits(edits: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        ordered = sorted(
+            edits,
+            key=lambda e: (
+                e["range"]["start"],
+                -(e["range"]["end"] - e["range"]["start"]),
+                -float(e.get("confidence", 0.0)),
+            ),
+        )
+        kept: List[Dict[str, Any]] = []
+        claimed: List[Tuple[int, int]] = []
+        for edit in ordered:
+            span = (edit["range"]["start"], edit["range"]["end"])
+            if any(span[0] < end and span[1] > start for start, end in claimed):
+                continue
+            kept.append(edit)
+            claimed.append(span)
+        return kept
+
+    def _find_surface_fix_edits(
+        self,
+        text: str,
+        protected: List[Dict[str, Any]],
+        rules: List[Dict[str, Any]],
+        stage_name: str,
+        reason_prefix: str,
+    ) -> List[Dict[str, Any]]:
+        edits: List[Dict[str, Any]] = []
+        for rule in rules:
+            at = 0
+            src = rule["from"]
+            while at < len(text):
+                idx = text.find(src, at)
+                if idx < 0:
+                    break
+                span = {"start": idx, "end": idx + len(src)}
+                if not self.is_range_protected(span, protected):
+                    edits.append(
+                        self.create_edit(
+                            stage=stage_name,
+                            start=idx,
+                            end=idx + len(src),
+                            source_text=src,
+                            replacement=rule["to"],
+                            edit_type="SPELL",
+                            confidence=rule["confidence"],
+                            auto_applicable=True,
+                            reason_tag=f"{reason_prefix}:{rule['reasonTag']}",
+                        )
+                    )
+                at = idx + len(src)
+        return self.non_overlapping_edits(self.dedupe_edits(edits))
 
     def spacing_candidates_from_kiwi(
         self, text: str, protected: List[Dict[str, Any]]
@@ -915,6 +1434,120 @@ class CorrectionEngine:
                 )
         return edits
 
+    def _run_phrase_normalizations(
+        self, text: str, protected: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
+        edits: List[Dict[str, Any]] = []
+        token_ranges = self.tokenize_with_ranges(text)
+        for index, (token, start, _) in enumerate(token_ranges):
+            candidates = self.phrase_memory_index.get(token) or []
+            if not candidates:
+                continue
+            for item in candidates:
+                source = str(item.get("from") or "")
+                replacement = str(item.get("to") or "")
+                if not source or not replacement or source == replacement:
+                    continue
+                source_parts = self.tokenize_with_ranges(source)
+                if not source_parts:
+                    continue
+                span_len = len(source_parts)
+                if index + span_len > len(token_ranges):
+                    continue
+                end = token_ranges[index + span_len - 1][2]
+                span = {"start": start, "end": end}
+                if self.is_range_protected(span, protected):
+                    continue
+                source_text = text[start:end]
+                if self._normalize_phrase_surface(source_text) != self._normalize_phrase_surface(source):
+                    continue
+                edits.append(
+                    self.create_edit(
+                        stage="PRE_NORMALIZE",
+                        start=start,
+                        end=end,
+                        source_text=source_text,
+                        replacement=replacement,
+                        edit_type="SPELL",
+                        confidence=float(item.get("confidence", 0.96)),
+                        auto_applicable=True,
+                        reason_tag=str(item.get("reasonTag") or "phrase_memory_auto"),
+                    )
+                )
+                break
+        return edits
+
+    def _run_morpheme_normalizations(
+        self, text: str, protected: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
+        edits: List[Dict[str, Any]] = []
+        token_ranges = self.tokenize_with_ranges(text)
+        for token, start, end in token_ranges:
+            span = {"start": start, "end": end}
+            if self.is_range_protected(span, protected):
+                continue
+            if self._hangul_ratio(token) < 0.7 or len(token) < 2:
+                continue
+
+            analyses = self._kiwi_analyze_cached(token, top_n=1)
+            if not analyses:
+                continue
+            morphs = analyses[0][0]
+            if not morphs:
+                continue
+
+            changed = False
+            min_score = 1.0
+            morph_seq: List[Tuple[str, str]] = []
+            for morph in morphs:
+                normalized = MORPHEME_CONFUSION_RULES.get((morph.raw_form, morph.tag))
+                if normalized:
+                    top = max(normalized, key=lambda item: float(item.get("generatorScore", 0.0)))
+                    morph_seq.append((top["replacement"], morph.tag))
+                    changed = True
+                    min_score = min(min_score, float(top.get("generatorScore", 0.91)))
+                else:
+                    morph_seq.append((morph.form, morph.tag))
+            if not changed:
+                continue
+
+            try:
+                restored = self.kiwi.join(morph_seq, lm_search=True)
+            except TypeError:
+                try:
+                    restored = self.kiwi.join(morph_seq)
+                except Exception:
+                    continue
+            except Exception:
+                continue
+
+            if not restored or restored == token:
+                continue
+            similarity = self._typo_similarity(token, restored)
+            if similarity < 0.68:
+                continue
+            edits.append(
+                self.create_edit(
+                    stage="PRE_NORMALIZE",
+                    start=start,
+                    end=end,
+                    source_text=token,
+                    replacement=restored,
+                    edit_type="SPELL",
+                    confidence=max(0.95, min(0.99, round(min_score + ((similarity - 0.68) * 0.2), 4))),
+                    auto_applicable=True,
+                    reason_tag="kiwi_morpheme_normalization",
+                )
+            )
+        return edits
+
+    def run_kiwi_pre_normalizer(self, text: str, protected: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        edits = [
+            *self._run_phrase_normalizations(text, protected),
+            *self._run_morpheme_normalizations(text, protected),
+        ]
+        return self.non_overlapping_edits(self.dedupe_edits(edits))
+
     @staticmethod
     def tokenize_with_ranges(text: str) -> List[Tuple[str, int, int]]:
         out = []
@@ -922,37 +1555,54 @@ class CorrectionEngine:
             out.append((m.group(0), m.start(), m.end()))
         return out
 
+    def _token_morph_bundles(
+        self, sentence: str, start: int, end: int, top_n: int = 3
+    ) -> List[Dict[str, Any]]:
+        analyses = self._kiwi_analyze_cached(sentence, top_n=top_n)
+        if not analyses:
+            return []
+        bundles: List[Dict[str, Any]] = []
+        seen = set()
+        for rank, (morphs, score) in enumerate(analyses):
+            overlapped = [m for m in morphs if not (m.end <= start or m.start >= end)]
+            if not overlapped:
+                continue
+            predicate_index = None
+            for idx, morph in enumerate(overlapped):
+                if morph.tag.startswith(("VV", "VA", "VX")):
+                    predicate_index = idx
+                    break
+            if predicate_index is None:
+                continue
+            predicate = overlapped[predicate_index]
+            suffix_morphs = overlapped[predicate_index + 1 :]
+            suffix_signature = tuple(m.tag for m in suffix_morphs)
+            bundle_key = (predicate.lemma, predicate.tag.split("-")[0], suffix_signature)
+            if bundle_key in seen:
+                continue
+            seen.add(bundle_key)
+            bundles.append(
+                {
+                    "predicate": predicate,
+                    "suffixMorphs": suffix_morphs,
+                    "morphs": overlapped,
+                    "suffixSlot": "+".join(suffix_signature) if suffix_signature else None,
+                    "analysisRank": rank,
+                    "analysisScore": float(score),
+                }
+            )
+        return bundles
+
     def _token_morph_bundle(
         self, sentence: str, start: int, end: int
     ) -> Optional[Dict[str, Any]]:
-        analyses = self.kiwi.analyze(sentence, top_n=1)
-        if not analyses:
-            return None
-        morphs = analyses[0][0]
-        overlapped = [m for m in morphs if not (m.end <= start or m.start >= end)]
-        if not overlapped:
-            return None
-
-        predicate_index = None
-        for idx, morph in enumerate(overlapped):
-            if morph.tag.startswith(("VV", "VA")):
-                predicate_index = idx
-                break
-        if predicate_index is None:
-            return None
-
-        predicate = overlapped[predicate_index]
-        suffix_morphs = overlapped[predicate_index + 1 :]
-        return {
-            "predicate": predicate,
-            "suffixMorphs": suffix_morphs,
-            "morphs": overlapped,
-        }
+        bundles = self._token_morph_bundles(sentence, start, end, top_n=1)
+        return bundles[0] if bundles else None
 
     def _infer_lemma_tag(self, lemma: str, fallback_tag: str) -> str:
         tag_base = fallback_tag.split("-")[0]
         try:
-            analyses = self.kiwi.analyze(lemma, top_n=2)
+            analyses = self._kiwi_analyze_cached(lemma, top_n=2)
         except Exception:
             return tag_base
         for tokens, _ in analyses:
@@ -961,6 +1611,135 @@ class CorrectionEngine:
                     return token.tag
         return tag_base
 
+    def _predicate_lemmas_from_text(self, text: str, top_n: int = 2) -> List[str]:
+        try:
+            analyses = self._kiwi_analyze_cached(text, top_n=top_n)
+        except Exception:
+            return []
+        lemmas: List[str] = []
+        for tokens, _ in analyses:
+            for token in tokens:
+                if token.tag.startswith(("VV", "VA")) and token.lemma not in lemmas:
+                    lemmas.append(token.lemma)
+        return lemmas
+
+    def _build_candidate_family_prior(
+        self,
+        sentence: str,
+        original: str,
+        start: int,
+        end: int,
+        best_replacement: Optional[str],
+    ) -> Optional[Dict[str, Any]]:
+        if not best_replacement or best_replacement == original:
+            return None
+
+        lemmas: List[str] = []
+        bundles = self._token_morph_bundles(sentence, start, end, top_n=5)
+        for bundle in bundles:
+            original_lemma = bundle["predicate"].lemma
+            if original_lemma and original_lemma not in lemmas:
+                lemmas.append(original_lemma)
+
+        for lemma in self._predicate_lemmas_from_text(best_replacement):
+            if lemma not in lemmas:
+                lemmas.append(lemma)
+
+        expanded_lemmas = list(lemmas)
+        for lemma in list(lemmas):
+            for variant in self.lemma_confusion_map.get(lemma, [])[:8]:
+                replacement = str(variant.get("replacement") or "").strip()
+                if replacement and replacement not in expanded_lemmas:
+                    expanded_lemmas.append(replacement)
+
+        surfaces = [item for item in [original, best_replacement] if item]
+        if not expanded_lemmas and len(surfaces) < 2:
+            return None
+
+        return {
+            "bestReplacement": best_replacement,
+            "lemmas": expanded_lemmas,
+            "surfaces": surfaces,
+        }
+
+    def _candidate_family_lemmas(self, replacement: str) -> List[str]:
+        return self._predicate_lemmas_from_text(replacement, top_n=3)
+
+    @staticmethod
+    def _variant_suffix_slots(variant: Dict[str, Any]) -> List[str]:
+        raw_slots = variant.get("suffixSlots") or variant.get("suffixSlot") or []
+        if isinstance(raw_slots, str):
+            return [raw_slots]
+        return [str(item) for item in raw_slots if item]
+
+    def _suffix_slot_compatible(self, bundle_slot: Optional[str], variant: Dict[str, Any]) -> bool:
+        variant_slots = self._variant_suffix_slots(variant)
+        if not bundle_slot or not variant_slots:
+            return True
+        return any(
+            bundle_slot == slot
+            or bundle_slot.startswith(f"{slot}+")
+            or slot.startswith(f"{bundle_slot}+")
+            for slot in variant_slots
+        )
+
+    def _apply_family_prior(
+        self,
+        candidates: List[Dict[str, Any]],
+        family_prior: Optional[Dict[str, Any]],
+    ) -> List[Dict[str, Any]]:
+        if not family_prior:
+            return candidates
+
+        allowed_lemmas = set(family_prior.get("lemmas") or [])
+        best_replacement = family_prior.get("bestReplacement")
+        family_hits: List[Dict[str, Any]] = []
+        outsiders: List[Dict[str, Any]] = []
+
+        for item in candidates:
+            candidate_lemmas = item.get("familyLemmas")
+            if candidate_lemmas is None:
+                candidate_lemmas = self._candidate_family_lemmas(item["replacement"])
+            family_match = bool(allowed_lemmas.intersection(candidate_lemmas)) or item["replacement"] == best_replacement
+            annotated = {
+                **item,
+                "familyLemmas": candidate_lemmas,
+                "familyMatch": family_match,
+            }
+            if family_match:
+                family_hits.append(annotated)
+            else:
+                outsiders.append(annotated)
+
+        if not family_hits:
+            return [*family_hits, *outsiders]
+
+        family_hits.sort(
+            key=lambda item: (
+                item.get("prefilterScore", 0.0),
+                item.get("typoSimilarity", 0.0),
+                item.get("generatorNorm", 0.0),
+            ),
+            reverse=True,
+        )
+        outsiders.sort(
+            key=lambda item: (
+                item.get("prefilterScore", 0.0),
+                item.get("typoSimilarity", 0.0),
+                item.get("generatorNorm", 0.0),
+            ),
+            reverse=True,
+        )
+
+        kept_outsiders: List[Dict[str, Any]] = []
+        if outsiders:
+            leader_score = family_hits[0].get("prefilterScore", 0.0)
+            outsider = outsiders[0]
+            if outsider.get("prefilterScore", 0.0) >= leader_score + 0.08:
+                kept_outsiders.append(outsider)
+
+        return [*family_hits, *kept_outsiders]
+
     def _build_join_candidates(
         self,
         sentence: str,
@@ -968,67 +1747,119 @@ class CorrectionEngine:
         start: int,
         end: int,
     ) -> List[Dict[str, Any]]:
-        bundle = self._token_morph_bundle(sentence, start, end)
-        if bundle is None:
+        bundles = self._token_morph_bundles(sentence, start, end, top_n=5)
+        if not bundles:
             return []
+        dedup: Dict[str, Dict[str, Any]] = {}
 
-        predicate = bundle["predicate"]
-        predicate_lemma = predicate.lemma
-        predicate_tag = predicate.tag
-        predicate_stem = predicate_lemma[:-1] if predicate_lemma.endswith("다") else predicate.form
-        suffix_morphs = bundle["suffixMorphs"]
-        candidates: List[Dict[str, Any]] = []
+        for bundle in bundles:
+            predicate = bundle["predicate"]
+            predicate_lemma = predicate.lemma
+            predicate_tag = predicate.tag
+            predicate_stem = predicate_lemma[:-1] if predicate_lemma.endswith("다") else predicate.form
+            suffix_morphs = bundle["suffixMorphs"]
+            bundle_slot = bundle.get("suffixSlot")
+            bundle_penalty = min(0.08, 0.03 * int(bundle.get("analysisRank", 0)))
 
-        lemma_variants = self.lemma_confusion_map.get(predicate_lemma, [])
-        for variant in lemma_variants:
-            target_lemma = variant["replacement"]
-            target_stem = target_lemma[:-1] if target_lemma.endswith("다") else target_lemma
-            target_tag = self._infer_lemma_tag(target_lemma, predicate_tag)
-            morph_seq = [(target_stem, target_tag), *[(m.form, m.tag) for m in suffix_morphs]]
-            try:
-                restored = self.kiwi.join(morph_seq)
-            except Exception:
-                continue
-            if restored and restored != token:
-                candidates.append(
-                    {
-                        "replacement": restored,
-                        "source": "LEMMA_CONFUSION",
-                        "generatorScore": variant["generatorScore"],
-                    }
-                )
-
-        for idx, morph in enumerate(bundle["morphs"]):
-            normalized = MORPHEME_CONFUSION_RULES.get((morph.raw_form, morph.tag))
-            if not normalized:
-                continue
-            for variant in normalized:
-                morph_seq: List[Tuple[str, str]] = []
-                for inner_idx, current in enumerate(bundle["morphs"]):
-                    if current is predicate:
-                        morph_seq.append((predicate_stem, predicate_tag))
-                        continue
-                    if inner_idx == idx:
-                        morph_seq.append((variant["replacement"], current.tag))
-                    else:
-                        morph_seq.append((current.form, current.tag))
+            lemma_variants = self.lemma_confusion_map.get(predicate_lemma, [])
+            for variant in lemma_variants:
+                if not self._suffix_slot_compatible(bundle_slot, variant):
+                    continue
+                target_lemma = variant["replacement"]
+                target_stem = target_lemma[:-1] if target_lemma.endswith("다") else target_lemma
+                target_tag = self._infer_lemma_tag(target_lemma, predicate_tag)
+                morph_seq = [(target_stem, target_tag), *[(m.form, m.tag) for m in suffix_morphs]]
                 try:
-                    restored = self.kiwi.join(morph_seq)
+                    restored = self.kiwi.join(morph_seq, lm_search=True)
+                except TypeError:
+                    try:
+                        restored = self.kiwi.join(morph_seq)
+                    except Exception:
+                        continue
                 except Exception:
                     continue
-                if restored and restored != token:
-                    candidates.append(
-                        {
-                            "replacement": restored,
-                            "source": variant["source"],
-                            "generatorScore": variant["generatorScore"],
-                        }
-                    )
+                if not restored or restored == token:
+                    continue
+                payload = {
+                    "replacement": restored,
+                    "source": variant.get("source", "LEMMA_CONFUSION"),
+                    "generatorScore": max(0.0, float(variant["generatorScore"]) - bundle_penalty),
+                    "interfaceType": variant.get("interfaceType"),
+                    "interfaceStats": variant.get("interfaceStats"),
+                    "contextHints": variant.get("contextHints"),
+                    "pos": variant.get("pos", target_tag),
+                    "suffixSlot": variant.get("suffixSlot") or variant.get("suffixSlots"),
+                    "familyLemmas": [predicate_lemma, target_lemma],
+                }
+                existing = dedup.get(restored)
+                if existing is None or float(payload["generatorScore"]) > float(existing.get("generatorScore", 0.0)):
+                    dedup[restored] = payload
 
-        return candidates
+                for example in variant.get("surfaceExamples") or []:
+                    example_from = str(example.get("from") or "").strip()
+                    example_to = str(example.get("to") or "").strip()
+                    if not example_from or not example_to or example_to == token:
+                        continue
+                    example_similarity = self._typo_similarity(token, example_from)
+                    if example_similarity < 0.46:
+                        continue
+                    example_payload = {
+                        "replacement": example_to,
+                        "source": "FAMILY_SURFACE_EXAMPLE",
+                        "generatorScore": max(
+                            0.0,
+                            min(0.985, float(variant["generatorScore"]) - bundle_penalty + min(0.08, 0.02 * int(example.get("count", 1))) + max(0.0, example_similarity - 0.5) * 0.25),
+                        ),
+                        "interfaceType": variant.get("interfaceType"),
+                        "interfaceStats": variant.get("interfaceStats"),
+                        "contextHints": variant.get("contextHints"),
+                        "pos": variant.get("pos", target_tag),
+                        "suffixSlot": variant.get("suffixSlot") or variant.get("suffixSlots"),
+                        "familyLemmas": [predicate_lemma, target_lemma],
+                    }
+                    existing = dedup.get(example_to)
+                    if existing is None or float(example_payload["generatorScore"]) > float(existing.get("generatorScore", 0.0)):
+                        dedup[example_to] = example_payload
+
+            for idx, morph in enumerate(bundle["morphs"]):
+                normalized = MORPHEME_CONFUSION_RULES.get((morph.raw_form, morph.tag))
+                if not normalized:
+                    continue
+                for variant in normalized:
+                    morph_seq: List[Tuple[str, str]] = []
+                    for inner_idx, current in enumerate(bundle["morphs"]):
+                        if current is predicate:
+                            morph_seq.append((predicate_stem, predicate_tag))
+                            continue
+                        if inner_idx == idx:
+                            morph_seq.append((variant["replacement"], current.tag))
+                        else:
+                            morph_seq.append((current.form, current.tag))
+                    try:
+                        restored = self.kiwi.join(morph_seq, lm_search=True)
+                    except TypeError:
+                        try:
+                            restored = self.kiwi.join(morph_seq)
+                        except Exception:
+                            continue
+                    except Exception:
+                        continue
+                    if not restored or restored == token:
+                        continue
+                    payload = {
+                        "replacement": restored,
+                        "source": variant["source"],
+                        "generatorScore": max(0.0, float(variant["generatorScore"]) - bundle_penalty),
+                        "familyLemmas": [predicate_lemma],
+                    }
+                    existing = dedup.get(restored)
+                    if existing is None or float(payload["generatorScore"]) > float(existing.get("generatorScore", 0.0)):
+                        dedup[restored] = payload
+
+        return list(dedup.values())
 
     def open_replace_candidates_for_token(self, token: str) -> List[Dict[str, Any]]:
-        candidates: List[Dict[str, Any]] = list(OPEN_REPLACE_MAP.get(token, []))
+        candidates: List[Dict[str, Any]] = list(self.surface_confusion_map.get(token, []))
 
         # 활용형 오타를 포착하기 위한 stem 치환 규칙.
         # 예: 낫아 -> 낳아, 낫어서 -> 낳어서, 낫으면 -> 낳으면
@@ -1063,14 +1894,44 @@ class CorrectionEngine:
         start: int,
         end: int,
         expensive: bool = True,
+        assumed_channel: str = "generic",
     ) -> List[Dict[str, Any]]:
-        curated_candidates = self.open_replace_candidates_for_token(token)
-        join_candidates = self._build_join_candidates(sentence, token, start, end)
-        mlm_candidates = self._mlm_surface_candidates(sentence, token, start, end)
-        candidate_pool = self._prefilter_candidates(
-            token,
-            [*curated_candidates, *join_candidates, *mlm_candidates],
+        curated_candidates = self._enrich_candidate_context(
+            sentence,
+            start,
+            end,
+            self.open_replace_candidates_for_token(token),
+            assumed_channel=assumed_channel,
         )
+        join_candidates = self._build_join_candidates(sentence, token, start, end)
+        join_candidates = self._enrich_candidate_context(
+            sentence,
+            start,
+            end,
+            join_candidates,
+            assumed_channel=assumed_channel,
+        )
+        curated_pool = self._prefilter_candidates(
+            token,
+            [*curated_candidates, *join_candidates],
+        )
+        needs_mlm_backoff = (
+            len(curated_pool) < MLM_BACKOFF_MIN_CANDIDATES
+            or max((item.get("prefilterScore", 0.0) for item in curated_pool), default=0.0) < MLM_BACKOFF_PREFILTER_MIN
+        )
+        candidate_pool = curated_pool
+        if needs_mlm_backoff:
+            mlm_candidates = self._enrich_candidate_context(
+                sentence,
+                start,
+                end,
+                self._mlm_surface_candidates(sentence, token, start, end),
+                assumed_channel=assumed_channel,
+            )
+            candidate_pool = self._prefilter_candidates(
+                token,
+                [*curated_pool, *mlm_candidates],
+            )
         if not candidate_pool:
             return []
         if not expensive:
@@ -1085,11 +1946,97 @@ class CorrectionEngine:
             baseline=baseline,
         )[:CANDIDATE_PREFILTER_LIMIT]
 
-    @staticmethod
-    def _filter_typo_like_candidates(candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        return [
-            candidate for candidate in candidates if candidate.get("typoSimilarity", 0.0) >= TYPO_SIMILARITY_MIN
-        ]
+    def _filter_typo_like_candidates(self, candidates: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        filtered: List[Dict[str, Any]] = []
+        for candidate in candidates:
+            min_typo_similarity = TYPO_SIMILARITY_MIN
+            if self._is_curated_candidate_source(str(candidate.get("source", ""))):
+                if (
+                    bool(candidate.get("familyLemmas"))
+                    or float(candidate.get("contextHintScore", 0.0)) >= 0.1
+                    or float(candidate.get("generatorNorm", 0.0)) >= 0.72
+                ):
+                    min_typo_similarity = 0.48
+            if float(candidate.get("typoSimilarity", 0.0)) >= min_typo_similarity:
+                filtered.append(candidate)
+        return filtered
+
+    def _candidate_is_predicate_like(self, item: Dict[str, Any]) -> bool:
+        pos = str(item.get("pos") or "")
+        if pos.startswith(("VV", "VA", "VX")):
+            return True
+        family_lemmas = item.get("familyLemmas") or []
+        if family_lemmas:
+            return True
+        replacement = str(item.get("replacement") or "")
+        if not replacement:
+            return False
+        return bool(self._predicate_lemmas_from_text(replacement, top_n=3))
+
+    def _maybe_reopen_short_valid_token(
+        self,
+        text: str,
+        token: str,
+        start: int,
+        end: int,
+        base_confidence: float,
+    ) -> Optional[Dict[str, Any]]:
+        if not re.fullmatch(r"[가-힣]+", token):
+            return None
+        if len(token) < 2 or len(token) > 4:
+            return None
+
+        predicate_lemmas = self._predicate_lemmas_from_text(token, top_n=3)
+        if not predicate_lemmas:
+            return None
+        if not any(self.lemma_confusion_map.get(lemma) for lemma in predicate_lemmas):
+            return None
+
+        ranked_candidates = self.generate_contextual_candidates_for_token(
+            text,
+            token,
+            start,
+            end,
+            expensive=False,
+        )
+        typo_like_candidates = self._filter_typo_like_candidates(ranked_candidates)
+        if not typo_like_candidates:
+            return None
+
+        best = typo_like_candidates[0]
+        best_source = str(best.get("source") or "")
+        if best_source not in CURATED_CANDIDATE_SOURCES:
+            return None
+        if not self._candidate_is_predicate_like(best):
+            return None
+        if best.get("prefilterScore", 0.0) < 0.58:
+            return None
+        if best.get("generatorNorm", 0.0) < 0.72:
+            return None
+        context_hint_score = float(best.get("contextHintScore", 0.0) or 0.0)
+        manual_reopen_sources = {"FAMILY_SEED", "PHRASE_MEMORY", "FAMILY_SURFACE_EXAMPLE"}
+        if best_source not in manual_reopen_sources and context_hint_score < 0.15:
+            return None
+        if context_hint_score < 0.12 and best.get("familyMatch") is False:
+            return None
+
+        return {
+            "token": token,
+            "label": "OPEN_REPLACE",
+            "confidence": max(base_confidence, round(float(best.get("prefilterScore", 0.0)), 4)),
+            "range": {"start": start, "end": end},
+            "modelCandidates": typo_like_candidates[:5],
+            "detectionEvidence": {
+                "bestReplacement": best["replacement"],
+                "generatorNorm": best.get("generatorNorm"),
+                "prefilterScore": best.get("prefilterScore"),
+                "typoSimilarity": best.get("typoSimilarity", 0.0),
+                "contextHintScore": context_hint_score,
+                "source": "finetuned_edit_tagger_reopen",
+                "taggerConfidence": base_confidence,
+                "predicateLemmas": predicate_lemmas,
+            },
+        }
 
     def _run_heuristic_edit_tagger(self, text: str, protected: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         labels: List[Dict[str, Any]] = []
@@ -1169,6 +2116,9 @@ class CorrectionEngine:
             if self.is_range_protected(span, protected):
                 labels.append({"token": token, "label": "KEEP", "confidence": 1.0, "range": span})
                 continue
+            if re.search(r"[A-Za-z0-9]", token):
+                labels.append({"token": token, "label": "KEEP", "confidence": 0.99, "range": span})
+                continue
             if self._hangul_ratio(token) < 0.5 or len(token) < 2:
                 labels.append({"token": token, "label": "KEEP", "confidence": 0.98, "range": span})
                 continue
@@ -1240,6 +2190,12 @@ class CorrectionEngine:
                     )
                     continue
 
+            if pred_label == "KEEP":
+                reopened = self._maybe_reopen_short_valid_token(text, token, st, ed, confidence)
+                if reopened is not None:
+                    labels.append(reopened)
+                    continue
+
             labels.append(
                 {
                     "token": token,
@@ -1265,13 +2221,27 @@ class CorrectionEngine:
         for l in tag_labels:
             if l.get("effectiveLabel", l["label"]) != "OPEN_REPLACE":
                 continue
-            base = l.get("modelCandidates") or self.generate_contextual_candidates_for_token(
+            detection_evidence = l.get("detectionEvidence") or {}
+            best_replacement = detection_evidence.get("bestReplacement")
+            if not best_replacement and l.get("modelCandidates"):
+                best_replacement = l["modelCandidates"][0].get("replacement")
+            family_prior = self._build_candidate_family_prior(
+                sentence,
+                l["token"],
+                l["range"]["start"],
+                l["range"]["end"],
+                best_replacement,
+            )
+            seeded_candidates = l.get("modelCandidates") or []
+            generated_candidates = self.generate_contextual_candidates_for_token(
                 sentence,
                 l["token"],
                 l["range"]["start"],
                 l["range"]["end"],
                 expensive=False,
             )
+            base = self._merge_candidates(seeded_candidates, generated_candidates)
+            base = self._apply_family_prior(base, family_prior)
             items = [
                 *[
                     {
@@ -1283,6 +2253,10 @@ class CorrectionEngine:
                         "finalScore": item.get("finalScore"),
                         "rerankScore": item.get("finalScore"),
                         "typoSimilarity": item.get("typoSimilarity"),
+                        "contextHintScore": item.get("contextHintScore"),
+                        "interfaceScore": item.get("interfaceScore"),
+                        "familyLemmas": item.get("familyLemmas"),
+                        "familyMatch": item.get("familyMatch"),
                     }
                     for item in base
                 ],
@@ -1294,6 +2268,7 @@ class CorrectionEngine:
                     "original": l["token"],
                     "taggerConfidence": l["confidence"],
                     "detectionEvidence": l.get("detectionEvidence"),
+                    "candidateFamily": family_prior,
                     "items": items,
                 }
             )
@@ -1303,10 +2278,12 @@ class CorrectionEngine:
         verified: List[Dict[str, Any]] = []
         for group in groups:
             original = group["original"]
+            family_prior = group.get("candidateFamily")
             candidate_items = [item for item in group["items"] if item["source"] != "ORIGINAL"]
             curated_items = [
                 item for item in candidate_items if self._is_curated_candidate_source(item.get("source", "MLM_TOPK"))
             ]
+            family_matched_items = [item for item in candidate_items if item.get("familyMatch")]
             curated_best = max(
                 (float(item.get("prefilterScore", 0.0)) for item in curated_items),
                 default=0.0,
@@ -1322,12 +2299,21 @@ class CorrectionEngine:
                         self._normalize_generator_score(float(item.get("generatorScore", 0.0))),
                     )
                 )
+                context_hint_score = float(item.get("contextHintScore", 0.0))
+                interface_score = float(item.get("interfaceScore", 0.86))
                 verifier_score = (
-                    0.38 * prefilter
-                    + 0.24 * typo_similarity
+                    0.3 * prefilter
+                    + 0.2 * typo_similarity
                     + 0.18 * generator_norm
-                    + 0.2 * self._candidate_source_prior(source)
+                    + 0.14 * self._candidate_source_prior(source)
+                    + 0.12 * context_hint_score
+                    + 0.06 * interface_score
                 )
+                family_match = bool(item.get("familyMatch"))
+                if family_prior and family_match:
+                    verifier_score += 0.12
+                elif family_prior and family_matched_items:
+                    verifier_score -= 0.18
                 if self._is_curated_candidate_source(source):
                     verifier_score += 0.06
                 elif curated_items:
@@ -1339,6 +2325,7 @@ class CorrectionEngine:
                     {
                         **item,
                         "candidateVerifierScore": round(float(verifier_score), 4),
+                        "familyMatch": family_match,
                     }
                 )
 
@@ -1370,21 +2357,61 @@ class CorrectionEngine:
             kept.sort(
                 key=lambda item: (
                     item.get("candidateVerifierScore", 0.0),
+                    item.get("contextHintScore", 0.0),
                     item.get("prefilterScore", 0.0),
                     item.get("typoSimilarity", 0.0),
                 ),
                 reverse=True,
             )
 
+            fast_path = None
+            if kept:
+                leader = kept[0]
+                runner_score = kept[1].get("candidateVerifierScore", 0.0) if len(kept) > 1 else 0.0
+                single_curated = len(kept) == 1 and self._is_curated_candidate_source(leader.get("source", "MLM_TOPK"))
+                clear_curated_gap = (
+                    self._is_curated_candidate_source(leader.get("source", "MLM_TOPK"))
+                    and leader.get("candidateVerifierScore", 0.0) >= 0.76
+                    and (leader.get("candidateVerifierScore", 0.0) - runner_score) >= 0.08
+                    and (
+                        leader.get("contextHintScore", 0.0) >= 0.05
+                        or leader.get("prefilterScore", 0.0) >= 0.78
+                    )
+                )
+                if (
+                    (
+                        single_curated and leader.get("candidateVerifierScore", 0.0) >= 0.72
+                    )
+                    or (
+                        self._is_curated_candidate_source(leader.get("source", "MLM_TOPK"))
+                        and leader.get("candidateVerifierScore", 0.0) >= FAST_PATH_VERIFIER_MIN
+                        and (leader.get("candidateVerifierScore", 0.0) - runner_score) >= FAST_PATH_MARGIN_MIN
+                        and (
+                            leader.get("contextHintScore", 0.0) >= 0.08
+                            or leader.get("prefilterScore", 0.0) >= 0.9
+                        )
+                    )
+                    or clear_curated_gap
+                ):
+                    fast_path = {
+                        "replacement": leader["replacement"],
+                        "score": leader["candidateVerifierScore"],
+                        "source": leader.get("source", "MODEL"),
+                    }
+
             verified.append(
                 {
                     **group,
                     "items": [*kept, {"replacement": original, "source": "ORIGINAL", "generatorScore": 0.2}],
+                    "fastPath": fast_path,
+                    "candidateFamily": family_prior,
                     "candidateVerifier": {
                         "inputCount": len(candidate_items),
                         "keptCount": len(kept),
                         "curatedCount": len(curated_items),
+                        "familyMatchedCount": len([item for item in kept if item.get("familyMatch")]),
                         "keptSources": [item.get("source", "MODEL") for item in kept],
+                        "fastPath": fast_path is not None,
                     },
                 }
             )
@@ -1434,9 +2461,21 @@ class CorrectionEngine:
         ranked: List[Dict[str, Any]] = []
         baseline = self._sentence_quality_baseline(sentence)
         for g in groups:
+            family_prior = g.get("candidateFamily")
             st, ed = g["span"]["start"], g["span"]["end"]
             model_seed_items = [item for item in g["items"] if item["source"] != "ORIGINAL"]
-            if model_seed_items:
+            has_family_match_anchor = any(item.get("familyMatch") for item in model_seed_items)
+            if g.get("fastPath") and model_seed_items:
+                scored = [
+                    {
+                        **item,
+                        "candidateSentence": sentence[:st] + item["replacement"] + sentence[ed:],
+                        "rerankScore": round(float(item.get("candidateVerifierScore", item.get("prefilterScore", 0.0))), 4),
+                        "finalScore": round(float(item.get("candidateVerifierScore", item.get("prefilterScore", 0.0))), 4),
+                    }
+                    for item in model_seed_items
+                ]
+            elif model_seed_items:
                 rescored = self._rank_replacement_candidates(
                     sentence,
                     g["original"],
@@ -1488,6 +2527,15 @@ class CorrectionEngine:
                                         4,
                                     )
                             rescored.sort(key=lambda x: x["finalScore"], reverse=True)
+                if family_prior and has_family_match_anchor:
+                    for item in rescored:
+                        if item.get("familyMatch"):
+                            item["familyLeaderBonus"] = 0.1
+                            item["finalScore"] = round(float(min(0.99, item["finalScore"] + 0.1)), 4)
+                        else:
+                            item["familyMismatchPenalty"] = 0.14
+                            item["finalScore"] = round(float(max(0.01, item["finalScore"] - 0.14)), 4)
+                    rescored.sort(key=lambda x: x["finalScore"], reverse=True)
                 scored = [
                     {
                         **item,
@@ -1617,6 +2665,17 @@ class CorrectionEngine:
                 decision = self.policy(e["editType"], "AUTO_APPLY", e["confidence"])
                 decisions.append({**e, "decision": decision})
 
+        kiwi_pre_normalizer_edits = stage(
+            "6-3. Kiwi Pre-normalizer",
+            working_clause,
+            lambda: self.run_kiwi_pre_normalizer(working_clause, self.detect_protected_spans(working_clause)),
+        )
+        if kiwi_pre_normalizer_edits:
+            working_clause = self.apply_edits(working_clause, kiwi_pre_normalizer_edits)
+            for e in kiwi_pre_normalizer_edits:
+                decision = self.policy(e["editType"], "AUTO_APPLY", e["confidence"])
+                decisions.append({**e, "decision": decision})
+
         tagger_labels = stage(
             "7. Edit Tagger (KoBERT-MLM + KoELECTRA-assisted)",
             working_clause,
@@ -1677,6 +2736,7 @@ class CorrectionEngine:
             ],
         )
 
+        suggestion_clause = working_clause
         for p in policy_out:
             edit = self.create_edit(
                 stage="RERANKER",
@@ -1692,6 +2752,8 @@ class CorrectionEngine:
             decisions.append({**edit, "decision": p["decision"]})
             if p["decision"] == "AUTO_APPLY":
                 working_clause = self.apply_edits(working_clause, [edit])
+            elif p["decision"] == "SUGGEST_ONLY":
+                suggestion_clause = self.apply_edits(suggestion_clause, [edit])
 
         stage(
             "12. Final Output",
@@ -1699,6 +2761,7 @@ class CorrectionEngine:
             lambda: {
                 "mode": mode,
                 "finalClause": working_clause,
+                "suggestedClause": suggestion_clause,
                 "autoCount": len([d for d in decisions if d["decision"] == "AUTO_APPLY"]),
                 "suggestCount": len([d for d in decisions if d["decision"] == "SUGGEST_ONLY"]),
                 "rejectCount": len([d for d in decisions if d["decision"] == "REJECT"]),
@@ -1710,8 +2773,14 @@ class CorrectionEngine:
             + working_clause
             + full_text[range_art["clauseRange"]["end"] :]
         )
+        suggested_text = (
+            full_text[: range_art["clauseRange"]["start"]]
+            + suggestion_clause
+            + full_text[range_art["clauseRange"]["end"] :]
+        )
         return {
             "finalText": final_text,
+            "suggestedText": suggested_text,
             "decisions": decisions,
             "traces": traces,
             "modelInfo": {

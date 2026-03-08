@@ -8,7 +8,11 @@ export const MODEL_ASSETS = [
 
 export const RULE_ASSETS = [
   '/assets/rules/common_misspellings.json',
+  '/assets/rules/high_precision_surface_fixes.json',
   '/assets/rules/protected_patterns.json',
   '/assets/rules/thresholds.json',
   '/assets/dict/confusion_sets.json',
+  '/assets/dict/lemma_family_graph.json',
+  '/assets/dict/phrase_memory.json',
+  '/assets/dict/predicate_family_seeds.json',
 ] as const;

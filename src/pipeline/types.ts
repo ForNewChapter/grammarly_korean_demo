@@ -71,6 +71,7 @@ export interface GuardrailDecision {
 export interface PipelineResult {
   original: string;
   corrected: string;
+  suggestedText?: string;
   profile: Profile;
   protectedSpans: ProtectedSpan[];
   edits: TextEdit[];
