@@ -16,12 +16,14 @@ function getStageDisplay(stageName: string): StageDisplay {
     [/Protected Span/i, { title: '2단계. 보호 구간 탐지', description: 'URL, 숫자, 고유명사처럼 고치면 안 되는 부분을 잠급니다.' }],
     [/Profile Classifier/i, { title: '3단계. 문장 프로파일 분류', description: '문장을 일반 문장인지, 채팅체인지, 오타가 많은지 분류합니다.' }],
     [/Rule Corrector/i, { title: '4단계. 확정 규칙 교정', description: '사전에 있는 확실한 오타를 먼저 바로잡습니다.' }],
+    [/Phrase Pre-normalizer/i, { title: '4-1단계. compact 구문 정규화', description: '띄어쓰기 전에 붙어 있는 고정형 표현을 먼저 복원해 뒤 단계가 깨지지 않게 합니다.' }],
     [/Spacing Candidate/i, { title: '5단계. 띄어쓰기 후보 생성', description: '띄어쓰기를 넣을 수 있는 위치를 찾습니다.' }],
     [/Spacing Boundary Classifier/i, { title: '6단계. 띄어쓰기 후보 판정', description: '띄어쓰기 후보 중 실제로 적용할 위치만 남깁니다.' }],
     [/Spacing Edit Converter/i, { title: '6-1단계. 띄어쓰기 수정안 생성', description: '선택된 띄어쓰기 후보를 실제 수정안으로 바꿉니다.' }],
     [/Kiwi Pre-normalizer/i, { title: '6-2단계. 고정밀 정규화', description: 'Kiwi와 로컬 사전으로 자주 틀리는 표면 오류를 먼저 정리합니다.' }],
     [/Edit Tagger \(/i, { title: '7단계. 오류 감지', description: '문맥상 이상한 토큰이 있는지 보고, 어떤 종류의 교정인지 태깅합니다.' }],
     [/Edit Tagger Routing/i, { title: '7-1단계. 후속 처리 결정', description: '탐지된 오류를 띄어쓰기 체인으로 보낼지, 문맥 교정으로 보낼지 정합니다.' }],
+    [/High-precision Lock Guard/i, { title: '7-2단계. 고정밀 수정 보호', description: '앞단에서 확실하게 고친 span은 약한 후속 제안이 다시 뒤집지 못하게 막습니다.' }],
     [/Open Candidate Generation/i, { title: '8단계. 교정 후보 생성', description: '문맥 교정이 필요한 토큰에 대해 실제 교정 후보를 만듭니다.' }],
     [/Candidate Verifier/i, { title: '8-1단계. 후보 1차 정리', description: '생성된 후보 중 믿을 만한 후보만 남깁니다.' }],
     [/Reranker/i, { title: '9단계. 문맥 기준 재정렬', description: '후보들을 문맥 안에서 다시 비교해 가장 자연스러운 후보를 고릅니다.' }],
@@ -68,6 +70,7 @@ function decisionLabel(label: string): string {
     DEFER_TO_SPACING: '띄어쓰기 단계로 넘김',
     DEFER_TO_RULES: '규칙 단계로 넘김',
     PASS_TO_DOWNSTREAM: '후속 단계로 유지',
+    LOCKED_HIGH_PRECISION_SPAN: '고정밀 수정 보호로 차단',
   };
   return labels[label] ?? label;
 }
@@ -137,6 +140,19 @@ function renderSummary(stageName: string, inputText: string, output: unknown): J
       </ul>
     ) : (
       <div className="trace-summary-empty">규칙으로 바로 고칠 항목은 없습니다.</div>
+    );
+  }
+
+  if (/Phrase Pre-normalizer/i.test(stageName)) {
+    const edits = (output as TextEdit[]) ?? [];
+    return edits.length ? (
+      <ul className="trace-summary-list">
+        {edits.map((edit, index) => (
+          <li key={`phrase-pre-${index}`}>{edit.sourceText} → {edit.replacement}</li>
+        ))}
+      </ul>
+    ) : (
+      <div className="trace-summary-empty">띄어쓰기 전 미리 고칠 compact 구문은 없습니다.</div>
     );
   }
 
@@ -241,6 +257,23 @@ function renderSummary(stageName: string, inputText: string, output: unknown): J
       </ul>
     ) : (
       <div className="trace-summary-empty">후속 처리로 넘어갈 특별한 항목이 없습니다.</div>
+    );
+  }
+
+  if (/High-precision Lock Guard/i.test(stageName)) {
+    const labels = (output as Array<{ token: string; effectiveLabel?: string; routingDecision?: string; routingNote?: string }>) ?? [];
+    const guarded = labels.filter((item) => item.routingDecision === 'LOCKED_HIGH_PRECISION_SPAN');
+    return guarded.length ? (
+      <ul className="trace-summary-list">
+        {guarded.map((item, index) => (
+          <li key={`lock-guard-${index}`}>
+            <strong>{item.token}</strong>: {decisionLabel(item.routingDecision ?? 'LOCKED_HIGH_PRECISION_SPAN')}
+            {item.routingNote ? ` - ${item.routingNote}` : ''}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div className="trace-summary-empty">앞단 고정밀 수정과 충돌하는 후속 제안은 없었습니다.</div>
     );
   }
 

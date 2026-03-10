@@ -1,6 +1,10 @@
 [
   {"from":"되요","to":"돼요","reasonTag":"common_misspelling","confidence":0.99},
-  {"from":"왠","to":"웬","reasonTag":"common_misspelling","confidence":0.97},
   {"from":"삿어요","to":"샀어요","reasonTag":"common_misspelling","confidence":0.99},
-  {"from":"잇어요","to":"있어요","reasonTag":"common_misspelling","confidence":0.96}
+  {"from":"잇어요","to":"있어요","reasonTag":"common_misspelling","confidence":0.96},
+  {"from":"웬지","to":"왠지","reasonTag":"common_misspelling","confidence":0.97},
+  {"from":"왠일","to":"웬일","reasonTag":"common_misspelling","confidence":0.99},
+  {"from":"왠만","to":"웬만","reasonTag":"common_misspelling","confidence":0.99},
+  {"from":"왠만한","to":"웬만한","reasonTag":"common_misspelling","confidence":0.99},
+  {"from":"왠만하면","to":"웬만하면","reasonTag":"common_misspelling","confidence":0.99}
 ]

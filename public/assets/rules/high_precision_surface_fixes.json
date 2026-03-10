@@ -1,6 +1,6 @@
 {
   "generatedFrom": "/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/data/aihub_highfreq/train.jsonl",
-  "count": 123,
+  "count": 129,
   "items": [
     {
       "from": "스태그플래이션으로",
@@ -651,6 +651,12 @@
       "similarity": 0.75
     },
     {
+      "from": "왠만하면",
+      "to": "웬만하면",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
       "from": "이렇게에",
       "to": "이렇게",
       "reasonTag": "high_precision_surface_fix",
@@ -921,6 +927,12 @@
       "confidence": 0.99
     },
     {
+      "from": "왠만한",
+      "to": "웬만한",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
       "from": "이이게",
       "to": "이게",
       "reasonTag": "high_precision_surface_fix",
@@ -1029,6 +1041,36 @@
       "confidence": 0.99
     },
     {
+      "from": "바닦",
+      "to": "바닥",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "안자",
+      "to": "앉아",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.97
+    },
+    {
+      "from": "왠만",
+      "to": "웬만",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "왠일",
+      "to": "웬일",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.99
+    },
+    {
+      "from": "웬지",
+      "to": "왠지",
+      "reasonTag": "common_misspelling",
+      "confidence": 0.97
+    },
+    {
       "from": "해바",
       "to": "해봐",
       "reasonTag": "common_misspelling",
@@ -1045,12 +1087,6 @@
       "to": "됐",
       "reasonTag": "common_misspelling",
       "confidence": 0.99
-    },
-    {
-      "from": "왠",
-      "to": "웬",
-      "reasonTag": "common_misspelling",
-      "confidence": 0.97
     }
   ]
 }

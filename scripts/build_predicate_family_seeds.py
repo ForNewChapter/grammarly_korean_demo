@@ -121,6 +121,11 @@ FAMILY_SEEDS = {
             "interfaceType": "generic",
             "interfaceStats": {"generic": 9, "keyboard": 4},
             "suffixSlots": ["EP+EF", "EP+EC", "EC", "EF", "ETM"],
+            "surfaceExamples": [
+                {"from": "맞추고", "to": "맞히고", "count": 4},
+                {"from": "맞추었다", "to": "맞혔다", "count": 5},
+                {"from": "맞췄다", "to": "맞혔다", "count": 6},
+            ],
         }
     ],
     "맞히다": [
@@ -139,6 +144,11 @@ FAMILY_SEEDS = {
             "interfaceType": "generic",
             "interfaceStats": {"generic": 9, "keyboard": 4},
             "suffixSlots": ["EP+EF", "EP+EC", "EC", "EF", "ETM"],
+            "surfaceExamples": [
+                {"from": "맞히고", "to": "맞추고", "count": 4},
+                {"from": "맞혀서", "to": "맞춰서", "count": 5},
+                {"from": "맞히다", "to": "맞추다", "count": 3},
+            ],
         }
     ],
     "낮다": [
@@ -158,6 +168,29 @@ FAMILY_SEEDS = {
             "interfaceType": "generic",
             "interfaceStats": {"generic": 10},
             "suffixSlots": ["EP+EF", "EF", "ETM", "EC"],
+        }
+    ],
+    "낮아지다": [
+        {
+            "replacement": "나아지다",
+            "source": "FAMILY_SEED",
+            "generatorScore": 0.96,
+            "pos": "VV",
+            "contextHints": [
+                {"term": "몸", "count": 5},
+                {"term": "상태", "count": 5},
+                {"term": "병", "count": 4},
+                {"term": "감기", "count": 4},
+                {"term": "통증", "count": 3},
+                {"term": "약", "count": 3},
+            ],
+            "interfaceType": "generic",
+            "interfaceStats": {"generic": 10},
+            "suffixSlots": ["EP+EF", "EP+EC", "EC", "EF", "ETM"],
+            "surfaceExamples": [
+                {"from": "낮아졌다", "to": "나아졌다", "count": 6},
+                {"from": "낮아졌으면", "to": "나아졌으면", "count": 5},
+            ],
         }
     ],
 }

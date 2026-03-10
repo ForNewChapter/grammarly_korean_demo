@@ -17,9 +17,15 @@ DEFAULT_OUTPUT = Path("public/assets/rules/high_precision_surface_fixes.json")
 
 MANUAL_FIXES = [
     {"from": "되요", "to": "돼요", "reasonTag": "common_misspelling", "confidence": 0.99},
-    {"from": "왠", "to": "웬", "reasonTag": "common_misspelling", "confidence": 0.97},
     {"from": "삿어요", "to": "샀어요", "reasonTag": "common_misspelling", "confidence": 0.99},
     {"from": "잇어요", "to": "있어요", "reasonTag": "common_misspelling", "confidence": 0.96},
+    {"from": "바닦", "to": "바닥", "reasonTag": "common_misspelling", "confidence": 0.99},
+    {"from": "안자", "to": "앉아", "reasonTag": "common_misspelling", "confidence": 0.97},
+    {"from": "웬지", "to": "왠지", "reasonTag": "common_misspelling", "confidence": 0.97},
+    {"from": "왠일", "to": "웬일", "reasonTag": "common_misspelling", "confidence": 0.99},
+    {"from": "왠만", "to": "웬만", "reasonTag": "common_misspelling", "confidence": 0.99},
+    {"from": "왠만한", "to": "웬만한", "reasonTag": "common_misspelling", "confidence": 0.99},
+    {"from": "왠만하면", "to": "웬만하면", "reasonTag": "common_misspelling", "confidence": 0.99},
     {"from": "됀", "to": "된", "reasonTag": "common_misspelling", "confidence": 0.99},
     {"from": "됬", "to": "됐", "reasonTag": "common_misspelling", "confidence": 0.99},
     {"from": "됬다", "to": "됐다", "reasonTag": "common_misspelling", "confidence": 0.99},

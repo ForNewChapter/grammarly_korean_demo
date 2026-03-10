@@ -3,6 +3,18 @@
   "count": 240,
   "items": [
     {
+      "from": "약을 먹고 많이 낮아졌다",
+      "to": "약을 먹고 많이 나아졌다",
+      "reasonTag": "phrase_memory:약을 먹고 많이 낮아졌다->약을 먹고 많이 나아졌다",
+      "confidence": 0.98
+    },
+    {
+      "from": "상태가 많이 낮아졌다",
+      "to": "상태가 많이 나아졌다",
+      "reasonTag": "phrase_memory:상태가 많이 낮아졌다->상태가 많이 나아졌다",
+      "confidence": 0.97
+    },
+    {
       "from": "프로젝트가 끝난지가",
       "to": "프로젝트 끝난 지가",
       "reasonTag": "phrase_memory_auto",
@@ -21,6 +33,24 @@
           "count": 3
         }
       ]
+    },
+    {
+      "from": "감기가 금방 낮는다",
+      "to": "감기가 금방 낫는다",
+      "reasonTag": "phrase_memory:감기가 금방 낮는다->감기가 금방 낫는다",
+      "confidence": 0.98
+    },
+    {
+      "from": "상처가 금방 낮는다",
+      "to": "상처가 금방 낫는다",
+      "reasonTag": "phrase_memory:상처가 금방 낮는다->상처가 금방 낫는다",
+      "confidence": 0.98
+    },
+    {
+      "from": "몸이 많이 낮아졌다",
+      "to": "몸이 많이 나아졌다",
+      "reasonTag": "phrase_memory:몸이 많이 낮아졌다->몸이 많이 나아졌다",
+      "confidence": 0.97
     },
     {
       "from": "구하는것 이었지만",
@@ -209,6 +239,12 @@
           "count": 4
         }
       ]
+    },
+    {
+      "from": "병이 금방 낮는다",
+      "to": "병이 금방 낫는다",
+      "reasonTag": "phrase_memory:병이 금방 낮는다->병이 금방 낫는다",
+      "confidence": 0.98
     },
     {
       "from": "가져다 주는일을",
@@ -445,6 +481,36 @@
           "count": 5
         }
       ]
+    },
+    {
+      "from": "문제를 마 추고",
+      "to": "문제를 맞히고",
+      "reasonTag": "phrase_memory:문제를 마 추고->문제를 맞히고",
+      "confidence": 0.99
+    },
+    {
+      "from": "문제를 맞추었다",
+      "to": "문제를 맞혔다",
+      "reasonTag": "phrase_memory:문제를 맞추었다->문제를 맞혔다",
+      "confidence": 0.99
+    },
+    {
+      "from": "시간을 마 추고",
+      "to": "시간을 맞추고",
+      "reasonTag": "phrase_memory:시간을 마 추고->시간을 맞추고",
+      "confidence": 0.99
+    },
+    {
+      "from": "정답을 마 추고",
+      "to": "정답을 맞히고",
+      "reasonTag": "phrase_memory:정답을 마 추고->정답을 맞히고",
+      "confidence": 0.99
+    },
+    {
+      "from": "정답을 맞추었다",
+      "to": "정답을 맞혔다",
+      "reasonTag": "phrase_memory:정답을 맞추었다->정답을 맞혔다",
+      "confidence": 0.99
     },
     {
       "from": "개 뼈다귀같은",
@@ -1177,6 +1243,66 @@
           "count": 4
         }
       ]
+    },
+    {
+      "from": "답을 마 추고",
+      "to": "답을 맞히고",
+      "reasonTag": "phrase_memory:답을 마 추고->답을 맞히고",
+      "confidence": 0.99
+    },
+    {
+      "from": "답을 맞추었다",
+      "to": "답을 맞혔다",
+      "reasonTag": "phrase_memory:답을 맞추었다->답을 맞혔다",
+      "confidence": 0.99
+    },
+    {
+      "from": "문제를 마추고",
+      "to": "문제를 맞히고",
+      "reasonTag": "phrase_memory:문제를 마추고->문제를 맞히고",
+      "confidence": 0.99
+    },
+    {
+      "from": "문제를 맞췄다",
+      "to": "문제를 맞혔다",
+      "reasonTag": "phrase_memory:문제를 맞췄다->문제를 맞혔다",
+      "confidence": 0.99
+    },
+    {
+      "from": "시간을 마추고",
+      "to": "시간을 맞추고",
+      "reasonTag": "phrase_memory:시간을 마추고->시간을 맞추고",
+      "confidence": 0.99
+    },
+    {
+      "from": "시간을 맞혀서",
+      "to": "시간을 맞춰서",
+      "reasonTag": "phrase_memory:시간을 맞혀서->시간을 맞춰서",
+      "confidence": 0.99
+    },
+    {
+      "from": "정답을 마추고",
+      "to": "정답을 맞히고",
+      "reasonTag": "phrase_memory:정답을 마추고->정답을 맞히고",
+      "confidence": 0.99
+    },
+    {
+      "from": "정답을 맞췄다",
+      "to": "정답을 맞혔다",
+      "reasonTag": "phrase_memory:정답을 맞췄다->정답을 맞혔다",
+      "confidence": 0.99
+    },
+    {
+      "from": "시간을 맞히고",
+      "to": "시간을 맞추고",
+      "reasonTag": "phrase_memory:시간을 맞히고->시간을 맞추고",
+      "confidence": 0.98
+    },
+    {
+      "from": "시간을 맞히다",
+      "to": "시간을 맞추다",
+      "reasonTag": "phrase_memory:시간을 맞히다->시간을 맞추다",
+      "confidence": 0.98
     },
     {
       "from": "10 여년간",
@@ -5933,777 +6059,39 @@
       ]
     },
     {
-      "from": "팍팍해 지는",
-      "to": "팍팍해지는",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 4,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 4
-      },
-      "errorTypes": {
-        "오탈자": 4
-      },
-      "contextHints": [
-        {
-          "term": "나날이",
-          "count": 4
-        },
-        {
-          "term": "고달파지고",
-          "count": 4
-        },
-        {
-          "term": "우리들의",
-          "count": 4
-        }
-      ]
+      "from": "답을 마추고",
+      "to": "답을 맞히고",
+      "reasonTag": "phrase_memory:답을 마추고->답을 맞히고",
+      "confidence": 0.99
     },
     {
-      "from": "판매 기록을",
-      "to": "판매기록을",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 27,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 27
-      },
-      "errorTypes": {
-        "오탈자": 27
-      },
-      "contextHints": [
-        {
-          "term": "뷔바이두바에서",
-          "count": 27
-        },
-        {
-          "term": "앨범",
-          "count": 27
-        },
-        {
-          "term": "경신하였는데",
-          "count": 27
-        },
-        {
-          "term": "1일",
-          "count": 27
-        }
-      ]
+      "from": "답을 맞췄다",
+      "to": "답을 맞혔다",
+      "reasonTag": "phrase_memory:답을 맞췄다->답을 맞혔다",
+      "confidence": 0.99
     },
     {
-      "from": "판매 상품은",
-      "to": "판매상품은",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 25,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 25
-      },
-      "errorTypes": {
-        "오탈자": 25
-      },
-      "contextHints": [
-        {
-          "term": "요즘",
-          "count": 25
-        },
-        {
-          "term": "한정",
-          "count": 25
-        },
-        {
-          "term": "웃돈을",
-          "count": 25
-        },
-        {
-          "term": "얹혀줘도",
-          "count": 25
-        }
-      ]
+      "from": "안자 있었다",
+      "to": "앉아 있었다",
+      "reasonTag": "phrase_memory:안자 있었다->앉아 있었다",
+      "confidence": 0.98
     },
     {
-      "from": "폭행 당하고",
-      "to": "폭행당하고",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 18,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 18
-      },
-      "errorTypes": {
-        "오탈자": 18
-      },
-      "contextHints": [
-        {
-          "term": "한복판에서",
-          "count": 18
-        },
-        {
-          "term": "있는",
-          "count": 18
-        },
-        {
-          "term": "사람을",
-          "count": 18
-        }
-      ]
-    },
-    {
-      "from": "풍비 박산이",
-      "to": "풍비박산이",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 21,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 21
-      },
-      "errorTypes": {
-        "오탈자": 21
-      },
-      "contextHints": [
-        {
-          "term": "집안",
-          "count": 21
-        },
-        {
-          "term": "전체가",
-          "count": 21
-        },
-        {
-          "term": "절체절명의",
-          "count": 21
-        }
-      ]
-    },
-    {
-      "from": "풍비박산 날",
-      "to": "풍비박산이 날",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 5,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 5
-      },
-      "errorTypes": {
-        "오탈자": 5
-      },
-      "contextHints": [
-        {
-          "term": "집안",
-          "count": 5
-        },
-        {
-          "term": "전체가",
-          "count": 5
-        },
-        {
-          "term": "절체절명의",
-          "count": 5
-        },
-        {
-          "term": "위기를",
-          "count": 5
-        }
-      ]
-    },
-    {
-      "from": "풍비박산 이",
-      "to": "풍비박산이",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 4,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 4
-      },
-      "errorTypes": {
-        "오탈자": 4
-      },
-      "contextHints": [
-        {
-          "term": "집안",
-          "count": 4
-        },
-        {
-          "term": "전체가",
-          "count": 4
-        },
-        {
-          "term": "절체절명의",
-          "count": 4
-        }
-      ]
-    },
-    {
-      "from": "프로 그램을",
-      "to": "프로그램을",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 3,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 3
-      },
-      "errorTypes": {
-        "오탈자": 3
-      },
-      "contextHints": [
-        {
-          "term": "리더십",
-          "count": 3
-        },
-        {
-          "term": "통해",
-          "count": 3
-        },
-        {
-          "term": "팀워크를",
-          "count": 3
-        }
-      ]
-    },
-    {
-      "from": "피어 오르는",
-      "to": "피어오르는",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 22,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 22
-      },
-      "errorTypes": {
-        "오탈자": 22
-      },
-      "contextHints": [
-        {
-          "term": "아지랑이가",
-          "count": 22
-        },
-        {
-          "term": "것을",
-          "count": 22
-        },
-        {
-          "term": "보니",
-          "count": 22
-        }
-      ]
-    },
-    {
-      "from": "필요 하지만",
-      "to": "필요하지만",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 6,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 6
-      },
-      "errorTypes": {
-        "오탈자": 6
-      },
-      "contextHints": [
-        {
-          "term": "공익을",
-          "count": 6
-        },
-        {
-          "term": "위해서는",
-          "count": 6
-        },
-        {
-          "term": "자신이",
-          "count": 6
-        },
-        {
-          "term": "속한",
-          "count": 6
-        }
-      ]
-    },
-    {
-      "from": "한 복판에서",
-      "to": "한복판에서",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 4,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 4
-      },
-      "errorTypes": {
-        "오탈자": 4
-      },
-      "contextHints": [
-        {
-          "term": "무릅쓰면서까지",
-          "count": 4
-        },
-        {
-          "term": "폭행당하고",
-          "count": 4
-        },
-        {
-          "term": "있는",
-          "count": 4
-        }
-      ]
-    },
-    {
-      "from": "한국 영화의",
-      "to": "한국영화의",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 23,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 23
-      },
-      "errorTypes": {
-        "오탈자": 23
-      },
-      "contextHints": [
-        {
-          "term": "남우주연상을",
-          "count": 23
-        },
-        {
-          "term": "수상하여",
-          "count": 23
-        },
-        {
-          "term": "위상을",
-          "count": 23
-        },
-        {
-          "term": "드높였다",
-          "count": 23
-        }
-      ]
-    },
-    {
-      "from": "해결 하려는",
-      "to": "해결하려는",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 9,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 9
-      },
-      "errorTypes": {
-        "오탈자": 9
-      },
-      "contextHints": [
-        {
-          "term": "사태를",
-          "count": 9
-        },
-        {
-          "term": "올바른",
-          "count": 9
-        },
-        {
-          "term": "답이",
-          "count": 9
-        }
-      ]
-    },
-    {
-      "from": "했을 뿐더러",
-      "to": "했을뿐더러",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 24,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 24
-      },
-      "errorTypes": {
-        "오탈자": 24
-      },
-      "contextHints": [
-        {
-          "term": "그는",
-          "count": 24
-        },
-        {
-          "term": "거짓말을",
-          "count": 24
-        },
-        {
-          "term": "우리에게",
-          "count": 24
-        },
-        {
-          "term": "피해를",
-          "count": 24
-        }
-      ]
-    },
-    {
-      "from": "했을뿐 더러",
-      "to": "했을뿐더러",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 3,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 3
-      },
-      "errorTypes": {
-        "오탈자": 3
-      },
-      "contextHints": [
-        {
-          "term": "그는",
-          "count": 3
-        },
-        {
-          "term": "거짓말을",
-          "count": 3
-        },
-        {
-          "term": "우리에게",
-          "count": 3
-        },
-        {
-          "term": "피해를",
-          "count": 3
-        }
-      ]
-    },
-    {
-      "from": "행동 인지는",
-      "to": "행동인지는",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 13,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 13
-      },
-      "errorTypes": {
-        "오탈자": 13
-      },
-      "contextHints": [
-        {
-          "term": "하는데",
-          "count": 13
-        },
-        {
-          "term": "올바른",
-          "count": 13
-        },
-        {
-          "term": "모르겠어",
-          "count": 13
-        }
-      ]
-    },
-    {
-      "from": "혹독 하지만",
-      "to": "혹독하지만",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 12,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 12
-      },
-      "errorTypes": {
-        "오탈자": 12
-      },
-      "contextHints": [
-        {
-          "term": "대가는",
-          "count": 12
-        },
-        {
-          "term": "확실히",
-          "count": 12
-        },
-        {
-          "term": "국민에게",
-          "count": 12
-        }
-      ]
-    },
-    {
-      "from": "흥밋 거리를",
-      "to": "흥밋거리를",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 5,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 5
-      },
-      "errorTypes": {
-        "오탈자": 5
-      },
-      "contextHints": [
-        {
-          "term": "대중에게",
-          "count": 5
-        },
-        {
-          "term": "끊임없이",
-          "count": 5
-        },
-        {
-          "term": "제공해",
-          "count": 5
-        },
-        {
-          "term": "줘야",
-          "count": 5
-        }
-      ]
-    },
-    {
-      "from": "히키 코모리",
-      "to": "히키코모리",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 3,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 3
-      },
-      "errorTypes": {
-        "오탈자": 3
-      },
-      "contextHints": [
-        {
-          "term": "틀어박혀",
-          "count": 3
-        },
-        {
-          "term": "있어서",
-          "count": 3
-        }
-      ]
-    },
-    {
-      "from": "10여년간",
-      "to": "10여 년간",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 69,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 69
-      },
-      "errorTypes": {
-        "오탈자": 69
-      },
-      "contextHints": [
-        {
-          "term": "지난",
-          "count": 69
-        },
-        {
-          "term": "땅에는",
-          "count": 69
-        }
-      ]
-    },
-    {
-      "from": "13분 쯤",
-      "to": "13분쯤",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 6,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 6
-      },
-      "errorTypes": {
-        "오탈자": 6
-      },
-      "contextHints": [
-        {
-          "term": "오후",
-          "count": 6
-        },
-        {
-          "term": "5시",
-          "count": 6
-        },
-        {
-          "term": "큐브위성의",
-          "count": 6
-        },
-        {
-          "term": "자세제어를",
-          "count": 6
-        }
-      ]
-    },
-    {
-      "from": "2차가해가",
-      "to": "2차 가해가",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 26,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 26
-      },
-      "errorTypes": {
-        "오탈자": 26
-      },
-      "contextHints": [
-        {
-          "term": "만나는",
-          "count": 26
-        },
-        {
-          "term": "것이",
-          "count": 26
-        }
-      ]
-    },
-    {
-      "from": "4인가족이",
-      "to": "4인 가족이",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 93,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 93
-      },
-      "errorTypes": {
-        "오탈자": 93
-      },
-      "contextHints": [
-        {
-          "term": "세트는",
-          "count": 93
-        },
-        {
-          "term": "패밀리팩으로",
-          "count": 93
-        },
-        {
-          "term": "넉넉히",
-          "count": 93
-        },
-        {
-          "term": "드실",
-          "count": 93
-        }
-      ]
-    },
-    {
-      "from": "50년만에",
-      "to": "50년 만에",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 151,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 151
-      },
-      "errorTypes": {
-        "오탈자": 151
-      },
-      "contextHints": [
-        {
-          "term": "오일쇼크",
-          "count": 151
-        },
-        {
-          "term": "이후",
-          "count": 151
-        },
-        {
-          "term": "스태그플래이션이",
-          "count": 151
-        },
-        {
-          "term": "심각해서",
-          "count": 151
-        }
-      ]
-    },
-    {
-      "from": "59 명이",
-      "to": "59명이",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 3,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 3
-      },
-      "errorTypes": {
-        "오탈자": 3
-      },
-      "contextHints": [
-        {
-          "term": "알박기",
-          "count": 3
-        },
-        {
-          "term": "인사",
-          "count": 3
-        },
-        {
-          "term": "여전히",
-          "count": 3
-        },
-        {
-          "term": "버티고",
-          "count": 3
-        }
-      ]
-    },
-    {
-      "from": "7 호선과",
-      "to": "7호선과",
-      "reasonTag": "phrase_memory_auto",
-      "confidence": 0.995,
-      "frequency": 5,
-      "dominance": 1.0,
-      "interfaceStats": {
-        "keyboard": 5
-      },
-      "errorTypes": {
-        "오탈자": 5
-      },
-      "contextHints": [
-        {
-          "term": "동구릉",
-          "count": 5
-        },
-        {
-          "term": "가려면",
-          "count": 5
-        },
-        {
-          "term": "경춘선을",
-          "count": 5
-        },
-        {
-          "term": "타시면",
-          "count": 5
-        }
-      ]
+      "from": "안자있었다",
+      "to": "앉아 있었다",
+      "reasonTag": "phrase_memory:안자있었다->앉아 있었다",
+      "confidence": 0.98
     },
     {
       "from": "않 와서",
       "to": "안 와서",
       "reasonTag": "phrase_memory:않 와서->안 와서",
+      "confidence": 0.99
+    },
+    {
+      "from": "마춰서",
+      "to": "맞춰서",
+      "reasonTag": "phrase_memory:마춰서->맞춰서",
       "confidence": 0.99
     },
     {

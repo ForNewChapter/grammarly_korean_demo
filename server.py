@@ -32,7 +32,6 @@ LEMMA_FAMILY_GRAPH_PATH = BASE_DIR / "public" / "assets" / "dict" / "lemma_famil
 
 RULE_MISSPELLINGS = [
     {"from": "되요", "to": "돼요", "reasonTag": "common_misspelling", "confidence": 0.99},
-    {"from": "왠", "to": "웬", "reasonTag": "common_misspelling", "confidence": 0.97},
     {"from": "삿어요", "to": "샀어요", "reasonTag": "common_misspelling", "confidence": 0.99},
     {"from": "잇어요", "to": "있어요", "reasonTag": "common_misspelling", "confidence": 0.96},
 ]
@@ -88,6 +87,7 @@ MLM_BACKOFF_MIN_CANDIDATES = 2
 FAST_PATH_VERIFIER_MIN = 0.82
 FAST_PATH_MARGIN_MIN = 0.14
 TOKEN_PATTERN = re.compile(r"[가-힣A-Za-z0-9]+|[^\s]")
+META_COMPARE_TOKEN_PATTERN = re.compile(r"^[가-힣]{1,10}다(?:야|냐)$")
 
 DOMAIN_ENTITIES = ["AirPods Pro 2", "RTX 4060", "ChatGPT"]
 USER_DICT = ["온디바이스", "맞춤법", "교정기"]
@@ -135,7 +135,9 @@ class CorrectionEngine:
         self.predicate_family_seeds = self._load_predicate_family_seeds()
         self.lemma_family_graph = self._load_lemma_family_graph()
         self.phrase_memory_index = self._build_phrase_memory_index()
+        self.phrase_memory_target_index = self._build_phrase_memory_target_index()
         self.rule_misspellings = self._load_surface_fix_rules()
+        self.surface_fix_index = self._build_surface_fix_index(self.rule_misspellings)
         self.surface_confusion_map = self._build_surface_confusion_map()
         self.lemma_confusion_map = self._build_lemma_confusion_map()
         self._load_local_edit_tagger()
@@ -241,6 +243,42 @@ class CorrectionEngine:
                     str(item.get("from") or ""),
                 )
             )
+        return index
+
+    def _build_phrase_memory_target_index(self) -> Dict[str, List[Dict[str, Any]]]:
+        index: Dict[str, List[Dict[str, Any]]] = {}
+        for item in self.phrase_memory.get("items", []):
+            source = str(item.get("from") or "").strip()
+            target = str(item.get("to") or "").strip()
+            if not source or not target or source == target:
+                continue
+            target_parts = self.tokenize_with_ranges(target)
+            if len(target_parts) < 2:
+                continue
+            if float(item.get("confidence", 0.0)) < 0.98:
+                continue
+            first = target_parts[0][0]
+            index.setdefault(first, []).append(item)
+        for key in list(index):
+            index[key].sort(
+                key=lambda item: (
+                    -len(str(item.get("to") or "")),
+                    -float(item.get("confidence", 0.0)),
+                    str(item.get("to") or ""),
+                )
+            )
+        return index
+
+    @staticmethod
+    def _build_surface_fix_index(rules: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
+        index: Dict[str, Dict[str, Any]] = {}
+        for item in rules:
+            source = str(item.get("from") or "").strip()
+            if not source:
+                continue
+            existing = index.get(source)
+            if existing is None or float(item.get("confidence", 0.0)) >= float(existing.get("confidence", 0.0)):
+                index[source] = item
         return index
 
     @staticmethod
@@ -636,7 +674,7 @@ class CorrectionEngine:
                 return normalized[: -len(particle)]
         return normalized
 
-    def _context_window_terms(self, sentence: str, start: int, end: int, window: int = 2) -> List[str]:
+    def _context_window_terms(self, sentence: str, start: int, end: int, window: int = 3) -> List[str]:
         token_spans = self.tokenize_with_ranges(sentence)
         if not token_spans:
             return []
@@ -934,17 +972,25 @@ class CorrectionEngine:
         prefiltered: List[Dict[str, Any]] = []
         for item in self._dedupe_candidates(candidates):
             replacement = item["replacement"]
+            source = str(item.get("source", "MLM_TOPK"))
             generator_norm = self._normalize_generator_score(float(item.get("generatorScore", 0.0)))
-            source_prior = self._candidate_source_prior(item.get("source", "MLM_TOPK"))
+            source_prior = self._candidate_source_prior(source)
             context_score = float(item.get("contextHintScore", 0.0))
             interface_score = float(item.get("interfaceScore", 0.86))
+            support_total = self._candidate_support_total(item)
             typo_similarity = self._typo_similarity(token, replacement)
             min_typo_similarity = TYPO_SIMILARITY_MIN
-            if self._is_curated_candidate_source(str(item.get("source", ""))):
+            if self._is_curated_candidate_source(source):
                 if bool(item.get("familyLemmas")) or context_score >= 0.1 or generator_norm >= 0.72:
                     min_typo_similarity = 0.48
             if typo_similarity < min_typo_similarity:
                 continue
+            if source in {"FAMILY_SEED", "AUTO_FAMILY_SEED"}:
+                if context_score < 0.08 and support_total < 14:
+                    continue
+            if source in {"DATA_CONFUSION", "LEMMA_DATA_CONFUSION"}:
+                if context_score < 0.08 and support_total < 8 and typo_similarity < 0.62:
+                    continue
             prefilter_score = round(
                 float(
                     (0.4 * typo_similarity)
@@ -977,6 +1023,19 @@ class CorrectionEngine:
         )
         return prefiltered[:CANDIDATE_PREFILTER_LIMIT]
 
+    @staticmethod
+    def _candidate_support_total(item: Dict[str, Any]) -> int:
+        stats = item.get("interfaceStats")
+        if not isinstance(stats, dict):
+            return 0
+        total = 0
+        for value in stats.values():
+            try:
+                total += int(value)
+            except (TypeError, ValueError):
+                continue
+        return total
+
     def _sentence_quality_baseline(self, sentence: str) -> Dict[str, float]:
         return {
             "koelectraScore": self._koelectra_normal_score(sentence),
@@ -985,23 +1044,19 @@ class CorrectionEngine:
 
     def _context_verifier_score(
         self,
-        source: str,
         typo_similarity: float,
         electra_delta: float,
         kiwi_delta: float,
         retrieval_score: float,
         interface_score: float,
     ) -> float:
-        source_prior = self._candidate_source_prior(source)
         verifier_signal = (
             (electra_delta * 10.0)
             + (kiwi_delta / 2.8)
-            + ((typo_similarity - 0.55) * 1.8)
-            + (retrieval_score * 1.4)
-            + ((interface_score - 0.5) * 0.8)
+            + ((typo_similarity - 0.55) * 1.4)
+            + (retrieval_score * 1.1)
+            + ((interface_score - 0.5) * 0.55)
         )
-        if self._is_curated_candidate_source(source):
-            verifier_signal += 0.65
         return 1 / (1 + math.exp(-verifier_signal))
 
     def _rank_replacement_candidates(
@@ -1016,18 +1071,6 @@ class CorrectionEngine:
         original_mlm = self._pseudo_logprob_for_replacement(sentence, start, end, token)
         original_normal = baseline["koelectraScore"] if baseline is not None else self._koelectra_normal_score(sentence)
         original_kiwi = baseline["kiwiScore"] if baseline is not None else self._kiwi_sentence_score(sentence)
-        has_curated_anchor = any(
-            self._is_curated_candidate_source(item.get("source", "MLM_TOPK")) for item in candidates
-        )
-        best_curated_prefilter = max(
-            (
-                float(item.get("prefilterScore", 0.0))
-                for item in candidates
-                if self._is_curated_candidate_source(item.get("source", "MLM_TOPK"))
-            ),
-            default=0.0,
-        )
-
         ranked: List[Dict[str, Any]] = []
         for item in candidates:
             replacement = item["replacement"]
@@ -1047,51 +1090,33 @@ class CorrectionEngine:
             source_prior = self._candidate_source_prior(source)
             edit_penalty = min(0.18, 0.06 * self._char_edit_distance(token, replacement))
             typo_similarity = self._typo_similarity(token, replacement)
-            typo_bonus = 0.22 * typo_similarity
-            source_bonus = 0.14 * source_prior
-            prefilter_bonus = 0.18 * item.get("prefilterScore", 0.0)
-            retrieval_bonus = 0.16 * item.get("contextHintScore", 0.0)
-            interface_bonus = 0.08 * item.get("interfaceScore", 0.86)
-            semantic_penalty = 0.24 if typo_similarity < 0.6 else 0.0
+            typo_bonus = 0.08 * typo_similarity
+            source_bonus = 0.04 * source_prior
+            retrieval_bonus = 0.04 * item.get("contextHintScore", 0.0)
+            interface_bonus = 0.02 * item.get("interfaceScore", 0.86)
+            semantic_penalty = 0.16 if typo_similarity < 0.6 else 0.0
             context_verifier = self._context_verifier_score(
-                source=source,
                 typo_similarity=typo_similarity,
                 electra_delta=electra_delta,
                 kiwi_delta=kiwi_delta,
                 retrieval_score=float(item.get("contextHintScore", 0.0)),
                 interface_score=float(item.get("interfaceScore", 0.86)),
             )
-            arbitration_penalty = 0.0
-            curated_bonus = 0.0
-            if self._is_curated_candidate_source(source):
-                if kiwi_delta > 0:
-                    curated_bonus += 0.12
-                if electra_delta > -0.03:
-                    curated_bonus += 0.04
-            elif has_curated_anchor:
-                arbitration_penalty += 0.1
-                if kiwi_delta <= 0:
-                    arbitration_penalty += 0.08
-                if electra_delta <= 0:
-                    arbitration_penalty += 0.05
-                if item.get("prefilterScore", 0.0) <= best_curated_prefilter + 0.03:
-                    arbitration_penalty += 0.08
+            family_bonus = 0.04 if item.get("familyMatch") else 0.0
 
             final_score = (
-                0.18 * mlm_gain
-                + 0.16 * electra_gain
-                + 0.08 * kiwi_gain
-                + 0.24 * context_verifier
+                0.24 * mlm_gain
+                + 0.28 * electra_gain
+                + 0.12 * kiwi_gain
+                + 0.22 * context_verifier
                 + 0.1 * (1 / (1 + math.exp(-item["generatorScore"])))
                 + typo_bonus
                 + source_bonus
-                + (0.14 * item.get("prefilterScore", 0.0))
                 + retrieval_bonus
                 + interface_bonus
-                + curated_bonus
+                + family_bonus
                 - edit_penalty
                 - semantic_penalty
-                - arbitration_penalty
             )
 
             ranked.append(
@@ -1108,8 +1133,7 @@ class CorrectionEngine:
                     "contextHintScore": round(float(item.get("contextHintScore", 0.0)), 4),
                     "interfaceScore": round(float(item.get("interfaceScore", 0.86)), 4),
                     "contextVerifierScore": round(float(context_verifier), 4),
-                    "curatedBonus": round(float(curated_bonus), 4),
-                    "arbitrationPenalty": round(float(arbitration_penalty), 4),
+                    "familyBonus": round(float(family_bonus), 4),
                     "finalScore": round(float(max(0.01, min(0.99, final_score))), 4),
                 }
             )
@@ -1365,6 +1389,7 @@ class CorrectionEngine:
     ) -> Dict[str, Any]:
         spaced = self.kiwi.space(text)
         candidates: List[Dict[str, Any]] = []
+        preserve_ranges = self._compact_preserve_ranges(text, protected)
         i, j = 0, 0
         while i < len(text) and j < len(spaced):
             if text[i] == spaced[j]:
@@ -1373,7 +1398,7 @@ class CorrectionEngine:
                 continue
             if spaced[j] == " ":
                 probe = {"start": max(0, i - 1), "end": min(len(text), i + 1)}
-                if not self.is_range_protected(probe, protected):
+                if not self.is_range_protected(probe, protected) and not any(start < i < end for start, end in preserve_ranges):
                     candidates.append({"index": i, "action": "INSERT_SPACE", "score": 0.96})
                 j += 1
                 continue
@@ -1390,6 +1415,39 @@ class CorrectionEngine:
             i += 1
             j += 1
         return {"spacedText": spaced, "candidates": candidates}
+
+    def _single_token_phrase_candidates(self, token: str) -> List[Dict[str, Any]]:
+        candidates = self.phrase_memory_index.get(token) or []
+        out: List[Dict[str, Any]] = []
+        for item in candidates:
+            source = str(item.get("from") or "").strip()
+            if not source:
+                continue
+            if len(self.tokenize_with_ranges(source)) != 1:
+                continue
+            if self._normalize_phrase_surface(source) != self._normalize_phrase_surface(token):
+                continue
+            out.append(item)
+        return out
+
+    def _has_strong_inline_fix(self, token: str) -> bool:
+        if token in self.surface_fix_index:
+            return True
+        return bool(self._single_token_phrase_candidates(token))
+
+    def _compact_preserve_ranges(
+        self, text: str, protected: List[Dict[str, Any]]
+    ) -> List[Tuple[int, int]]:
+        ranges: List[Tuple[int, int]] = []
+        for token, start, end in self.tokenize_with_ranges(text):
+            span = {"start": start, "end": end}
+            if self.is_range_protected(span, protected):
+                continue
+            if self._hangul_ratio(token) < 0.7 or len(token) < 2 or len(token) > 8:
+                continue
+            if self._has_strong_inline_fix(token):
+                ranges.append((start, end))
+        return ranges
 
     @staticmethod
     def classify_spacing_boundaries(candidates: List[Dict[str, Any]], profile: str) -> List[Dict[str, Any]]:
@@ -1435,7 +1493,11 @@ class CorrectionEngine:
         return edits
 
     def _run_phrase_normalizations(
-        self, text: str, protected: List[Dict[str, Any]]
+        self,
+        text: str,
+        protected: List[Dict[str, Any]],
+        *,
+        single_token_only: bool = False,
     ) -> List[Dict[str, Any]]:
         edits: List[Dict[str, Any]] = []
         token_ranges = self.tokenize_with_ranges(text)
@@ -1450,6 +1512,8 @@ class CorrectionEngine:
                     continue
                 source_parts = self.tokenize_with_ranges(source)
                 if not source_parts:
+                    continue
+                if single_token_only and len(source_parts) != 1:
                     continue
                 span_len = len(source_parts)
                 if index + span_len > len(token_ranges):
@@ -1476,6 +1540,15 @@ class CorrectionEngine:
                 )
                 break
         return edits
+
+    def run_pre_spacing_phrase_normalizer(
+        self, text: str, protected: List[Dict[str, Any]]
+    ) -> List[Dict[str, Any]]:
+        return self._run_phrase_normalizations(
+            text,
+            protected,
+            single_token_only=True,
+        )
 
     def _run_morpheme_normalizations(
         self, text: str, protected: List[Dict[str, Any]]
@@ -1983,7 +2056,7 @@ class CorrectionEngine:
     ) -> Optional[Dict[str, Any]]:
         if not re.fullmatch(r"[가-힣]+", token):
             return None
-        if len(token) < 2 or len(token) > 4:
+        if len(token) < 2 or len(token) > 6:
             return None
 
         predicate_lemmas = self._predicate_lemmas_from_text(token, top_n=3)
@@ -2009,15 +2082,19 @@ class CorrectionEngine:
             return None
         if not self._candidate_is_predicate_like(best):
             return None
-        if best.get("prefilterScore", 0.0) < 0.58:
+        token_len = len(token)
+        min_prefilter = 0.58 if token_len <= 4 else 0.66
+        min_generator_norm = 0.72 if token_len <= 4 else 0.82
+        if best.get("prefilterScore", 0.0) < min_prefilter:
             return None
-        if best.get("generatorNorm", 0.0) < 0.72:
+        if best.get("generatorNorm", 0.0) < min_generator_norm:
             return None
         context_hint_score = float(best.get("contextHintScore", 0.0) or 0.0)
-        manual_reopen_sources = {"FAMILY_SEED", "PHRASE_MEMORY", "FAMILY_SURFACE_EXAMPLE"}
-        if best_source not in manual_reopen_sources and context_hint_score < 0.15:
+        manual_reopen_sources = {"FAMILY_SEED", "PHRASE_MEMORY", "FAMILY_SURFACE_EXAMPLE", "AUTO_FAMILY_SEED"}
+        min_context_score = 0.15 if token_len <= 4 else 0.08
+        if best_source not in manual_reopen_sources and context_hint_score < max(min_context_score, 0.18):
             return None
-        if context_hint_score < 0.12 and best.get("familyMatch") is False:
+        if context_hint_score < min_context_score and best.get("familyMatch") is False:
             return None
 
         return {
@@ -2301,25 +2378,27 @@ class CorrectionEngine:
                 )
                 context_hint_score = float(item.get("contextHintScore", 0.0))
                 interface_score = float(item.get("interfaceScore", 0.86))
-                verifier_score = (
-                    0.3 * prefilter
-                    + 0.2 * typo_similarity
-                    + 0.18 * generator_norm
-                    + 0.14 * self._candidate_source_prior(source)
-                    + 0.12 * context_hint_score
-                    + 0.06 * interface_score
-                )
                 family_match = bool(item.get("familyMatch"))
+                if family_prior and family_matched_items and not family_match and not self._is_curated_candidate_source(source):
+                    if context_hint_score < 0.18 and prefilter < curated_best + 0.04:
+                        continue
+                if curated_items and not self._is_curated_candidate_source(source):
+                    if context_hint_score < 0.12 and prefilter < curated_best + 0.05:
+                        continue
+                if typo_similarity < 0.56 and not family_match and context_hint_score < 0.2:
+                    continue
+
+                verifier_score = (
+                    0.42 * typo_similarity
+                    + 0.24 * generator_norm
+                    + 0.16 * prefilter
+                    + 0.08 * context_hint_score
+                    + 0.05 * interface_score
+                )
                 if family_prior and family_match:
-                    verifier_score += 0.12
-                elif family_prior and family_matched_items:
-                    verifier_score -= 0.18
+                    verifier_score += 0.08
                 if self._is_curated_candidate_source(source):
-                    verifier_score += 0.06
-                elif curated_items:
-                    verifier_score -= 0.1
-                    if prefilter <= curated_best + 0.03:
-                        verifier_score -= 0.08
+                    verifier_score += 0.05
 
                 scored_items.append(
                     {
@@ -2455,6 +2534,129 @@ class CorrectionEngine:
             )
         return routed
 
+    def _high_precision_lock_spans(self, decisions: List[Dict[str, Any]]) -> List[Dict[str, int]]:
+        locked: List[Dict[str, int]] = []
+        for decision in decisions:
+            if decision.get("stage") not in {"RULE", "PRE_NORMALIZE"}:
+                continue
+            if float(decision.get("confidence", 0.0)) < 0.96:
+                continue
+            source_text = str(decision.get("sourceText") or "")
+            replacement = str(decision.get("replacement") or "")
+            if len(source_text.strip()) < 2 or len(replacement.strip()) < 2:
+                continue
+            locked.append({"start": int(decision["range"]["start"]), "end": int(decision["range"]["end"])})
+        return locked
+
+    def _phrase_target_lock_spans(
+        self,
+        text: str,
+        protected: List[Dict[str, Any]],
+    ) -> List[Dict[str, int]]:
+        locked: List[Dict[str, int]] = []
+        token_ranges = self.tokenize_with_ranges(text)
+        for index, (token, start, _) in enumerate(token_ranges):
+            candidates = self.phrase_memory_target_index.get(token) or []
+            if not candidates:
+                continue
+            for item in candidates:
+                target = str(item.get("to") or "")
+                target_parts = self.tokenize_with_ranges(target)
+                span_len = len(target_parts)
+                if not target_parts or index + span_len > len(token_ranges):
+                    continue
+                end = token_ranges[index + span_len - 1][2]
+                span = {"start": start, "end": end}
+                if self.is_range_protected(span, protected):
+                    continue
+                source_text = text[start:end]
+                if self._normalize_phrase_surface(source_text) != self._normalize_phrase_surface(target):
+                    continue
+                locked.append(span)
+                break
+        return locked
+
+    def _meta_comparison_lock_spans(
+        self,
+        text: str,
+        protected: List[Dict[str, Any]],
+    ) -> List[Dict[str, int]]:
+        if "?" not in text and "？" not in text:
+            return []
+        token_ranges = self.tokenize_with_ranges(text)
+        matched: List[Dict[str, int]] = []
+        for token, start, end in token_ranges:
+            span = {"start": start, "end": end}
+            if self.is_range_protected(span, protected):
+                continue
+            if META_COMPARE_TOKEN_PATTERN.fullmatch(token):
+                matched.append(span)
+        if len(matched) < 2:
+            return []
+        return matched
+
+    @staticmethod
+    def _range_overlaps(span: Dict[str, int], other: Dict[str, int]) -> bool:
+        return span["start"] < other["end"] and other["start"] < span["end"]
+
+    def apply_high_precision_lock_guard(
+        self,
+        labels: List[Dict[str, Any]],
+        locked_spans: List[Dict[str, int]],
+    ) -> List[Dict[str, Any]]:
+        if not locked_spans:
+            return labels
+        guarded: List[Dict[str, Any]] = []
+        for label in labels:
+            effective = label.get("effectiveLabel", label["label"])
+            span = label.get("range") or {"start": 0, "end": 0}
+            if effective != "OPEN_REPLACE":
+                guarded.append(label)
+                continue
+            if not any(self._range_overlaps(span, locked) for locked in locked_spans):
+                guarded.append(label)
+                continue
+            best_candidate = (label.get("modelCandidates") or [None])[0]
+            if best_candidate is not None:
+                source = str(best_candidate.get("source", ""))
+                context_score = float(best_candidate.get("contextHintScore", 0.0))
+                if source in {"FAMILY_SEED", "FAMILY_SURFACE_EXAMPLE"} and context_score >= 0.18:
+                    guarded.append(label)
+                    continue
+            guarded.append(
+                {
+                    **label,
+                    "effectiveLabel": "KEEP",
+                    "routingDecision": "LOCKED_HIGH_PRECISION_SPAN",
+                    "routingNote": "앞단 고정밀 정규화가 적용된 span이라 약한 후속 치환 제안은 차단",
+                }
+            )
+        return guarded
+
+    def apply_meta_comparison_guard(
+        self,
+        labels: List[Dict[str, Any]],
+        locked_spans: List[Dict[str, int]],
+    ) -> List[Dict[str, Any]]:
+        if not locked_spans:
+            return labels
+        guarded: List[Dict[str, Any]] = []
+        for label in labels:
+            effective = label.get("effectiveLabel", label["label"])
+            span = label.get("range") or {"start": 0, "end": 0}
+            if effective != "OPEN_REPLACE" or not any(self._range_overlaps(span, locked) for locked in locked_spans):
+                guarded.append(label)
+                continue
+            guarded.append(
+                {
+                    **label,
+                    "effectiveLabel": "KEEP",
+                    "routingDecision": "LOCKED_META_COMPARISON_SPAN",
+                    "routingNote": "비교/설명형 메타 문장 구간이라 후보 생성에서 제외",
+                }
+            )
+        return guarded
+
     def rerank(self, sentence: str, groups: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         if not groups:
             return []
@@ -2464,7 +2666,6 @@ class CorrectionEngine:
             family_prior = g.get("candidateFamily")
             st, ed = g["span"]["start"], g["span"]["end"]
             model_seed_items = [item for item in g["items"] if item["source"] != "ORIGINAL"]
-            has_family_match_anchor = any(item.get("familyMatch") for item in model_seed_items)
             if g.get("fastPath") and model_seed_items:
                 scored = [
                     {
@@ -2527,15 +2728,6 @@ class CorrectionEngine:
                                         4,
                                     )
                             rescored.sort(key=lambda x: x["finalScore"], reverse=True)
-                if family_prior and has_family_match_anchor:
-                    for item in rescored:
-                        if item.get("familyMatch"):
-                            item["familyLeaderBonus"] = 0.1
-                            item["finalScore"] = round(float(min(0.99, item["finalScore"] + 0.1)), 4)
-                        else:
-                            item["familyMismatchPenalty"] = 0.14
-                            item["finalScore"] = round(float(max(0.01, item["finalScore"] - 0.14)), 4)
-                    rescored.sort(key=lambda x: x["finalScore"], reverse=True)
                 scored = [
                     {
                         **item,
@@ -2648,6 +2840,17 @@ class CorrectionEngine:
                 decision = self.policy(e["editType"], "AUTO_APPLY", e["confidence"])
                 decisions.append({**e, "decision": decision})
 
+        compact_phrase_edits = stage(
+            "4-1. Phrase Pre-normalizer",
+            working_clause,
+            lambda: self.run_pre_spacing_phrase_normalizer(working_clause, self.detect_protected_spans(working_clause)),
+        )
+        if compact_phrase_edits:
+            working_clause = self.apply_edits(working_clause, compact_phrase_edits)
+            for e in compact_phrase_edits:
+                decision = self.policy(e["editType"], "AUTO_APPLY", e["confidence"])
+                decisions.append({**e, "decision": decision})
+
         spacing_cand_art = stage(
             "5. Spacing Candidate Generator (Kiwi)",
             working_clause,
@@ -2685,6 +2888,24 @@ class CorrectionEngine:
             "7-2. Edit Tagger Routing",
             working_clause,
             lambda: self.route_tagger_labels(tagger_labels),
+        )
+        locked_spans = [
+            *self._high_precision_lock_spans(decisions),
+            *self._phrase_target_lock_spans(working_clause, self.detect_protected_spans(working_clause)),
+        ]
+        routed_tagger_labels = stage(
+            "7-3. High-precision Lock Guard",
+            working_clause,
+            lambda: self.apply_high_precision_lock_guard(routed_tagger_labels, locked_spans),
+        )
+        meta_locked_spans = self._meta_comparison_lock_spans(
+            working_clause,
+            self.detect_protected_spans(working_clause),
+        )
+        routed_tagger_labels = stage(
+            "7-4. Meta Comparison Guard",
+            working_clause,
+            lambda: self.apply_meta_comparison_guard(routed_tagger_labels, meta_locked_spans),
         )
         open_candidates = stage(
             "8. Open Candidate Generation",
