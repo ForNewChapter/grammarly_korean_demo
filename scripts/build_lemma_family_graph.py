@@ -317,6 +317,10 @@ def finalize(edges: Dict[Tuple[str, str], FamilyEdge], min_freq: int, max_replac
             continue
         if dominant_interface == "voice" and similarity < 0.72:
             continue
+        if src_lemma and dst_lemma and src_lemma[0] != dst_lemma[0] and similarity < 0.7:
+            continue
+        if similarity < 0.58 and not edge.context_terms:
+            continue
         entry = {
             "replacement": dst_lemma,
             "source": "LEMMA_FAMILY_GRAPH",

@@ -2,7 +2,10 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
+const base = process.env.VITE_BASE_PATH || '/';
+
 export default defineConfig({
+  base,
   server: {
     proxy: {
       '/api': {
@@ -29,7 +32,7 @@ export default defineConfig({
         theme_color: '#0f5f4a',
         background_color: '#f4f2ea',
         display: 'standalone',
-        start_url: '/',
+        start_url: base,
         icons: []
       },
       devOptions: {

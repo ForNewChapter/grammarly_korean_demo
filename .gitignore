@@ -39,3 +39,6 @@ styles.css
 models/kobart-spell-20250814_183630/
 models/kobart-spell-20250815_160551/
 models/edit_tagger_v2_koelectra/
+
+# Downloaded browser-only Kiwi assets
+public/assets/kiwi/model/

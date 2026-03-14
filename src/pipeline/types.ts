@@ -24,7 +24,7 @@ export interface ProtectedSpan {
 }
 
 export interface TextEdit {
-  stage: 'RULE' | 'SPACING' | 'EDIT_TAGGER' | 'CANDIDATE_GEN' | 'RERANKER' | 'GUARDRAIL';
+  stage: 'RULE' | 'PHRASE' | 'SPACING' | 'EDIT_TAGGER' | 'CANDIDATE_GEN' | 'RERANKER' | 'GUARDRAIL';
   range: TextRange;
   sourceText: string;
   replacement: string;
@@ -48,10 +48,16 @@ export interface Candidate {
   span: TextRange;
   original: string;
   replacement: string;
-  source: 'CONFUSION_SET' | 'MORPH' | 'JAMO' | 'GEN_BACKOFF' | 'ORIGINAL';
+  source: string;
   generatorScore: number;
+  verifyScore?: number;
   rerankScore?: number;
   finalScore?: number;
+  familyLemma?: string;
+  posHint?: string;
+  slotHints?: string[];
+  contextHints?: string[];
+  typoDistance?: number;
 }
 
 export interface StageTrace {
@@ -81,10 +87,12 @@ export interface PipelineResult {
   assetStatus: {
     appShellReady: boolean;
     rulesReady: boolean;
+    kiwiReady?: boolean;
     smallModelsReady: boolean;
     offlineCapable: boolean;
     provider: 'wasm' | 'webgpu';
     modelReady: Record<string, boolean>;
+    assetErrors?: string[];
   };
 }
 

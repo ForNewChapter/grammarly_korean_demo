@@ -1,11 +1,12 @@
 import * as ort from 'onnxruntime-web';
+import { resolveAssetUrl } from '../cache/assetUrl';
 
 const MODEL_URLS = {
-  profile_classifier: '/assets/models/profile_classifier.onnx',
-  spacing_boundary: '/assets/models/spacing_boundary.onnx',
-  edit_tagger: '/assets/models/edit_tagger.onnx',
-  reranker: '/assets/models/reranker.onnx',
-  guardrail: '/assets/models/guardrail.onnx',
+  profile_classifier: resolveAssetUrl('/assets/models/profile_classifier.onnx'),
+  spacing_boundary: resolveAssetUrl('/assets/models/spacing_boundary.onnx'),
+  edit_tagger: resolveAssetUrl('/assets/models/edit_tagger.onnx'),
+  reranker: resolveAssetUrl('/assets/models/reranker.onnx'),
+  guardrail: resolveAssetUrl('/assets/models/guardrail.onnx'),
 } as const;
 
 type ModelName = keyof typeof MODEL_URLS;

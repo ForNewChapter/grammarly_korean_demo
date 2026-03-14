@@ -1,0 +1,9930 @@
+{
+  "generatedFrom": [
+    "public/assets/dict/lemma_family_graph.json",
+    "public/assets/dict/predicate_family_seeds.json"
+  ],
+  "count": 160,
+  "rules": [
+    {
+      "sourceSuffix": "찬",
+      "targetSuffix": "찮",
+      "pos": "VA",
+      "frequency": 564,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "ETM",
+        "EC",
+        "EF+JX",
+        "EP+EF",
+        "EC+JX",
+        "EP+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "않아",
+          "count": 84
+        },
+        {
+          "term": "맞히지",
+          "count": 80
+        },
+        {
+          "term": "이런",
+          "count": 66
+        },
+        {
+          "term": "괜찮",
+          "count": 66
+        },
+        {
+          "term": "죽지",
+          "count": 56
+        },
+        {
+          "term": "마라",
+          "count": 56
+        },
+        {
+          "term": "당신",
+          "count": 56
+        },
+        {
+          "term": "오늘",
+          "count": 40
+        }
+      ],
+      "interfaceStats": {
+        "generic": 276,
+        "keyboard": 288
+      },
+      "sourceStats": {
+        "자유게시판": 28,
+        "질문게시판": 80,
+        "SNS": 19,
+        "unknown": 144,
+        "대화체": 9,
+        "뉴스기사": 2
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "괜찬다",
+          "count": 524
+        },
+        {
+          "lemma": "편찬다",
+          "count": 40
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "괜찮다",
+          "count": 524
+        },
+        {
+          "lemma": "편찮다",
+          "count": 40
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "허",
+      "targetSuffix": "하",
+      "pos": "VV",
+      "frequency": 311,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETM",
+        "EP+EF",
+        "ETN",
+        "EC",
+        "EF",
+        "EP+EC",
+        "EP+ETM",
+        "ETN+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "있는",
+          "count": 16
+        },
+        {
+          "term": "싫을",
+          "count": 7
+        },
+        {
+          "term": "내가",
+          "count": 7
+        },
+        {
+          "term": "있어",
+          "count": 6
+        },
+        {
+          "term": "시간",
+          "count": 5
+        },
+        {
+          "term": "질문",
+          "count": 5
+        },
+        {
+          "term": "본인",
+          "count": 5
+        },
+        {
+          "term": "자각하든",
+          "count": 5
+        }
+      ],
+      "interfaceStats": {
+        "generic": 113,
+        "keyboard": 129,
+        "voice": 69
+      },
+      "sourceStats": {
+        "자유게시판": 45,
+        "질문게시판": 31,
+        "SNS": 33,
+        "unknown": 125,
+        "STT_ENGINE_01": 30,
+        "STT_ENGINE_02": 17,
+        "STT_ENGINE_03": 22,
+        "대화체": 2
+      },
+      "irregularClasses": [
+        "HA"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "허다",
+          "count": 299
+        },
+        {
+          "lemma": "좋아허다",
+          "count": 8
+        },
+        {
+          "lemma": "당허다",
+          "count": 4
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "하다",
+          "count": 299
+        },
+        {
+          "lemma": "좋아하다",
+          "count": 8
+        },
+        {
+          "lemma": "당하다",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "래",
+      "targetSuffix": "라",
+      "pos": "VV",
+      "frequency": 208,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EP+EC",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "효과",
+          "count": 78
+        },
+        {
+          "term": "대박이길",
+          "count": 78
+        },
+        {
+          "term": "열심히",
+          "count": 26
+        },
+        {
+          "term": "치르기",
+          "count": 26
+        },
+        {
+          "term": "꽃만",
+          "count": 20
+        },
+        {
+          "term": "피우길",
+          "count": 20
+        },
+        {
+          "term": "하니",
+          "count": 20
+        },
+        {
+          "term": "하시길",
+          "count": 6
+        }
+      ],
+      "interfaceStats": {
+        "generic": 74,
+        "keyboard": 134
+      },
+      "sourceStats": {
+        "자유게시판": 17,
+        "SNS": 20,
+        "unknown": 67
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "바래다",
+          "count": 204
+        },
+        {
+          "lemma": "놀래다",
+          "count": 4
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "바라다",
+          "count": 204
+        },
+        {
+          "lemma": "놀라다",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "깍",
+      "targetSuffix": "깎",
+      "pos": "VV",
+      "frequency": 202,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EC+VX+EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "깎고",
+          "count": 123
+        },
+        {
+          "term": "손톱",
+          "count": 78
+        },
+        {
+          "term": "뒤에",
+          "count": 78
+        },
+        {
+          "term": "볼펜",
+          "count": 1
+        },
+        {
+          "term": "몸체",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 201,
+        "generic": 1
+      },
+      "sourceStats": {
+        "unknown": 201,
+        "자유게시판": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "깍다",
+          "count": 202
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "깎다",
+          "count": 202
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "긋",
+      "targetSuffix": "그러",
+      "pos": "VV",
+      "frequency": 142,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF",
+        "EC+JX",
+        "EC+VX+EC",
+        "ETM+NNB"
+      ],
+      "contextHints": [
+        {
+          "term": "것들",
+          "count": 7
+        },
+        {
+          "term": "이제",
+          "count": 6
+        },
+        {
+          "term": "그런",
+          "count": 4
+        },
+        {
+          "term": "우리",
+          "count": 4
+        },
+        {
+          "term": "선생님",
+          "count": 4
+        },
+        {
+          "term": "다른",
+          "count": 3
+        },
+        {
+          "term": "개념",
+          "count": 3
+        },
+        {
+          "term": "지금",
+          "count": 3
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 1,
+        "voice": 141
+      },
+      "sourceStats": {
+        "unknown": 1,
+        "STT_ENGINE_01": 27,
+        "STT_ENGINE_02": 44,
+        "STT_ENGINE_03": 70
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "긋다",
+          "count": 142
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그러다",
+          "count": 142
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "리",
+      "targetSuffix": "렵",
+      "pos": "VA",
+      "frequency": 126,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "ETM",
+        "EC",
+        "EP+EF",
+        "EC+VX+EC",
+        "EC+VX+EP+EF",
+        "EP+ETM",
+        "EP+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "암평아리인지",
+          "count": 30
+        },
+        {
+          "term": "구분하기",
+          "count": 30
+        },
+        {
+          "term": "가득",
+          "count": 8
+        },
+        {
+          "term": "둘러싼",
+          "count": 8
+        },
+        {
+          "term": "자리에서",
+          "count": 8
+        },
+        {
+          "term": "주눅",
+          "count": 8
+        },
+        {
+          "term": "문제",
+          "count": 6
+        },
+        {
+          "term": "너무",
+          "count": 6
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 48,
+        "voice": 78
+      },
+      "sourceStats": {
+        "unknown": 24,
+        "STT_ENGINE_01": 12,
+        "STT_ENGINE_02": 11,
+        "STT_ENGINE_03": 16
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "어리다",
+          "count": 126
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "어렵다",
+          "count": 126
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "기",
+      "targetSuffix": "느끼",
+      "pos": "VV",
+      "frequency": 119,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EF",
+        "ETM",
+        "ETN+JKB",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "듯한",
+          "count": 40
+        },
+        {
+          "term": "아픔",
+          "count": 40
+        },
+        {
+          "term": "새삼",
+          "count": 32
+        },
+        {
+          "term": "감사함",
+          "count": 32
+        },
+        {
+          "term": "회사",
+          "count": 20
+        },
+        {
+          "term": "평소",
+          "count": 20
+        },
+        {
+          "term": "바를",
+          "count": 20
+        },
+        {
+          "term": "허심탄회하게",
+          "count": 20
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 117,
+        "voice": 2
+      },
+      "sourceStats": {
+        "unknown": 117,
+        "STT_ENGINE_02": 2
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "기다",
+          "count": 119
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "느끼다",
+          "count": 119
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "끄",
+      "targetSuffix": "그러",
+      "pos": "VV",
+      "frequency": 119,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF",
+        "ETM+VA+EF",
+        "EC+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "어떻게",
+          "count": 4
+        },
+        {
+          "term": "보니까",
+          "count": 3
+        },
+        {
+          "term": "이제",
+          "count": 3
+        },
+        {
+          "term": "우리",
+          "count": 3
+        },
+        {
+          "term": "이거",
+          "count": 3
+        },
+        {
+          "term": "어떤",
+          "count": 3
+        },
+        {
+          "term": "대학",
+          "count": 3
+        },
+        {
+          "term": "부분들",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "voice": 119
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 22,
+        "STT_ENGINE_02": 44,
+        "STT_ENGINE_03": 53
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "끄다",
+          "count": 119
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그러다",
+          "count": 119
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "줍잖",
+      "targetSuffix": "쭙잖",
+      "pos": "VA",
+      "frequency": 116,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "그가",
+          "count": 116
+        },
+        {
+          "term": "이런",
+          "count": 116
+        },
+        {
+          "term": "계획",
+          "count": 116
+        },
+        {
+          "term": "용인해",
+          "count": 116
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 116
+      },
+      "sourceStats": {
+        "unknown": 58
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "어줍잖다",
+          "count": 116
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "어쭙잖다",
+          "count": 116
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "짤",
+      "targetSuffix": "따르",
+      "pos": "VV",
+      "frequency": 97,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "그럼",
+          "count": 69
+        },
+        {
+          "term": "막대기",
+          "count": 69
+        },
+        {
+          "term": "나무",
+          "count": 69
+        },
+        {
+          "term": "사슬",
+          "count": 28
+        },
+        {
+          "term": "연속",
+          "count": 28
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 97
+      },
+      "sourceStats": {
+        "unknown": 97
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "짤다",
+          "count": 97
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "따르다",
+          "count": 97
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "듣",
+      "targetSuffix": "들르",
+      "pos": "VV",
+      "frequency": 85,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EF",
+        "EC+VX+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "반찬가게",
+          "count": 31
+        },
+        {
+          "term": "장조림",
+          "count": 31
+        },
+        {
+          "term": "편의점",
+          "count": 30
+        },
+        {
+          "term": "새로",
+          "count": 30
+        },
+        {
+          "term": "출시된",
+          "count": 30
+        },
+        {
+          "term": "상황이므",
+          "count": 24
+        },
+        {
+          "term": "자주",
+          "count": 24
+        },
+        {
+          "term": "합니다",
+          "count": 24
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 85
+      },
+      "sourceStats": {
+        "unknown": 85
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 85
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "들르다",
+          "count": 85
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "기어들",
+      "targetSuffix": "끼어들",
+      "pos": "VV",
+      "frequency": 76,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETN"
+      ],
+      "contextHints": [
+        {
+          "term": "차선",
+          "count": 76
+        },
+        {
+          "term": "때는",
+          "count": 76
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 76
+      },
+      "sourceStats": {
+        "unknown": 38
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "기어들다",
+          "count": 76
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "끼어들다",
+          "count": 76
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "고렇",
+      "targetSuffix": "그렇",
+      "pos": "VA",
+      "frequency": 74,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EF",
+        "EC+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "최근",
+          "count": 3
+        },
+        {
+          "term": "수업",
+          "count": 2
+        },
+        {
+          "term": "너무",
+          "count": 2
+        },
+        {
+          "term": "그런",
+          "count": 2
+        },
+        {
+          "term": "평소",
+          "count": 2
+        },
+        {
+          "term": "정부",
+          "count": 2
+        },
+        {
+          "term": "대응",
+          "count": 2
+        },
+        {
+          "term": "저는",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 74
+      },
+      "sourceStats": {
+        "자유게시판": 3,
+        "질문게시판": 25,
+        "대화체": 1,
+        "뉴스기사": 45
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "고렇다",
+          "count": 74
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그렇다",
+          "count": 74
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "들",
+      "targetSuffix": "듣",
+      "pos": "VV",
+      "frequency": 74,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EC+VX+EF",
+        "EC",
+        "EF",
+        "EP+EC",
+        "EP+EF",
+        "EC+VX+ETM",
+        "EC+VX+EC+EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "하는",
+          "count": 9
+        },
+        {
+          "term": "말을",
+          "count": 8
+        },
+        {
+          "term": "예를",
+          "count": 6
+        },
+        {
+          "term": "책상",
+          "count": 5
+        },
+        {
+          "term": "있는",
+          "count": 5
+        },
+        {
+          "term": "그렇게",
+          "count": 5
+        },
+        {
+          "term": "통째",
+          "count": 5
+        },
+        {
+          "term": "현관",
+          "count": 5
+        }
+      ],
+      "interfaceStats": {
+        "generic": 5,
+        "keyboard": 32,
+        "voice": 37
+      },
+      "sourceStats": {
+        "자유게시판": 2,
+        "SNS": 3,
+        "unknown": 32,
+        "STT_ENGINE_01": 9,
+        "STT_ENGINE_02": 17,
+        "STT_ENGINE_03": 11
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "들다",
+          "count": 74
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 74
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "덜",
+      "targetSuffix": "떨어지",
+      "pos": "VV",
+      "frequency": 71,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EF",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "발견하지",
+          "count": 29
+        },
+        {
+          "term": "못해",
+          "count": 29
+        },
+        {
+          "term": "죽고",
+          "count": 29
+        },
+        {
+          "term": "말았다",
+          "count": 29
+        },
+        {
+          "term": "팀같",
+          "count": 29
+        },
+        {
+          "term": "서로",
+          "count": 29
+        },
+        {
+          "term": "도착하면",
+          "count": 29
+        },
+        {
+          "term": "해가",
+          "count": 9
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 67,
+        "voice": 4
+      },
+      "sourceStats": {
+        "unknown": 67,
+        "STT_ENGINE_02": 2,
+        "STT_ENGINE_03": 2
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "덜다",
+          "count": 71
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "떨어지다",
+          "count": 71
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "푸",
+      "targetSuffix": "풀",
+      "pos": "VV",
+      "frequency": 71,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EC+VX+ETM",
+        "EC+VX+EC",
+        "EC+EP+EF",
+        "EC+VX+EF",
+        "EF",
+        "EC+VX+EP+EC",
+        "EC+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "문제",
+          "count": 8
+        },
+        {
+          "term": "그냥",
+          "count": 5
+        },
+        {
+          "term": "여러",
+          "count": 4
+        },
+        {
+          "term": "기출",
+          "count": 4
+        },
+        {
+          "term": "많이",
+          "count": 4
+        },
+        {
+          "term": "다시",
+          "count": 3
+        },
+        {
+          "term": "궁금합니다",
+          "count": 3
+        },
+        {
+          "term": "모의고사",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "generic": 69,
+        "voice": 2
+      },
+      "sourceStats": {
+        "자유게시판": 30,
+        "질문게시판": 10,
+        "SNS": 29,
+        "STT_ENGINE_02": 2
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "푸다",
+          "count": 71
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "풀다",
+          "count": 71
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "드",
+      "targetSuffix": "들",
+      "pos": "VV",
+      "frequency": 70,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EC",
+        "EF",
+        "EC+VX+EP+ETM",
+        "EC+VX+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "나만",
+          "count": 22
+        },
+        {
+          "term": "포트폴리오",
+          "count": 22
+        },
+        {
+          "term": "나중",
+          "count": 22
+        },
+        {
+          "term": "면접",
+          "count": 22
+        },
+        {
+          "term": "사건",
+          "count": 18
+        },
+        {
+          "term": "보고",
+          "count": 18
+        },
+        {
+          "term": "드라마",
+          "count": 18
+        },
+        {
+          "term": "같다",
+          "count": 18
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 70
+      },
+      "sourceStats": {
+        "unknown": 35
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "만드다",
+          "count": 70
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "만들다",
+          "count": 70
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "벌서",
+      "targetSuffix": "쓰",
+      "pos": "VV",
+      "frequency": 67,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+JX",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "남았는데",
+          "count": 44
+        },
+        {
+          "term": "안절부절못해",
+          "count": 44
+        },
+        {
+          "term": "마른",
+          "count": 22
+        },
+        {
+          "term": "그런",
+          "count": 22
+        },
+        {
+          "term": "못된",
+          "count": 22
+        },
+        {
+          "term": "서울",
+          "count": 1
+        },
+        {
+          "term": "빠져있지",
+          "count": 1
+        },
+        {
+          "term": "경기",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 66,
+        "voice": 1
+      },
+      "sourceStats": {
+        "unknown": 66,
+        "STT_ENGINE_01": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "벌서다",
+          "count": 67
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "쓰다",
+          "count": 67
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "라",
+      "targetSuffix": "르",
+      "pos": "VV",
+      "frequency": 60,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+VX+EC",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "손에",
+          "count": 28
+        },
+        {
+          "term": "핸드크림",
+          "count": 28
+        },
+        {
+          "term": "색깔",
+          "count": 28
+        },
+        {
+          "term": "죽은",
+          "count": 28
+        },
+        {
+          "term": "새색시",
+          "count": 24
+        },
+        {
+          "term": "예의",
+          "count": 24
+        },
+        {
+          "term": "하는데",
+          "count": 24
+        },
+        {
+          "term": "저리",
+          "count": 24
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 60
+      },
+      "sourceStats": {
+        "unknown": 30
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "바라다",
+          "count": 60
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "바르다",
+          "count": 60
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "라",
+      "targetSuffix": "러",
+      "pos": "VV",
+      "frequency": 56,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EC+VX+EC",
+        "EC+JX",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "감쪽같",
+          "count": 4
+        },
+        {
+          "term": "거짓말",
+          "count": 4
+        },
+        {
+          "term": "해서",
+          "count": 4
+        },
+        {
+          "term": "문제",
+          "count": 4
+        },
+        {
+          "term": "싶어",
+          "count": 4
+        },
+        {
+          "term": "일단",
+          "count": 4
+        },
+        {
+          "term": "너만",
+          "count": 4
+        },
+        {
+          "term": "옷에",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 22,
+        "voice": 34
+      },
+      "sourceStats": {
+        "unknown": 11,
+        "STT_ENGINE_01": 5,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 9
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "그라다",
+          "count": 56
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그러다",
+          "count": 56
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "매스껍",
+      "targetSuffix": "메스껍",
+      "pos": "VA",
+      "frequency": 56,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "눈살",
+          "count": 56
+        },
+        {
+          "term": "찌푸려지고",
+          "count": 56
+        },
+        {
+          "term": "구역질",
+          "count": 56
+        },
+        {
+          "term": "나려고",
+          "count": 56
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 56
+      },
+      "sourceStats": {
+        "unknown": 28
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "매스껍다",
+          "count": 56
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "메스껍다",
+          "count": 56
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "트리",
+      "targetSuffix": "뜨리",
+      "pos": "VV",
+      "frequency": 56,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "신생아",
+          "count": 56
+        },
+        {
+          "term": "울음소리",
+          "count": 56
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 56
+      },
+      "sourceStats": {
+        "unknown": 28
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "터트리다",
+          "count": 56
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "터뜨리다",
+          "count": 56
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "모",
+      "targetSuffix": "보",
+      "pos": "VV",
+      "frequency": 54,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF",
+        "EC+JX",
+        "EC+VX+EF",
+        "EP+EF",
+        "EP+EF+JKS",
+        "ETN+JKO"
+      ],
+      "contextHints": [
+        {
+          "term": "지금",
+          "count": 7
+        },
+        {
+          "term": "한쪽",
+          "count": 3
+        },
+        {
+          "term": "멀리서",
+          "count": 2
+        },
+        {
+          "term": "것을",
+          "count": 2
+        },
+        {
+          "term": "득을",
+          "count": 2
+        },
+        {
+          "term": "반드시",
+          "count": 2
+        },
+        {
+          "term": "다른",
+          "count": 2
+        },
+        {
+          "term": "있고",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 9,
+        "voice": 45
+      },
+      "sourceStats": {
+        "unknown": 9,
+        "STT_ENGINE_01": 16,
+        "STT_ENGINE_02": 10,
+        "STT_ENGINE_03": 19
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "모다",
+          "count": 54
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "보다",
+          "count": 54
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "쓰",
+      "targetSuffix": "무릅쓰",
+      "pos": "VV",
+      "frequency": 54,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+JX",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "위험",
+          "count": 54
+        },
+        {
+          "term": "다칠",
+          "count": 53
+        },
+        {
+          "term": "한복판",
+          "count": 53
+        },
+        {
+          "term": "노래",
+          "count": 1
+        },
+        {
+          "term": "봉기",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 1,
+        "keyboard": 53
+      },
+      "sourceStats": {
+        "SNS": 1,
+        "unknown": 53
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "쓰다",
+          "count": 54
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "무릅쓰다",
+          "count": 54
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "끼",
+      "targetSuffix": "느끼",
+      "pos": "VV",
+      "frequency": 52,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EP+EF",
+        "ETN+JKO",
+        "EF",
+        "EC+VX+ETM",
+        "ETN+JX",
+        "EP+EC",
+        "EP+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "듯한",
+          "count": 9
+        },
+        {
+          "term": "아픔",
+          "count": 9
+        },
+        {
+          "term": "회사",
+          "count": 9
+        },
+        {
+          "term": "평소",
+          "count": 9
+        },
+        {
+          "term": "바를",
+          "count": 9
+        },
+        {
+          "term": "허심탄회하게",
+          "count": 9
+        },
+        {
+          "term": "새삼",
+          "count": 9
+        },
+        {
+          "term": "감사함",
+          "count": 9
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 32,
+        "voice": 20
+      },
+      "sourceStats": {
+        "unknown": 32,
+        "STT_ENGINE_01": 1,
+        "STT_ENGINE_02": 9,
+        "STT_ENGINE_03": 10
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "끼다",
+          "count": 52
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "느끼다",
+          "count": 52
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "푸",
+      "targetSuffix": "찌푸리",
+      "pos": "VV",
+      "frequency": 52,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EC",
+        "ETN+JX",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "눈살",
+          "count": 51
+        },
+        {
+          "term": "봐도",
+          "count": 36
+        },
+        {
+          "term": "메스꺼워",
+          "count": 36
+        },
+        {
+          "term": "구역질",
+          "count": 36
+        },
+        {
+          "term": "있는",
+          "count": 15
+        },
+        {
+          "term": "하니",
+          "count": 15
+        },
+        {
+          "term": "진짜",
+          "count": 15
+        },
+        {
+          "term": "비장한",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 1,
+        "keyboard": 51
+      },
+      "sourceStats": {
+        "SNS": 1,
+        "unknown": 51
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "푸다",
+          "count": 52
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "찌푸리다",
+          "count": 52
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "놀",
+      "targetSuffix": "놓",
+      "pos": "VV",
+      "frequency": 51,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EC",
+        "EP+EF",
+        "EC+VX+EF",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "으름장",
+          "count": 19
+        },
+        {
+          "term": "너희들",
+          "count": 10
+        },
+        {
+          "term": "생각",
+          "count": 10
+        },
+        {
+          "term": "노골적",
+          "count": 9
+        },
+        {
+          "term": "자리",
+          "count": 8
+        },
+        {
+          "term": "준비해",
+          "count": 7
+        },
+        {
+          "term": "허심탄회하게",
+          "count": 7
+        },
+        {
+          "term": "털어",
+          "count": 7
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 51
+      },
+      "sourceStats": {
+        "unknown": 51
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "놀다",
+          "count": 51
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "놓다",
+          "count": 51
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "루",
+      "targetSuffix": "르",
+      "pos": "VV",
+      "frequency": 50,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC",
+        "EF",
+        "ETN+JKO",
+        "ETM",
+        "EC+VX+ETM",
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "시험",
+          "count": 32
+        },
+        {
+          "term": "수능",
+          "count": 18
+        },
+        {
+          "term": "집에",
+          "count": 16
+        },
+        {
+          "term": "돌아",
+          "count": 16
+        },
+        {
+          "term": "주에",
+          "count": 16
+        },
+        {
+          "term": "정시",
+          "count": 6
+        },
+        {
+          "term": "갈림길이다",
+          "count": 6
+        },
+        {
+          "term": "명심하고",
+          "count": 6
+        }
+      ],
+      "interfaceStats": {
+        "generic": 8,
+        "keyboard": 42
+      },
+      "sourceStats": {
+        "자유게시판": 3,
+        "SNS": 1,
+        "unknown": 21
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "치루다",
+          "count": 50
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "치르다",
+          "count": 50
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "두르",
+      "targetSuffix": "둘러싸",
+      "pos": "VV",
+      "frequency": 49,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETM",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "어른들",
+          "count": 47
+        },
+        {
+          "term": "가득",
+          "count": 47
+        },
+        {
+          "term": "어려운",
+          "count": 47
+        },
+        {
+          "term": "자리에서",
+          "count": 47
+        },
+        {
+          "term": "해양",
+          "count": 4
+        },
+        {
+          "term": "이용",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 47,
+        "voice": 2
+      },
+      "sourceStats": {
+        "unknown": 47,
+        "STT_ENGINE_03": 2
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "두르다",
+          "count": 49
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "둘러싸다",
+          "count": 49
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "리",
+      "targetSuffix": "르",
+      "pos": "VV",
+      "frequency": 48,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EF",
+        "EC+VX+EC",
+        "ETM",
+        "EP+EF",
+        "EP+EC",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "반찬가게",
+          "count": 10
+        },
+        {
+          "term": "장조림",
+          "count": 10
+        },
+        {
+          "term": "마음",
+          "count": 6
+        },
+        {
+          "term": "상황이므",
+          "count": 6
+        },
+        {
+          "term": "자주",
+          "count": 6
+        },
+        {
+          "term": "합니다",
+          "count": 6
+        },
+        {
+          "term": "편의점",
+          "count": 6
+        },
+        {
+          "term": "새로",
+          "count": 6
+        }
+      ],
+      "interfaceStats": {
+        "generic": 6,
+        "keyboard": 34,
+        "voice": 8
+      },
+      "sourceStats": {
+        "SNS": 2,
+        "자유게시판": 1,
+        "unknown": 17,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 2,
+        "STT_ENGINE_01": 1
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "들리다",
+          "count": 22
+        },
+        {
+          "lemma": "모리다",
+          "count": 16
+        },
+        {
+          "lemma": "추스리다",
+          "count": 6
+        },
+        {
+          "lemma": "따리다",
+          "count": 4
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "들르다",
+          "count": 22
+        },
+        {
+          "lemma": "모르다",
+          "count": 16
+        },
+        {
+          "lemma": "추스르다",
+          "count": 6
+        },
+        {
+          "lemma": "따르다",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "크",
+      "targetSuffix": "그렇",
+      "pos": "VA",
+      "frequency": 48,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EF",
+        "EC+JX",
+        "EP+EC",
+        "EP+EF",
+        "ETM+NNB+JX",
+        "EC+VX+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "이제",
+          "count": 4
+        },
+        {
+          "term": "시간",
+          "count": 2
+        },
+        {
+          "term": "이걸",
+          "count": 2
+        },
+        {
+          "term": "부분",
+          "count": 2
+        },
+        {
+          "term": "이런",
+          "count": 2
+        },
+        {
+          "term": "어쨌든",
+          "count": 2
+        },
+        {
+          "term": "여기서",
+          "count": 2
+        },
+        {
+          "term": "우리나라",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 48
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 20,
+        "STT_ENGINE_02": 11,
+        "STT_ENGINE_03": 17
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "크다",
+          "count": 48
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그렇다",
+          "count": 48
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "르",
+      "targetSuffix": "러",
+      "pos": "VV",
+      "frequency": 46,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "이거",
+          "count": 4
+        },
+        {
+          "term": "자리",
+          "count": 2
+        },
+        {
+          "term": "익숙지",
+          "count": 2
+        },
+        {
+          "term": "옷에",
+          "count": 2
+        },
+        {
+          "term": "그런",
+          "count": 2
+        },
+        {
+          "term": "잘못해서",
+          "count": 2
+        },
+        {
+          "term": "내가",
+          "count": 2
+        },
+        {
+          "term": "수밖",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 6,
+        "voice": 40
+      },
+      "sourceStats": {
+        "unknown": 3,
+        "STT_ENGINE_01": 5,
+        "STT_ENGINE_02": 6,
+        "STT_ENGINE_03": 9
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "그르다",
+          "count": 46
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그러다",
+          "count": 46
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "누",
+      "targetSuffix": "눕",
+      "pos": "VV",
+      "frequency": 46,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EC+VX+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "오랫동안",
+          "count": 18
+        },
+        {
+          "term": "지냈더니",
+          "count": 18
+        },
+        {
+          "term": "넓적다리",
+          "count": 18
+        },
+        {
+          "term": "어른들",
+          "count": 16
+        },
+        {
+          "term": "앞에서",
+          "count": 16
+        },
+        {
+          "term": "하지",
+          "count": 12
+        },
+        {
+          "term": "않고",
+          "count": 12
+        },
+        {
+          "term": "돼요",
+          "count": 12
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 46
+      },
+      "sourceStats": {
+        "unknown": 46
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "누다",
+          "count": 46
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "눕다",
+          "count": 46
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "신거리",
+      "targetSuffix": "실거리",
+      "pos": "VV",
+      "frequency": 46,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "사람들",
+          "count": 46
+        },
+        {
+          "term": "앞에서",
+          "count": 46
+        },
+        {
+          "term": "말든지",
+          "count": 46
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 46
+      },
+      "sourceStats": {
+        "unknown": 23
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "굽신거리다",
+          "count": 46
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "굽실거리다",
+          "count": 46
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "얼",
+      "targetSuffix": "그러",
+      "pos": "VV",
+      "frequency": 46,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "말도",
+          "count": 2
+        },
+        {
+          "term": "자리",
+          "count": 2
+        },
+        {
+          "term": "익숙지",
+          "count": 2
+        },
+        {
+          "term": "옷에",
+          "count": 2
+        },
+        {
+          "term": "그런",
+          "count": 2
+        },
+        {
+          "term": "있는",
+          "count": 2
+        },
+        {
+          "term": "그래서",
+          "count": 2
+        },
+        {
+          "term": "우리",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 7,
+        "voice": 39
+      },
+      "sourceStats": {
+        "unknown": 7,
+        "STT_ENGINE_01": 13,
+        "STT_ENGINE_02": 10,
+        "STT_ENGINE_03": 16
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "얼다",
+          "count": 46
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그러다",
+          "count": 46
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "오",
+      "targetSuffix": "찾아오",
+      "pos": "VV",
+      "frequency": 46,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EP+EC",
+        "ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "내리",
+          "count": 37
+        },
+        {
+          "term": "소나기",
+          "count": 37
+        },
+        {
+          "term": "준비된",
+          "count": 37
+        },
+        {
+          "term": "사람만",
+          "count": 37
+        },
+        {
+          "term": "남의",
+          "count": 5
+        },
+        {
+          "term": "직장",
+          "count": 5
+        },
+        {
+          "term": "생각하겠지",
+          "count": 5
+        },
+        {
+          "term": "그런",
+          "count": 5
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 44,
+        "voice": 2
+      },
+      "sourceStats": {
+        "unknown": 44,
+        "STT_ENGINE_01": 2
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "오다",
+          "count": 46
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "찾아오다",
+          "count": 46
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "구겨지",
+      "targetSuffix": "꾸기",
+      "pos": "VV",
+      "frequency": 43,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "가방",
+          "count": 43
+        },
+        {
+          "term": "쑤셔넣으면",
+          "count": 43
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 43
+      },
+      "sourceStats": {
+        "unknown": 43
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "구겨지다",
+          "count": 43
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "꾸기다",
+          "count": 43
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "긋",
+      "targetSuffix": "그리",
+      "pos": "VV",
+      "frequency": 43,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETN",
+        "ETN+JKO"
+      ],
+      "contextHints": [
+        {
+          "term": "수학",
+          "count": 2
+        },
+        {
+          "term": "자료",
+          "count": 2
+        },
+        {
+          "term": "역대급",
+          "count": 2
+        },
+        {
+          "term": "이제",
+          "count": 2
+        },
+        {
+          "term": "이렇게",
+          "count": 2
+        },
+        {
+          "term": "문제",
+          "count": 2
+        },
+        {
+          "term": "조금",
+          "count": 1
+        },
+        {
+          "term": "선생님",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 43
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 11,
+        "STT_ENGINE_02": 16,
+        "STT_ENGINE_03": 16
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "긋다",
+          "count": 43
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그리다",
+          "count": 43
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "올리",
+      "targetSuffix": "쏘",
+      "pos": "VV",
+      "frequency": 43,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VV+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "난쟁이",
+          "count": 43
+        },
+        {
+          "term": "공은",
+          "count": 43
+        },
+        {
+          "term": "과연",
+          "count": 43
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 43
+      },
+      "sourceStats": {
+        "unknown": 43
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "올리다",
+          "count": 43
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "쏘다",
+          "count": 43
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "몰",
+      "targetSuffix": "모르",
+      "pos": "VV",
+      "frequency": 42,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EP+EF",
+        "EC",
+        "EF",
+        "EP+EC",
+        "EP+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "줄은",
+          "count": 4
+        },
+        {
+          "term": "꿈에",
+          "count": 4
+        },
+        {
+          "term": "언어",
+          "count": 4
+        },
+        {
+          "term": "가끔",
+          "count": 4
+        },
+        {
+          "term": "곤혹스럽다",
+          "count": 4
+        },
+        {
+          "term": "용인해",
+          "count": 3
+        },
+        {
+          "term": "줄는지",
+          "count": 3
+        },
+        {
+          "term": "거야",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "generic": 17,
+        "keyboard": 17,
+        "voice": 8
+      },
+      "sourceStats": {
+        "자유게시판": 7,
+        "질문게시판": 1,
+        "SNS": 5,
+        "unknown": 17,
+        "STT_ENGINE_01": 3,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 2,
+        "뉴스기사": 3,
+        "대화체": 1
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "몰다",
+          "count": 42
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "모르다",
+          "count": 42
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "오시",
+      "targetSuffix": "내오",
+      "pos": "VV",
+      "frequency": 42,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EP+EF"
+      ],
+      "contextHints": [],
+      "interfaceStats": {
+        "keyboard": 42
+      },
+      "sourceStats": {
+        "unknown": 42
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "오시다",
+          "count": 42
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "내오다",
+          "count": 42
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "들",
+      "targetSuffix": "만들",
+      "pos": "VV",
+      "frequency": 41,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC+VX+EC",
+        "EC+VX+ETM",
+        "EC",
+        "EC+VX+EP+ETM",
+        "EC+JX",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "귤껍질",
+          "count": 14
+        },
+        {
+          "term": "차를",
+          "count": 14
+        },
+        {
+          "term": "나만",
+          "count": 6
+        },
+        {
+          "term": "포트폴리오",
+          "count": 6
+        },
+        {
+          "term": "나중",
+          "count": 6
+        },
+        {
+          "term": "면접",
+          "count": 6
+        },
+        {
+          "term": "머물기",
+          "count": 3
+        },
+        {
+          "term": "위해",
+          "count": 3
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 30,
+        "voice": 11
+      },
+      "sourceStats": {
+        "unknown": 30,
+        "STT_ENGINE_01": 4,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 4
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "들다",
+          "count": 41
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "만들다",
+          "count": 41
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "잇",
+      "targetSuffix": "있",
+      "pos": "VV",
+      "frequency": 41,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "들어",
+          "count": 5
+        },
+        {
+          "term": "살고",
+          "count": 5
+        },
+        {
+          "term": "요즘",
+          "count": 5
+        },
+        {
+          "term": "그게",
+          "count": 5
+        },
+        {
+          "term": "어디",
+          "count": 3
+        },
+        {
+          "term": "쓰여",
+          "count": 2
+        },
+        {
+          "term": "수는",
+          "count": 2
+        },
+        {
+          "term": "주권",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "generic": 36,
+        "keyboard": 5
+      },
+      "sourceStats": {
+        "자유게시판": 6,
+        "질문게시판": 21,
+        "SNS": 5,
+        "unknown": 5,
+        "뉴스기사": 4
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "잇다",
+          "count": 41
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "있다",
+          "count": 41
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "자",
+      "targetSuffix": "꾸",
+      "pos": "VV",
+      "frequency": 41,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "MAG"
+      ],
+      "contextHints": [
+        {
+          "term": "어려운",
+          "count": 17
+        },
+        {
+          "term": "것을",
+          "count": 17
+        },
+        {
+          "term": "해냅니다",
+          "count": 17
+        },
+        {
+          "term": "마음",
+          "count": 11
+        },
+        {
+          "term": "상대",
+          "count": 11
+        },
+        {
+          "term": "조언",
+          "count": 11
+        },
+        {
+          "term": "해주는데",
+          "count": 11
+        },
+        {
+          "term": "배운",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "generic": 9,
+        "keyboard": 28,
+        "voice": 4
+      },
+      "sourceStats": {
+        "자유게시판": 4,
+        "질문게시판": 2,
+        "unknown": 28,
+        "STT_ENGINE_01": 1,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 2,
+        "SNS": 3
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "자다",
+          "count": 41
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "꾸다",
+          "count": 41
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "지",
+      "targetSuffix": "찌",
+      "pos": "VV",
+      "frequency": 40,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "가능한",
+          "count": 40
+        },
+        {
+          "term": "도착해서",
+          "count": 40
+        },
+        {
+          "term": "기다리",
+          "count": 40
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 40
+      },
+      "sourceStats": {
+        "unknown": 40
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "지다",
+          "count": 40
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "찌다",
+          "count": 40
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "거리",
+      "targetSuffix": "걸리",
+      "pos": "VV",
+      "frequency": 39,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "ETM",
+        "EC",
+        "EP+EC",
+        "EP+EP+EF",
+        "EC+JX",
+        "EP+EF",
+        "EC+VX+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "나무",
+          "count": 5
+        },
+        {
+          "term": "끝에",
+          "count": 5
+        },
+        {
+          "term": "신발",
+          "count": 5
+        },
+        {
+          "term": "어찌",
+          "count": 5
+        },
+        {
+          "term": "시간",
+          "count": 4
+        },
+        {
+          "term": "얼마나",
+          "count": 3
+        },
+        {
+          "term": "출장",
+          "count": 3
+        },
+        {
+          "term": "며칠",
+          "count": 3
+        }
+      ],
+      "interfaceStats": {
+        "generic": 31,
+        "keyboard": 8
+      },
+      "sourceStats": {
+        "자유게시판": 7,
+        "질문게시판": 4,
+        "SNS": 1,
+        "unknown": 8,
+        "대화체": 2,
+        "뉴스기사": 17
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "거리다",
+          "count": 39
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "걸리다",
+          "count": 39
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "자라",
+      "targetSuffix": "바라",
+      "pos": "VV",
+      "frequency": 38,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EP+EC",
+        "ETN+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "삼가",
+          "count": 9
+        },
+        {
+          "term": "주시기",
+          "count": 9
+        },
+        {
+          "term": "치르기",
+          "count": 9
+        },
+        {
+          "term": "꽃만",
+          "count": 7
+        },
+        {
+          "term": "피우길",
+          "count": 7
+        },
+        {
+          "term": "열심히",
+          "count": 7
+        },
+        {
+          "term": "하니",
+          "count": 7
+        },
+        {
+          "term": "효과",
+          "count": 5
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 38
+      },
+      "sourceStats": {
+        "unknown": 38
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "자라다",
+          "count": 38
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "바라다",
+          "count": 38
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "어떻",
+      "targetSuffix": "그렇",
+      "pos": "VA",
+      "frequency": 37,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "문제",
+          "count": 3
+        },
+        {
+          "term": "여러분들",
+          "count": 3
+        },
+        {
+          "term": "이때",
+          "count": 2
+        },
+        {
+          "term": "벤다이어그램이라고",
+          "count": 1
+        },
+        {
+          "term": "마음",
+          "count": 1
+        },
+        {
+          "term": "내가",
+          "count": 1
+        },
+        {
+          "term": "제가",
+          "count": 1
+        },
+        {
+          "term": "생각할",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 37
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 9,
+        "STT_ENGINE_02": 11,
+        "STT_ENGINE_03": 17
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "어떻다",
+          "count": 37
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그렇다",
+          "count": 37
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "허",
+      "targetSuffix": "그러",
+      "pos": "VV",
+      "frequency": 37,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "실제",
+          "count": 2
+        },
+        {
+          "term": "오늘",
+          "count": 2
+        },
+        {
+          "term": "이건",
+          "count": 2
+        },
+        {
+          "term": "알겠죠",
+          "count": 1
+        },
+        {
+          "term": "여러분들",
+          "count": 1
+        },
+        {
+          "term": "어렵다면",
+          "count": 1
+        },
+        {
+          "term": "연계",
+          "count": 1
+        },
+        {
+          "term": "교재",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 37
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 6,
+        "STT_ENGINE_02": 11,
+        "STT_ENGINE_03": 20
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "허다",
+          "count": 37
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그러다",
+          "count": 37
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "구하",
+      "targetSuffix": "불구하",
+      "pos": "VV",
+      "frequency": 35,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "익숙지",
+          "count": 15
+        },
+        {
+          "term": "않음에",
+          "count": 15
+        },
+        {
+          "term": "그는",
+          "count": 15
+        },
+        {
+          "term": "서슴지",
+          "count": 15
+        },
+        {
+          "term": "대학생들인데",
+          "count": 15
+        },
+        {
+          "term": "여아이돌",
+          "count": 15
+        },
+        {
+          "term": "그룹",
+          "count": 15
+        },
+        {
+          "term": "복용",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 30,
+        "voice": 5
+      },
+      "sourceStats": {
+        "unknown": 30,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 2,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [
+        "HA"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "구하다",
+          "count": 35
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "불구하다",
+          "count": 35
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "끄",
+      "targetSuffix": "그리",
+      "pos": "VV",
+      "frequency": 35,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EC+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "나서",
+          "count": 3
+        },
+        {
+          "term": "문제",
+          "count": 2
+        },
+        {
+          "term": "진짜",
+          "count": 2
+        },
+        {
+          "term": "더불어서",
+          "count": 1
+        },
+        {
+          "term": "휴대전화",
+          "count": 1
+        },
+        {
+          "term": "역시",
+          "count": 1
+        },
+        {
+          "term": "인제",
+          "count": 1
+        },
+        {
+          "term": "옮겨간",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 35
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 14,
+        "STT_ENGINE_02": 12,
+        "STT_ENGINE_03": 9
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "끄다",
+          "count": 35
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그리다",
+          "count": 35
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "타",
+      "targetSuffix": "나타나",
+      "pos": "VV",
+      "frequency": 35,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC",
+        "ETM",
+        "EP+EF",
+        "EP+ETM",
+        "ETN"
+      ],
+      "contextHints": [
+        {
+          "term": "여아이돌",
+          "count": 7
+        },
+        {
+          "term": "그룹",
+          "count": 7
+        },
+        {
+          "term": "난리법석",
+          "count": 7
+        },
+        {
+          "term": "떨며",
+          "count": 7
+        },
+        {
+          "term": "30분이나",
+          "count": 7
+        },
+        {
+          "term": "늦게",
+          "count": 7
+        },
+        {
+          "term": "미안하다",
+          "count": 7
+        },
+        {
+          "term": "말도",
+          "count": 7
+        }
+      ],
+      "interfaceStats": {
+        "generic": 1,
+        "keyboard": 17,
+        "voice": 17
+      },
+      "sourceStats": {
+        "SNS": 1,
+        "unknown": 17,
+        "STT_ENGINE_01": 5,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 9
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "타다",
+          "count": 35
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "나타나다",
+          "count": 35
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "연하",
+      "targetSuffix": "역하",
+      "pos": "VA",
+      "frequency": 34,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "아무리",
+          "count": 34
+        },
+        {
+          "term": "사이라",
+          "count": 34
+        },
+        {
+          "term": "여자",
+          "count": 34
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 34
+      },
+      "sourceStats": {
+        "unknown": 17
+      },
+      "irregularClasses": [
+        "HA"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "막연하다",
+          "count": 34
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "막역하다",
+          "count": 34
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "넣",
+      "targetSuffix": "쑤시",
+      "pos": "VV",
+      "frequency": 34,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VV+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "통째",
+          "count": 34
+        },
+        {
+          "term": "가방",
+          "count": 34
+        },
+        {
+          "term": "꾸겨지잖아",
+          "count": 34
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 34
+      },
+      "sourceStats": {
+        "unknown": 34
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "넣다",
+          "count": 34
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "쑤시다",
+          "count": 34
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "오",
+      "targetSuffix": "올라오",
+      "pos": "VV",
+      "frequency": 33,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EF",
+        "EF",
+        "ETM",
+        "EP+EC",
+        "EP+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "가기",
+          "count": 26
+        },
+        {
+          "term": "두렵다고",
+          "count": 26
+        },
+        {
+          "term": "이달",
+          "count": 1
+        },
+        {
+          "term": "청와대",
+          "count": 1
+        },
+        {
+          "term": "국민청원입니다",
+          "count": 1
+        },
+        {
+          "term": "여러분들",
+          "count": 1
+        },
+        {
+          "term": "실력",
+          "count": 1
+        },
+        {
+          "term": "않았지",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 26,
+        "voice": 7
+      },
+      "sourceStats": {
+        "unknown": 26,
+        "STT_ENGINE_01": 3,
+        "STT_ENGINE_03": 4
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "오다",
+          "count": 33
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "올라오다",
+          "count": 33
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "추",
+      "targetSuffix": "히",
+      "pos": "VV",
+      "frequency": 32,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC",
+        "EP+EF",
+        "ETN+JX",
+        "EC+VX+EC",
+        "EP+ETM",
+        "ETM",
+        "EF",
+        "EP+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "문제",
+          "count": 18
+        },
+        {
+          "term": "정답",
+          "count": 11
+        },
+        {
+          "term": "답",
+          "count": 5
+        },
+        {
+          "term": "시험",
+          "count": 4
+        },
+        {
+          "term": "문항",
+          "count": 3
+        },
+        {
+          "term": "구성대",
+          "count": 2
+        },
+        {
+          "term": "찍었다",
+          "count": 2
+        },
+        {
+          "term": "좋게",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "generic": 41,
+        "keyboard": 4
+      },
+      "sourceStats": {
+        "자유게시판": 4,
+        "SNS": 10,
+        "질문게시판": 2
+      },
+      "irregularClasses": [
+        "HI"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "맞추다",
+          "count": 32
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "맞히다",
+          "count": 32
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "나",
+      "targetSuffix": "내",
+      "pos": "VV",
+      "frequency": 32,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETN",
+        "EC+VX+EC",
+        "ETM",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "그의",
+          "count": 10
+        },
+        {
+          "term": "이름",
+          "count": 10
+        },
+        {
+          "term": "어려울",
+          "count": 10
+        },
+        {
+          "term": "일찍",
+          "count": 10
+        },
+        {
+          "term": "뒤에",
+          "count": 10
+        },
+        {
+          "term": "친구",
+          "count": 10
+        },
+        {
+          "term": "누런",
+          "count": 4
+        },
+        {
+          "term": "이를",
+          "count": 4
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 32
+      },
+      "sourceStats": {
+        "unknown": 16
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "드러나다",
+          "count": 14
+        },
+        {
+          "lemma": "끝나다",
+          "count": 14
+        },
+        {
+          "lemma": "지나다",
+          "count": 4
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "드러내다",
+          "count": 14
+        },
+        {
+          "lemma": "끝내다",
+          "count": 14
+        },
+        {
+          "lemma": "지내다",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "기",
+      "targetSuffix": "못생기",
+      "pos": "VV",
+      "frequency": 31,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "하니",
+          "count": 31
+        },
+        {
+          "term": "진짜",
+          "count": 31
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 31
+      },
+      "sourceStats": {
+        "unknown": 31
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "기다",
+          "count": 31
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "못생기다",
+          "count": 31
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "사",
+      "targetSuffix": "살",
+      "pos": "VV",
+      "frequency": 31,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC",
+        "ETM",
+        "EP+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "팍팍해지",
+          "count": 18
+        },
+        {
+          "term": "우리들",
+          "count": 18
+        },
+        {
+          "term": "여기",
+          "count": 3
+        },
+        {
+          "term": "멀쩡하게",
+          "count": 3
+        },
+        {
+          "term": "나갈",
+          "count": 3
+        },
+        {
+          "term": "첩이",
+          "count": 3
+        },
+        {
+          "term": "들어",
+          "count": 3
+        },
+        {
+          "term": "있다는데",
+          "count": 3
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 28,
+        "voice": 3
+      },
+      "sourceStats": {
+        "unknown": 28,
+        "STT_ENGINE_01": 1,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "사다",
+          "count": 31
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "살다",
+          "count": 31
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "내",
+      "targetSuffix": "끝내",
+      "pos": "VV",
+      "frequency": 30,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETN",
+        "EC",
+        "ETM",
+        "EP+EF",
+        "EC+VX+ETM",
+        "EF",
+        "EP+EC",
+        "EC+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "남친",
+          "count": 11
+        },
+        {
+          "term": "확실히",
+          "count": 11
+        },
+        {
+          "term": "위해",
+          "count": 11
+        },
+        {
+          "term": "전화",
+          "count": 11
+        },
+        {
+          "term": "공부",
+          "count": 3
+        },
+        {
+          "term": "개념",
+          "count": 2
+        },
+        {
+          "term": "일찍",
+          "count": 2
+        },
+        {
+          "term": "뒤에",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "generic": 3,
+        "keyboard": 13,
+        "voice": 14
+      },
+      "sourceStats": {
+        "자유게시판": 1,
+        "질문게시판": 1,
+        "SNS": 1,
+        "unknown": 13,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 7,
+        "STT_ENGINE_03": 5
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "내다",
+          "count": 30
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "끝내다",
+          "count": 30
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "두",
+      "targetSuffix": "주",
+      "pos": "VV",
+      "frequency": 30,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "ETN",
+        "ETM+NNG+JKO",
+        "EF",
+        "ETN+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "아니",
+          "count": 8
+        },
+        {
+          "term": "며칠인",
+          "count": 5
+        },
+        {
+          "term": "변할",
+          "count": 4
+        },
+        {
+          "term": "슈뢰딩거",
+          "count": 4
+        },
+        {
+          "term": "고양",
+          "count": 4
+        },
+        {
+          "term": "맞춰",
+          "count": 4
+        },
+        {
+          "term": "차릴",
+          "count": 4
+        },
+        {
+          "term": "알아야",
+          "count": 4
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 30
+      },
+      "sourceStats": {
+        "unknown": 30
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "두다",
+          "count": 30
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "주다",
+          "count": 30
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "오",
+      "targetSuffix": "모시",
+      "pos": "VV",
+      "frequency": 30,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VV+ETM",
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "남편",
+          "count": 29
+        },
+        {
+          "term": "식기세척기",
+          "count": 29
+        },
+        {
+          "term": "이모님",
+          "count": 29
+        },
+        {
+          "term": "정당인",
+          "count": 1
+        },
+        {
+          "term": "두분",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 29,
+        "voice": 1
+      },
+      "sourceStats": {
+        "unknown": 29,
+        "STT_ENGINE_01": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "오다",
+          "count": 30
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "모시다",
+          "count": 30
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "자르",
+      "targetSuffix": "바르",
+      "pos": "VV",
+      "frequency": 29,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+VX+EC",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "손에",
+          "count": 12
+        },
+        {
+          "term": "핸드크림",
+          "count": 12
+        },
+        {
+          "term": "색깔",
+          "count": 12
+        },
+        {
+          "term": "죽은",
+          "count": 12
+        },
+        {
+          "term": "새색시",
+          "count": 9
+        },
+        {
+          "term": "예의",
+          "count": 9
+        },
+        {
+          "term": "하는데",
+          "count": 9
+        },
+        {
+          "term": "저리",
+          "count": 9
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 29
+      },
+      "sourceStats": {
+        "unknown": 29
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "자르다",
+          "count": 29
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "바르다",
+          "count": 29
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "듣",
+      "targetSuffix": "들이",
+      "pos": "VV",
+      "frequency": 29,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "들어가",
+          "count": 28
+        },
+        {
+          "term": "습관",
+          "count": 28
+        },
+        {
+          "term": "좋은",
+          "count": 1
+        },
+        {
+          "term": "여러분들",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 1,
+        "keyboard": 28
+      },
+      "sourceStats": {
+        "STT_ENGINE_03": 1,
+        "unknown": 28
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 29
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "들이다",
+          "count": 29
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "지",
+      "targetSuffix": "찌푸리",
+      "pos": "VV",
+      "frequency": 29,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "봐도",
+          "count": 29
+        },
+        {
+          "term": "눈살",
+          "count": 29
+        },
+        {
+          "term": "메스꺼워",
+          "count": 29
+        },
+        {
+          "term": "구역질",
+          "count": 29
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 29
+      },
+      "sourceStats": {
+        "unknown": 29
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "지다",
+          "count": 29
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "찌푸리다",
+          "count": 29
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "구",
+      "targetSuffix": "그",
+      "pos": "VV",
+      "frequency": 28,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EF",
+        "EC+VX+EF",
+        "EC",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "문을",
+          "count": 18
+        },
+        {
+          "term": "들어",
+          "count": 14
+        },
+        {
+          "term": "고랭지",
+          "count": 6
+        },
+        {
+          "term": "배추",
+          "count": 6
+        },
+        {
+          "term": "아삭아삭한",
+          "count": 6
+        },
+        {
+          "term": "식감",
+          "count": 6
+        },
+        {
+          "term": "김치",
+          "count": 4
+        },
+        {
+          "term": "맛있게",
+          "count": 4
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 28
+      },
+      "sourceStats": {
+        "unknown": 14
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "잠구다",
+          "count": 18
+        },
+        {
+          "lemma": "담구다",
+          "count": 10
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "잠그다",
+          "count": 18
+        },
+        {
+          "lemma": "담그다",
+          "count": 10
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "뜨리",
+      "targetSuffix": "트리",
+      "pos": "VV",
+      "frequency": 28,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "맡겠다",
+          "count": 28
+        },
+        {
+          "term": "민생",
+          "count": 28
+        },
+        {
+          "term": "더욱",
+          "count": 28
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 28
+      },
+      "sourceStats": {
+        "unknown": 14
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "빠뜨리다",
+          "count": 28
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "빠트리다",
+          "count": 28
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "주",
+      "targetSuffix": "보",
+      "pos": "VV",
+      "frequency": 28,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EF",
+        "EC+VX+EP+EC",
+        "EC+VX+EC",
+        "EC+VX+ETM",
+        "EC+VX+EP+ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "감사해요",
+          "count": 4
+        },
+        {
+          "term": "고마워요",
+          "count": 3
+        },
+        {
+          "term": "한번",
+          "count": 3
+        },
+        {
+          "term": "많이",
+          "count": 2
+        },
+        {
+          "term": "좋게",
+          "count": 2
+        },
+        {
+          "term": "너무",
+          "count": 2
+        },
+        {
+          "term": "감사합니다",
+          "count": 2
+        },
+        {
+          "term": "칼럼",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "generic": 25,
+        "voice": 2,
+        "keyboard": 1
+      },
+      "sourceStats": {
+        "자유게시판": 12,
+        "질문게시판": 9,
+        "SNS": 3,
+        "STT_ENGINE_02": 1,
+        "unknown": 1,
+        "STT_ENGINE_03": 1,
+        "대화체": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "주다",
+          "count": 28
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "보다",
+          "count": 28
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "듣",
+      "targetSuffix": "들",
+      "pos": "VV",
+      "frequency": 27,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF",
+        "EC+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "너무",
+          "count": 8
+        },
+        {
+          "term": "음식에든",
+          "count": 5
+        },
+        {
+          "term": "까다로워서",
+          "count": 5
+        },
+        {
+          "term": "살아가면서",
+          "count": 3
+        },
+        {
+          "term": "어떤",
+          "count": 3
+        },
+        {
+          "term": "탁월해지려면",
+          "count": 3
+        },
+        {
+          "term": "훈련하고",
+          "count": 3
+        },
+        {
+          "term": "옷에든",
+          "count": 3
+        }
+      ],
+      "interfaceStats": {
+        "generic": 8,
+        "keyboard": 11,
+        "voice": 8
+      },
+      "sourceStats": {
+        "자유게시판": 2,
+        "질문게시판": 5,
+        "unknown": 11,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 5,
+        "대화체": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 27
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "들다",
+          "count": 27
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "새",
+      "targetSuffix": "세",
+      "pos": "VV",
+      "frequency": 27,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EF",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "켤레인지",
+          "count": 14
+        },
+        {
+          "term": "개수",
+          "count": 14
+        },
+        {
+          "term": "어렵지",
+          "count": 14
+        },
+        {
+          "term": "발표",
+          "count": 8
+        },
+        {
+          "term": "하려면",
+          "count": 8
+        },
+        {
+          "term": "시간",
+          "count": 8
+        },
+        {
+          "term": "남았는데",
+          "count": 8
+        },
+        {
+          "term": "같은",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 22,
+        "voice": 5
+      },
+      "sourceStats": {
+        "unknown": 22,
+        "STT_ENGINE_01": 1,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 3
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "새다",
+          "count": 27
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "세다",
+          "count": 27
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "기",
+      "targetSuffix": "생기",
+      "pos": "VV",
+      "frequency": 26,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EP+EF",
+        "EF",
+        "EP+ETM",
+        "EP+EC+JX",
+        "EP+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "괜한",
+          "count": 8
+        },
+        {
+          "term": "오기",
+          "count": 8
+        },
+        {
+          "term": "손톱",
+          "count": 5
+        },
+        {
+          "term": "거스러미",
+          "count": 5
+        },
+        {
+          "term": "신경",
+          "count": 5
+        },
+        {
+          "term": "쓰인다",
+          "count": 5
+        },
+        {
+          "term": "곤란한",
+          "count": 2
+        },
+        {
+          "term": "일이",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 15,
+        "voice": 11
+      },
+      "sourceStats": {
+        "unknown": 15,
+        "STT_ENGINE_01": 4,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 4
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "기다",
+          "count": 26
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "생기다",
+          "count": 26
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "끼",
+      "targetSuffix": "뀌",
+      "pos": "VV",
+      "frequency": 26,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EP+EF",
+        "EP+EP+ETM",
+        "EC+VX+EC",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "아니라",
+          "count": 6
+        },
+        {
+          "term": "행동",
+          "count": 6
+        },
+        {
+          "term": "계속",
+          "count": 6
+        },
+        {
+          "term": "가능한",
+          "count": 2
+        },
+        {
+          "term": "시간대",
+          "count": 2
+        },
+        {
+          "term": "교육과정",
+          "count": 2
+        },
+        {
+          "term": "새로",
+          "count": 2
+        },
+        {
+          "term": "들어온",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "generic": 20,
+        "keyboard": 6
+      },
+      "sourceStats": {
+        "자유게시판": 4,
+        "SNS": 6,
+        "unknown": 3
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "바끼다",
+          "count": 26
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "바뀌다",
+          "count": 26
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "들이",
+      "targetSuffix": "곁들이",
+      "pos": "VV",
+      "frequency": 26,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "채소",
+          "count": 26
+        },
+        {
+          "term": "쌀이",
+          "count": 26
+        },
+        {
+          "term": "건강",
+          "count": 26
+        },
+        {
+          "term": "음식",
+          "count": 26
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 26
+      },
+      "sourceStats": {
+        "unknown": 26
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "들이다",
+          "count": 26
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "곁들이다",
+          "count": 26
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "들르",
+      "targetSuffix": "듣",
+      "pos": "VV",
+      "frequency": 25,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF",
+        "EP+EC",
+        "EC+VX+EF",
+        "EP+EF",
+        "EP+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "예를",
+          "count": 5
+        },
+        {
+          "term": "강의",
+          "count": 4
+        },
+        {
+          "term": "욕하",
+          "count": 2
+        },
+        {
+          "term": "사람",
+          "count": 2
+        },
+        {
+          "term": "저는",
+          "count": 2
+        },
+        {
+          "term": "개념",
+          "count": 2
+        },
+        {
+          "term": "수업",
+          "count": 2
+        },
+        {
+          "term": "마을",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 4,
+        "voice": 21
+      },
+      "sourceStats": {
+        "unknown": 4,
+        "STT_ENGINE_01": 12,
+        "STT_ENGINE_02": 6,
+        "STT_ENGINE_03": 3
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "들르다",
+          "count": 25
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 25
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "거리",
+      "targetSuffix": "살랑거리",
+      "pos": "VV",
+      "frequency": 25,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "앞에서",
+          "count": 25
+        },
+        {
+          "term": "어찌나",
+          "count": 25
+        },
+        {
+          "term": "곰살궂게",
+          "count": 25
+        },
+        {
+          "term": "구는지",
+          "count": 25
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 25
+      },
+      "sourceStats": {
+        "unknown": 25
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "거리다",
+          "count": 25
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "살랑거리다",
+          "count": 25
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "세",
+      "targetSuffix": "빡세",
+      "pos": "VA",
+      "frequency": 25,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EP+EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "없겠네요",
+          "count": 22
+        },
+        {
+          "term": "진짜",
+          "count": 1
+        },
+        {
+          "term": "빡세게",
+          "count": 1
+        },
+        {
+          "term": "쌤이랑",
+          "count": 1
+        },
+        {
+          "term": "해놓으니",
+          "count": 1
+        },
+        {
+          "term": "얼마나",
+          "count": 1
+        },
+        {
+          "term": "내내",
+          "count": 1
+        },
+        {
+          "term": "맨날",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 22,
+        "voice": 3
+      },
+      "sourceStats": {
+        "unknown": 22,
+        "STT_ENGINE_02": 2,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "세다",
+          "count": 25
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "빡세다",
+          "count": 25
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "조이",
+      "targetSuffix": "보이",
+      "pos": "VV",
+      "frequency": 25,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+ETM",
+        "EC",
+        "EF",
+        "ETM",
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "사랑",
+          "count": 9
+        },
+        {
+          "term": "믿음",
+          "count": 9
+        },
+        {
+          "term": "행위이지",
+          "count": 9
+        },
+        {
+          "term": "교환",
+          "count": 9
+        },
+        {
+          "term": "이율배반적",
+          "count": 6
+        },
+        {
+          "term": "태도",
+          "count": 6
+        },
+        {
+          "term": "있다",
+          "count": 6
+        },
+        {
+          "term": "화장",
+          "count": 3
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 25
+      },
+      "sourceStats": {
+        "unknown": 25
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "조이다",
+          "count": 25
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "보이다",
+          "count": 25
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "니",
+      "targetSuffix": "키",
+      "pos": "VV",
+      "frequency": 24,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC",
+        "EC+VX+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "가족",
+          "count": 18
+        },
+        {
+          "term": "간에",
+          "count": 18
+        },
+        {
+          "term": "약속",
+          "count": 18
+        },
+        {
+          "term": "평생",
+          "count": 6
+        },
+        {
+          "term": "종갓집",
+          "count": 6
+        },
+        {
+          "term": "종손으로서",
+          "count": 6
+        },
+        {
+          "term": "그는",
+          "count": 6
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 24
+      },
+      "sourceStats": {
+        "unknown": 12
+      },
+      "irregularClasses": [
+        "KI"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "지니다",
+          "count": 24
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "지키다",
+          "count": 24
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "바르",
+      "targetSuffix": "올바르",
+      "pos": "VA",
+      "frequency": 24,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETM",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "사태",
+          "count": 11
+        },
+        {
+          "term": "해결하려",
+          "count": 11
+        },
+        {
+          "term": "답이",
+          "count": 11
+        },
+        {
+          "term": "아니오",
+          "count": 11
+        },
+        {
+          "term": "하려고",
+          "count": 9
+        },
+        {
+          "term": "하는데",
+          "count": 9
+        },
+        {
+          "term": "행동인지",
+          "count": 9
+        },
+        {
+          "term": "모르겠어",
+          "count": 9
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 20,
+        "voice": 4
+      },
+      "sourceStats": {
+        "unknown": 20,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 3
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "바르다",
+          "count": 24
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "올바르다",
+          "count": 24
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "원만하",
+      "targetSuffix": "웬만하",
+      "pos": "VA",
+      "frequency": 24,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "곰살궂게",
+          "count": 24
+        },
+        {
+          "term": "구는지",
+          "count": 24
+        },
+        {
+          "term": "사내들",
+          "count": 24
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 24
+      },
+      "sourceStats": {
+        "unknown": 12
+      },
+      "irregularClasses": [
+        "HA"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "원만하다",
+          "count": 24
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "웬만하다",
+          "count": 24
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "치",
+      "targetSuffix": "히",
+      "pos": "VV",
+      "frequency": 24,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "소에게",
+          "count": 24
+        },
+        {
+          "term": "급소",
+          "count": 24
+        },
+        {
+          "term": "꼼짝",
+          "count": 24
+        },
+        {
+          "term": "못한대",
+          "count": 24
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 24
+      },
+      "sourceStats": {
+        "unknown": 12
+      },
+      "irregularClasses": [
+        "HI"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "받치다",
+          "count": 24
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "받히다",
+          "count": 24
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "키",
+      "targetSuffix": "시키",
+      "pos": "VV",
+      "frequency": 24,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+VX+EF",
+        "ETM",
+        "EP+EF",
+        "EF",
+        "EC",
+        "EP+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "곳을",
+          "count": 6
+        },
+        {
+          "term": "돌아다니며",
+          "count": 6
+        },
+        {
+          "term": "마누라",
+          "count": 4
+        },
+        {
+          "term": "고생깨나",
+          "count": 4
+        },
+        {
+          "term": "이거",
+          "count": 2
+        },
+        {
+          "term": "통해서",
+          "count": 1
+        },
+        {
+          "term": "됩니다",
+          "count": 1
+        },
+        {
+          "term": "대해서",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 11,
+        "voice": 13
+      },
+      "sourceStats": {
+        "unknown": 11,
+        "STT_ENGINE_01": 5,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 5
+      },
+      "irregularClasses": [
+        "KI"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "키다",
+          "count": 24
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "시키다",
+          "count": 24
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "기",
+      "targetSuffix": "그러",
+      "pos": "VV",
+      "frequency": 24,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "이런",
+          "count": 2
+        },
+        {
+          "term": "베이스",
+          "count": 1
+        },
+        {
+          "term": "쌓을라",
+          "count": 1
+        },
+        {
+          "term": "기출문제",
+          "count": 1
+        },
+        {
+          "term": "공인성",
+          "count": 1
+        },
+        {
+          "term": "있느냐",
+          "count": 1
+        },
+        {
+          "term": "아직",
+          "count": 1
+        },
+        {
+          "term": "출마",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 24
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 4,
+        "STT_ENGINE_02": 10,
+        "STT_ENGINE_03": 10
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "기다",
+          "count": 24
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그러다",
+          "count": 24
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "널",
+      "targetSuffix": "그러",
+      "pos": "VV",
+      "frequency": 24,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EF",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "한다",
+          "count": 2
+        },
+        {
+          "term": "드라마",
+          "count": 2
+        },
+        {
+          "term": "우리",
+          "count": 2
+        },
+        {
+          "term": "이제",
+          "count": 2
+        },
+        {
+          "term": "이게",
+          "count": 1
+        },
+        {
+          "term": "역사",
+          "count": 1
+        },
+        {
+          "term": "아니",
+          "count": 1
+        },
+        {
+          "term": "대체",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 3,
+        "voice": 21
+      },
+      "sourceStats": {
+        "unknown": 3,
+        "STT_ENGINE_01": 6,
+        "STT_ENGINE_02": 5,
+        "STT_ENGINE_03": 10
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "널다",
+          "count": 24
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그러다",
+          "count": 24
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "리",
+      "targetSuffix": "이",
+      "pos": "VV",
+      "frequency": 24,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EF",
+        "EC+VX+EC",
+        "ETN+JKG"
+      ],
+      "contextHints": [
+        {
+          "term": "들어가",
+          "count": 6
+        },
+        {
+          "term": "습관",
+          "count": 6
+        },
+        {
+          "term": "적은",
+          "count": 4
+        },
+        {
+          "term": "인원",
+          "count": 4
+        },
+        {
+          "term": "시위",
+          "count": 4
+        },
+        {
+          "term": "하였다",
+          "count": 4
+        },
+        {
+          "term": "마음",
+          "count": 4
+        },
+        {
+          "term": "한일전",
+          "count": 4
+        }
+      ],
+      "interfaceStats": {
+        "generic": 2,
+        "keyboard": 14,
+        "voice": 8
+      },
+      "sourceStats": {
+        "SNS": 1,
+        "unknown": 7,
+        "STT_ENGINE_01": 3,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "모리다",
+          "count": 12
+        },
+        {
+          "lemma": "들리다",
+          "count": 8
+        },
+        {
+          "lemma": "졸리다",
+          "count": 4
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "모이다",
+          "count": 12
+        },
+        {
+          "lemma": "들이다",
+          "count": 8
+        },
+        {
+          "lemma": "졸이다",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "사",
+      "targetSuffix": "늘",
+      "pos": "VV",
+      "frequency": 22,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "쉽사리",
+          "count": 15
+        },
+        {
+          "term": "굴복하지",
+          "count": 15
+        },
+        {
+          "term": "요즘",
+          "count": 2
+        },
+        {
+          "term": "떡볶이",
+          "count": 2
+        },
+        {
+          "term": "채소",
+          "count": 2
+        },
+        {
+          "term": "이중적",
+          "count": 1
+        },
+        {
+          "term": "태도",
+          "count": 1
+        },
+        {
+          "term": "마음",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 18,
+        "voice": 4
+      },
+      "sourceStats": {
+        "unknown": 18,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_03": 2
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "사다",
+          "count": 22
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "늘다",
+          "count": 22
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "실하",
+      "targetSuffix": "확실하",
+      "pos": "VA",
+      "frequency": 21,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EF",
+        "ETM",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "최선입니까",
+          "count": 17
+        },
+        {
+          "term": "니가",
+          "count": 17
+        },
+        {
+          "term": "엘에이치",
+          "count": 1
+        },
+        {
+          "term": "유출혐의",
+          "count": 1
+        },
+        {
+          "term": "계약직",
+          "count": 1
+        },
+        {
+          "term": "직원",
+          "count": 1
+        },
+        {
+          "term": "투를",
+          "count": 1
+        },
+        {
+          "term": "준비해야",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 17,
+        "voice": 4
+      },
+      "sourceStats": {
+        "unknown": 17,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [
+        "HA"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "실하다",
+          "count": 21
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "확실하다",
+          "count": 21
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "오르",
+      "targetSuffix": "올라오",
+      "pos": "VV",
+      "frequency": 21,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EP+EF",
+        "ETM",
+        "EC",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "가기",
+          "count": 14
+        },
+        {
+          "term": "두렵다고",
+          "count": 14
+        },
+        {
+          "term": "많이",
+          "count": 2
+        },
+        {
+          "term": "질문",
+          "count": 2
+        },
+        {
+          "term": "게시판",
+          "count": 2
+        },
+        {
+          "term": "접는다",
+          "count": 1
+        },
+        {
+          "term": "입은",
+          "count": 1
+        },
+        {
+          "term": "봤는데요",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 1,
+        "keyboard": 14,
+        "voice": 6
+      },
+      "sourceStats": {
+        "SNS": 1,
+        "unknown": 14,
+        "STT_ENGINE_01": 1,
+        "STT_ENGINE_02": 2,
+        "STT_ENGINE_03": 3
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "오르다",
+          "count": 21
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "올라오다",
+          "count": 21
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "뜨",
+      "targetSuffix": "듣",
+      "pos": "VV",
+      "frequency": 21,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF",
+        "EP+EC",
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "예를",
+          "count": 6
+        },
+        {
+          "term": "이과",
+          "count": 2
+        },
+        {
+          "term": "주제",
+          "count": 1
+        },
+        {
+          "term": "특강",
+          "count": 1
+        },
+        {
+          "term": "굉장히",
+          "count": 1
+        },
+        {
+          "term": "시너지",
+          "count": 1
+        },
+        {
+          "term": "말씀",
+          "count": 1
+        },
+        {
+          "term": "본격적",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 21
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 7,
+        "STT_ENGINE_02": 10,
+        "STT_ENGINE_03": 4
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "뜨다",
+          "count": 21
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 21
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "붙이",
+      "targetSuffix": "몰아붙이",
+      "pos": "VV",
+      "frequency": 21,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "녀석",
+          "count": 21
+        },
+        {
+          "term": "인정사정없",
+          "count": 21
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 21
+      },
+      "sourceStats": {
+        "unknown": 21
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "붙이다",
+          "count": 21
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "몰아붙이다",
+          "count": 21
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "거리",
+      "targetSuffix": "굽실거리",
+      "pos": "VV",
+      "frequency": 20,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "사람들",
+          "count": 20
+        },
+        {
+          "term": "앞에서",
+          "count": 20
+        },
+        {
+          "term": "말든지",
+          "count": 20
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 20
+      },
+      "sourceStats": {
+        "unknown": 20
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "거리다",
+          "count": 20
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "굽실거리다",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "거리",
+      "targetSuffix": "집적거리",
+      "pos": "VV",
+      "frequency": 20,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "여자",
+          "count": 20
+        },
+        {
+          "term": "보면",
+          "count": 20
+        },
+        {
+          "term": "버릇",
+          "count": 20
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 20
+      },
+      "sourceStats": {
+        "unknown": 20
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "거리다",
+          "count": 20
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "집적거리다",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "궂",
+      "targetSuffix": "곰살궂",
+      "pos": "VA",
+      "frequency": 20,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "어찌나",
+          "count": 20
+        },
+        {
+          "term": "살랑거리며",
+          "count": 20
+        },
+        {
+          "term": "구는지",
+          "count": 20
+        },
+        {
+          "term": "웬만한",
+          "count": 20
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 20
+      },
+      "sourceStats": {
+        "unknown": 20
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "궂다",
+          "count": 20
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "곰살궂다",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "내",
+      "targetSuffix": "찾아내",
+      "pos": "VV",
+      "frequency": 20,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EC",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "주기",
+          "count": 17
+        },
+        {
+          "term": "위해",
+          "count": 17
+        },
+        {
+          "term": "모든",
+          "count": 17
+        },
+        {
+          "term": "방법",
+          "count": 17
+        },
+        {
+          "term": "빨리빨리",
+          "count": 1
+        },
+        {
+          "term": "결론",
+          "count": 1
+        },
+        {
+          "term": "문장",
+          "count": 1
+        },
+        {
+          "term": "고칠",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 17,
+        "voice": 3
+      },
+      "sourceStats": {
+        "unknown": 17,
+        "STT_ENGINE_03": 3
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "내다",
+          "count": 20
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "찾아내다",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "들어가",
+      "targetSuffix": "만들",
+      "pos": "VV",
+      "frequency": 20,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "팀워크",
+          "count": 20
+        },
+        {
+          "term": "어떻게",
+          "count": 20
+        },
+        {
+          "term": "것인가",
+          "count": 20
+        },
+        {
+          "term": "같이",
+          "count": 20
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 20
+      },
+      "sourceStats": {
+        "unknown": 20
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "들어가다",
+          "count": 20
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "만들다",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "박",
+      "targetSuffix": "받",
+      "pos": "VV",
+      "frequency": 20,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EP+EF",
+        "ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "지상으로",
+          "count": 4
+        },
+        {
+          "term": "명령",
+          "count": 4
+        },
+        {
+          "term": "임무",
+          "count": 4
+        },
+        {
+          "term": "수행할",
+          "count": 4
+        },
+        {
+          "term": "극진한",
+          "count": 3
+        },
+        {
+          "term": "대접",
+          "count": 3
+        },
+        {
+          "term": "해도",
+          "count": 3
+        },
+        {
+          "term": "그래",
+          "count": 3
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 20
+      },
+      "sourceStats": {
+        "unknown": 20
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "박다",
+          "count": 20
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "받다",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "없",
+      "targetSuffix": "상관없",
+      "pos": "VA",
+      "frequency": 20,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "JKS",
+        "EC",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "물품들",
+          "count": 4
+        },
+        {
+          "term": "횟수",
+          "count": 4
+        },
+        {
+          "term": "그때그때",
+          "count": 4
+        },
+        {
+          "term": "필요한",
+          "count": 4
+        },
+        {
+          "term": "그거",
+          "count": 2
+        },
+        {
+          "term": "칼럼과",
+          "count": 1
+        },
+        {
+          "term": "내용이지",
+          "count": 1
+        },
+        {
+          "term": "표지마다",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 3,
+        "keyboard": 4,
+        "voice": 13
+      },
+      "sourceStats": {
+        "자유게시판": 1,
+        "질문게시판": 2,
+        "unknown": 4,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 7,
+        "STT_ENGINE_03": 4
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "없다",
+          "count": 20
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "상관없다",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "적",
+      "targetSuffix": "쩍",
+      "pos": "VA",
+      "frequency": 20,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VCP+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "자신",
+          "count": 20
+        },
+        {
+          "term": "행동",
+          "count": 20
+        },
+        {
+          "term": "객쩍",
+          "count": 20
+        },
+        {
+          "term": "소리",
+          "count": 20
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 20
+      },
+      "sourceStats": {
+        "unknown": 10
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "멋적다",
+          "count": 20
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "멋쩍다",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "틀",
+      "targetSuffix": "듣",
+      "pos": "VV",
+      "frequency": 20,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF",
+        "EP+EF",
+        "EC+VX+EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "예를",
+          "count": 3
+        },
+        {
+          "term": "서울",
+          "count": 2
+        },
+        {
+          "term": "하는",
+          "count": 2
+        },
+        {
+          "term": "그런",
+          "count": 2
+        },
+        {
+          "term": "주면",
+          "count": 1
+        },
+        {
+          "term": "여러분",
+          "count": 1
+        },
+        {
+          "term": "채우면서",
+          "count": 1
+        },
+        {
+          "term": "선생님",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 20
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 5,
+        "STT_ENGINE_02": 6,
+        "STT_ENGINE_03": 9
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "틀다",
+          "count": 20
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 20
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "추",
+      "targetSuffix": "멈추",
+      "pos": "VV",
+      "frequency": 19,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+JKO",
+        "EF",
+        "EC",
+        "EC+VX+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "가지",
+          "count": 10
+        },
+        {
+          "term": "중요하다",
+          "count": 10
+        },
+        {
+          "term": "하나",
+          "count": 10
+        },
+        {
+          "term": "언제",
+          "count": 10
+        },
+        {
+          "term": "세상",
+          "count": 6
+        },
+        {
+          "term": "않고",
+          "count": 6
+        },
+        {
+          "term": "돌아가요",
+          "count": 6
+        },
+        {
+          "term": "있는",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 17,
+        "voice": 2
+      },
+      "sourceStats": {
+        "unknown": 17,
+        "STT_ENGINE_01": 1,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [
+        "CHU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "추다",
+          "count": 19
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "멈추다",
+          "count": 19
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "하",
+      "targetSuffix": "뻔하",
+      "pos": "VA",
+      "frequency": 19,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "오히려",
+          "count": 19
+        },
+        {
+          "term": "큰소리치",
+          "count": 19
+        },
+        {
+          "term": "인간들",
+          "count": 19
+        },
+        {
+          "term": "있다",
+          "count": 19
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 19
+      },
+      "sourceStats": {
+        "unknown": 19
+      },
+      "irregularClasses": [
+        "HA"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "뻔하다",
+          "count": 19
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "뻔뻔하다",
+          "count": 19
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "닫",
+      "targetSuffix": "깨닫",
+      "pos": "VV",
+      "frequency": 19,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EF",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "않았다",
+          "count": 18
+        },
+        {
+          "term": "것을",
+          "count": 18
+        },
+        {
+          "term": "이런",
+          "count": 1
+        },
+        {
+          "term": "수도",
+          "count": 1
+        },
+        {
+          "term": "있겠죠",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 18,
+        "voice": 1
+      },
+      "sourceStats": {
+        "unknown": 18,
+        "STT_ENGINE_01": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "닫다",
+          "count": 19
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "깨닫다",
+          "count": 19
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "까",
+      "targetSuffix": "보",
+      "pos": "VV",
+      "frequency": 18,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC",
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "한번",
+          "count": 3
+        },
+        {
+          "term": "어떻게",
+          "count": 2
+        },
+        {
+          "term": "그러다",
+          "count": 2
+        },
+        {
+          "term": "상황",
+          "count": 2
+        },
+        {
+          "term": "번째",
+          "count": 1
+        },
+        {
+          "term": "대해서",
+          "count": 1
+        },
+        {
+          "term": "때문",
+          "count": 1
+        },
+        {
+          "term": "일부조사",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 18
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 7,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 8
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "까다",
+          "count": 18
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "보다",
+          "count": 18
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "내리",
+      "targetSuffix": "끌어내리",
+      "pos": "VV",
+      "frequency": 18,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "신발",
+          "count": 18
+        },
+        {
+          "term": "어찌",
+          "count": 18
+        },
+        {
+          "term": "설레발이야",
+          "count": 18
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 18
+      },
+      "sourceStats": {
+        "unknown": 18
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "내리다",
+          "count": 18
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "끌어내리다",
+          "count": 18
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "들어서",
+      "targetSuffix": "건드리",
+      "pos": "VV",
+      "frequency": 18,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "하마터면",
+          "count": 18
+        },
+        {
+          "term": "오발탄",
+          "count": 18
+        },
+        {
+          "term": "폭발",
+          "count": 18
+        },
+        {
+          "term": "사고",
+          "count": 18
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 18
+      },
+      "sourceStats": {
+        "unknown": 18
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "들어서다",
+          "count": 18
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "건드리다",
+          "count": 18
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "뜨",
+      "targetSuffix": "터뜨리",
+      "pos": "VV",
+      "frequency": 18,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "신생아",
+          "count": 17
+        },
+        {
+          "term": "울음소리",
+          "count": 17
+        },
+        {
+          "term": "더욱",
+          "count": 1
+        },
+        {
+          "term": "분통",
+          "count": 1
+        },
+        {
+          "term": "있는",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 17,
+        "voice": 1
+      },
+      "sourceStats": {
+        "unknown": 17,
+        "STT_ENGINE_01": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "뜨다",
+          "count": 18
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "터뜨리다",
+          "count": 18
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "묻",
+      "targetSuffix": "물어보",
+      "pos": "VV",
+      "frequency": 18,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EC",
+        "EF",
+        "EP+EP+EF",
+        "EP+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "이렇게",
+          "count": 2
+        },
+        {
+          "term": "명사절",
+          "count": 2
+        },
+        {
+          "term": "많이",
+          "count": 2
+        },
+        {
+          "term": "주변",
+          "count": 1
+        },
+        {
+          "term": "친구들",
+          "count": 1
+        },
+        {
+          "term": "교과서",
+          "count": 1
+        },
+        {
+          "term": "나오",
+          "count": 1
+        },
+        {
+          "term": "애들",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 2,
+        "voice": 16
+      },
+      "sourceStats": {
+        "자유게시판": 1,
+        "SNS": 1,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 4,
+        "STT_ENGINE_03": 10
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "묻다",
+          "count": 18
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "물어보다",
+          "count": 18
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "입",
+      "targetSuffix": "보이",
+      "pos": "VV",
+      "frequency": 18,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "것으",
+          "count": 11
+        },
+        {
+          "term": "보면",
+          "count": 1
+        },
+        {
+          "term": "성과",
+          "count": 1
+        },
+        {
+          "term": "갈취했던",
+          "count": 1
+        },
+        {
+          "term": "걸로",
+          "count": 1
+        },
+        {
+          "term": "일어났던",
+          "count": 1
+        },
+        {
+          "term": "사람",
+          "count": 1
+        },
+        {
+          "term": "반영된",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 1,
+        "voice": 17
+      },
+      "sourceStats": {
+        "SNS": 1,
+        "STT_ENGINE_01": 16,
+        "STT_ENGINE_02": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "입다",
+          "count": 18
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "보이다",
+          "count": 18
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "같",
+      "targetSuffix": "똑같",
+      "pos": "VA",
+      "frequency": 17,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "ETM",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "거랑",
+          "count": 2
+        },
+        {
+          "term": "이건",
+          "count": 1
+        },
+        {
+          "term": "뭐랑",
+          "count": 1
+        },
+        {
+          "term": "유치원",
+          "count": 1
+        },
+        {
+          "term": "졸업하면",
+          "count": 1
+        },
+        {
+          "term": "강좌",
+          "count": 1
+        },
+        {
+          "term": "구성",
+          "count": 1
+        },
+        {
+          "term": "윤사",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 17
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 7,
+        "STT_ENGINE_03": 8
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "같다",
+          "count": 17
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "똑같다",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "드리",
+      "targetSuffix": "건드리",
+      "pos": "VV",
+      "frequency": 17,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "하마터면",
+          "count": 12
+        },
+        {
+          "term": "오발탄",
+          "count": 12
+        },
+        {
+          "term": "폭발",
+          "count": 12
+        },
+        {
+          "term": "사고",
+          "count": 12
+        },
+        {
+          "term": "알고",
+          "count": 5
+        },
+        {
+          "term": "발생하",
+          "count": 5
+        },
+        {
+          "term": "아이들",
+          "count": 5
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 17
+      },
+      "sourceStats": {
+        "unknown": 17
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "드리다",
+          "count": 17
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "건드리다",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "듣",
+      "targetSuffix": "뛰어들",
+      "pos": "VV",
+      "frequency": 17,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "입은채",
+          "count": 17
+        },
+        {
+          "term": "물속",
+          "count": 17
+        },
+        {
+          "term": "뿐이었다",
+          "count": 17
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 17
+      },
+      "sourceStats": {
+        "unknown": 17
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 17
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "뛰어들다",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "지",
+      "targetSuffix": "져다주",
+      "pos": "VV",
+      "frequency": 17,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "지역에",
+          "count": 16
+        },
+        {
+          "term": "불이익",
+          "count": 16
+        },
+        {
+          "term": "일을",
+          "count": 16
+        },
+        {
+          "term": "반대하",
+          "count": 16
+        },
+        {
+          "term": "귀이개",
+          "count": 1
+        },
+        {
+          "term": "귀지",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 17
+      },
+      "sourceStats": {
+        "unknown": 17
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "가지다",
+          "count": 17
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "가져다주다",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "찌",
+      "targetSuffix": "보",
+      "pos": "VV",
+      "frequency": 17,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF+Z_CODA"
+      ],
+      "contextHints": [
+        {
+          "term": "거의",
+          "count": 17
+        },
+        {
+          "term": "없는",
+          "count": 17
+        },
+        {
+          "term": "얼큰한",
+          "count": 17
+        },
+        {
+          "term": "국물",
+          "count": 17
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 17
+      },
+      "sourceStats": {
+        "unknown": 17
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "찌다",
+          "count": 17
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "보다",
+          "count": 17
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "치",
+      "targetSuffix": "망치",
+      "pos": "VV",
+      "frequency": 16,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETM",
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "못이",
+          "count": 15
+        },
+        {
+          "term": "없다면",
+          "count": 15
+        },
+        {
+          "term": "존재",
+          "count": 15
+        },
+        {
+          "term": "항상",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 15,
+        "voice": 1
+      },
+      "sourceStats": {
+        "unknown": 15,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [
+        "CHI"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "치다",
+          "count": 16
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "망치다",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "뀌",
+      "targetSuffix": "바뀌",
+      "pos": "VV",
+      "frequency": 16,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EP+EF",
+        "EC",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "아니라",
+          "count": 5
+        },
+        {
+          "term": "행동",
+          "count": 5
+        },
+        {
+          "term": "계속",
+          "count": 5
+        },
+        {
+          "term": "걸로",
+          "count": 2
+        },
+        {
+          "term": "포함관계",
+          "count": 1
+        },
+        {
+          "term": "수가",
+          "count": 1
+        },
+        {
+          "term": "당연히",
+          "count": 1
+        },
+        {
+          "term": "주력",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 5,
+        "voice": 11
+      },
+      "sourceStats": {
+        "unknown": 5,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 5,
+        "STT_ENGINE_03": 4
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "뀌다",
+          "count": 16
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "바뀌다",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "누",
+      "targetSuffix": "나누",
+      "pos": "VV",
+      "frequency": 16,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC",
+        "EC+VX+EF",
+        "EC+VX+ETM",
+        "EP+EF",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "개비",
+          "count": 6
+        },
+        {
+          "term": "피우고",
+          "count": 6
+        },
+        {
+          "term": "우정",
+          "count": 6
+        },
+        {
+          "term": "이렇게",
+          "count": 3
+        },
+        {
+          "term": "그다음",
+          "count": 2
+        },
+        {
+          "term": "케이스",
+          "count": 1
+        },
+        {
+          "term": "적어놓",
+          "count": 1
+        },
+        {
+          "term": "잔뜩",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 2,
+        "keyboard": 7,
+        "voice": 7
+      },
+      "sourceStats": {
+        "자유게시판": 2,
+        "unknown": 7,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 4
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "누다",
+          "count": 16
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "나누다",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "드",
+      "targetSuffix": "나",
+      "pos": "VV",
+      "frequency": 16,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EF",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "주는",
+          "count": 10
+        },
+        {
+          "term": "사람",
+          "count": 10
+        },
+        {
+          "term": "잡아야",
+          "count": 10
+        },
+        {
+          "term": "번만",
+          "count": 4
+        },
+        {
+          "term": "달라고",
+          "count": 4
+        },
+        {
+          "term": "조른다",
+          "count": 4
+        },
+        {
+          "term": "가해자",
+          "count": 2
+        },
+        {
+          "term": "직접",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 16
+      },
+      "sourceStats": {
+        "unknown": 8
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "만드다",
+          "count": 16
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "만나다",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "생기",
+      "targetSuffix": "못생기",
+      "pos": "VV",
+      "frequency": 16,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "하니",
+          "count": 16
+        },
+        {
+          "term": "진짜",
+          "count": 16
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 16
+      },
+      "sourceStats": {
+        "unknown": 16
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "생기다",
+          "count": 16
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "못생기다",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "서",
+      "targetSuffix": "늘",
+      "pos": "VV",
+      "frequency": 16,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "요즘",
+          "count": 4
+        },
+        {
+          "term": "떡볶이",
+          "count": 4
+        },
+        {
+          "term": "채소",
+          "count": 4
+        },
+        {
+          "term": "국민",
+          "count": 1
+        },
+        {
+          "term": "납세의무",
+          "count": 1
+        },
+        {
+          "term": "자신",
+          "count": 1
+        },
+        {
+          "term": "속한",
+          "count": 1
+        },
+        {
+          "term": "불이익",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 7,
+        "voice": 9
+      },
+      "sourceStats": {
+        "unknown": 7,
+        "STT_ENGINE_01": 5,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 3
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "서다",
+          "count": 16
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "늘다",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "없",
+      "targetSuffix": "버릇없",
+      "pos": "VA",
+      "frequency": 16,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "하는데",
+          "count": 16
+        },
+        {
+          "term": "저리",
+          "count": 16
+        },
+        {
+          "term": "어른들",
+          "count": 16
+        },
+        {
+          "term": "앞에서",
+          "count": 16
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 16
+      },
+      "sourceStats": {
+        "unknown": 16
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "없다",
+          "count": 16
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "버릇없다",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "직이",
+      "targetSuffix": "움직이",
+      "pos": "VV",
+      "frequency": 16,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC",
+        "ETN+JC",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "실을",
+          "count": 8
+        },
+        {
+          "term": "따져",
+          "count": 8
+        },
+        {
+          "term": "본인",
+          "count": 8
+        },
+        {
+          "term": "굼벵이",
+          "count": 5
+        },
+        {
+          "term": "느리게",
+          "count": 5
+        },
+        {
+          "term": "잠깐",
+          "count": 5
+        },
+        {
+          "term": "다른",
+          "count": 5
+        },
+        {
+          "term": "규제",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 13,
+        "voice": 3
+      },
+      "sourceStats": {
+        "unknown": 13,
+        "STT_ENGINE_01": 1,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "직이다",
+          "count": 16
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "움직이다",
+          "count": 16
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "먹",
+      "targetSuffix": "태우",
+      "pos": "VV",
+      "frequency": 15,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+VX+EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "보느라",
+          "count": 15
+        },
+        {
+          "term": "고등어조림",
+          "count": 15
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 15
+      },
+      "sourceStats": {
+        "unknown": 15
+      },
+      "irregularClasses": [
+        "U"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "먹다",
+          "count": 15
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "태우다",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "걸",
+      "targetSuffix": "찌",
+      "pos": "VV",
+      "frequency": 15,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "가능한",
+          "count": 15
+        },
+        {
+          "term": "도착해서",
+          "count": 15
+        },
+        {
+          "term": "기다리",
+          "count": 15
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 15
+      },
+      "sourceStats": {
+        "unknown": 15
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "걸다",
+          "count": 15
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "찌다",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "다니",
+      "targetSuffix": "돌아다니",
+      "pos": "VV",
+      "frequency": 15,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "좋은",
+          "count": 14
+        },
+        {
+          "term": "곳을",
+          "count": 14
+        },
+        {
+          "term": "구경시켜줄게",
+          "count": 14
+        },
+        {
+          "term": "사람들",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 14,
+        "voice": 1
+      },
+      "sourceStats": {
+        "unknown": 14,
+        "STT_ENGINE_01": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "다니다",
+          "count": 15
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "돌아다니다",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "리",
+      "targetSuffix": "려가",
+      "pos": "VV",
+      "frequency": 15,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EF",
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "거친",
+          "count": 12
+        },
+        {
+          "term": "들판",
+          "count": 12
+        },
+        {
+          "term": "떼들",
+          "count": 12
+        },
+        {
+          "term": "속으",
+          "count": 1
+        },
+        {
+          "term": "쏟아내면",
+          "count": 1
+        },
+        {
+          "term": "집값",
+          "count": 1
+        },
+        {
+          "term": "것이란",
+          "count": 1
+        },
+        {
+          "term": "정부",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12,
+        "voice": 3
+      },
+      "sourceStats": {
+        "unknown": 12,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "달리다",
+          "count": 13
+        },
+        {
+          "lemma": "내리다",
+          "count": 2
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "달려가다",
+          "count": 13
+        },
+        {
+          "lemma": "내려가다",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "보",
+      "targetSuffix": "넘기",
+      "pos": "VV",
+      "frequency": 15,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "하루",
+          "count": 15
+        },
+        {
+          "term": "어떨까요",
+          "count": 15
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 15
+      },
+      "sourceStats": {
+        "unknown": 15
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "보다",
+          "count": 15
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "넘기다",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "보",
+      "targetSuffix": "늘",
+      "pos": "VV",
+      "frequency": 15,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "국민",
+          "count": 10
+        },
+        {
+          "term": "납세의무",
+          "count": 10
+        },
+        {
+          "term": "특정",
+          "count": 1
+        },
+        {
+          "term": "강사나",
+          "count": 1
+        },
+        {
+          "term": "양으",
+          "count": 1
+        },
+        {
+          "term": "밀어붙이",
+          "count": 1
+        },
+        {
+          "term": "국내",
+          "count": 1
+        },
+        {
+          "term": "사례",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 1,
+        "keyboard": 10,
+        "voice": 4
+      },
+      "sourceStats": {
+        "SNS": 1,
+        "unknown": 10,
+        "STT_ENGINE_01": 3,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "보다",
+          "count": 15
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "늘다",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "보",
+      "targetSuffix": "듣",
+      "pos": "VV",
+      "frequency": 15,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EF",
+        "EC+VX+EP+EF",
+        "EC+VX+EC",
+        "EC+VX+EP+EC",
+        "EC+VX+EP+EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "하는",
+          "count": 6
+        },
+        {
+          "term": "말을",
+          "count": 6
+        },
+        {
+          "term": "가만히",
+          "count": 1
+        },
+        {
+          "term": "줄래",
+          "count": 1
+        },
+        {
+          "term": "현장",
+          "count": 1
+        },
+        {
+          "term": "목소리",
+          "count": 1
+        },
+        {
+          "term": "묶어",
+          "count": 1
+        },
+        {
+          "term": "있기라고",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 7,
+        "voice": 8
+      },
+      "sourceStats": {
+        "unknown": 7,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 3
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "보다",
+          "count": 15
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "오",
+      "targetSuffix": "들어오",
+      "pos": "VV",
+      "frequency": 15,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC",
+        "EC+JX",
+        "ETN",
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "얼른",
+          "count": 6
+        },
+        {
+          "term": "안으",
+          "count": 6
+        },
+        {
+          "term": "귀에",
+          "count": 2
+        },
+        {
+          "term": "대학",
+          "count": 1
+        },
+        {
+          "term": "진로",
+          "count": 1
+        },
+        {
+          "term": "강도",
+          "count": 1
+        },
+        {
+          "term": "칼로",
+          "count": 1
+        },
+        {
+          "term": "찔렀는데",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 4,
+        "keyboard": 6,
+        "voice": 5
+      },
+      "sourceStats": {
+        "자유게시판": 1,
+        "SNS": 2,
+        "unknown": 6,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 1,
+        "STT_ENGINE_03": 2,
+        "뉴스기사": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "오다",
+          "count": 15
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "들어오다",
+          "count": 15
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "얼",
+      "targetSuffix": "얹히",
+      "pos": "VV",
+      "frequency": 14,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+VX+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "판매상품",
+          "count": 14
+        },
+        {
+          "term": "웃돈",
+          "count": 14
+        },
+        {
+          "term": "사기",
+          "count": 14
+        },
+        {
+          "term": "너무",
+          "count": 14
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 14
+      },
+      "sourceStats": {
+        "unknown": 14
+      },
+      "irregularClasses": [
+        "HI"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "얼다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "얹히다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "주",
+      "targetSuffix": "시키",
+      "pos": "VV",
+      "frequency": 14,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+VX+EF",
+        "EC+VX+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "곳을",
+          "count": 13
+        },
+        {
+          "term": "돌아다니며",
+          "count": 13
+        },
+        {
+          "term": "업체",
+          "count": 1
+        },
+        {
+          "term": "취업",
+          "count": 1
+        },
+        {
+          "term": "대신",
+          "count": 1
+        },
+        {
+          "term": "비싼",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 13,
+        "voice": 1
+      },
+      "sourceStats": {
+        "unknown": 13,
+        "STT_ENGINE_01": 1
+      },
+      "irregularClasses": [
+        "KI"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "주다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "시키다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "치",
+      "targetSuffix": "파헤치",
+      "pos": "VV",
+      "frequency": 14,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETN"
+      ],
+      "contextHints": [
+        {
+          "term": "곡괭이",
+          "count": 14
+        },
+        {
+          "term": "둑을",
+          "count": 14
+        },
+        {
+          "term": "시작했다",
+          "count": 14
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 14
+      },
+      "sourceStats": {
+        "unknown": 14
+      },
+      "irregularClasses": [
+        "CHI"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "치다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "파헤치다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "기",
+      "targetSuffix": "여기",
+      "pos": "VV",
+      "frequency": 14,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "그는",
+          "count": 6
+        },
+        {
+          "term": "끔찍",
+          "count": 6
+        },
+        {
+          "term": "생때같",
+          "count": 6
+        },
+        {
+          "term": "아들",
+          "count": 6
+        },
+        {
+          "term": "실수라",
+          "count": 6
+        },
+        {
+          "term": "가벼",
+          "count": 6
+        },
+        {
+          "term": "나중",
+          "count": 6
+        },
+        {
+          "term": "정말",
+          "count": 6
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12,
+        "voice": 2
+      },
+      "sourceStats": {
+        "unknown": 12,
+        "STT_ENGINE_03": 1,
+        "STT_ENGINE_02": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "기다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "여기다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "넣",
+      "targetSuffix": "놓",
+      "pos": "VV",
+      "frequency": 14,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EP+EF",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "으름장",
+          "count": 5
+        },
+        {
+          "term": "너희들",
+          "count": 4
+        },
+        {
+          "term": "생각",
+          "count": 4
+        },
+        {
+          "term": "철로",
+          "count": 4
+        },
+        {
+          "term": "위에",
+          "count": 4
+        },
+        {
+          "term": "녹슨",
+          "count": 4
+        },
+        {
+          "term": "기차",
+          "count": 4
+        },
+        {
+          "term": "가지런히",
+          "count": 3
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 14
+      },
+      "sourceStats": {
+        "unknown": 14
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "넣다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "놓다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "들",
+      "targetSuffix": "끼어들",
+      "pos": "VV",
+      "frequency": 14,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETN"
+      ],
+      "contextHints": [
+        {
+          "term": "차선",
+          "count": 14
+        },
+        {
+          "term": "때는",
+          "count": 14
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 14
+      },
+      "sourceStats": {
+        "unknown": 14
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "들다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "끼어들다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "라",
+      "targetSuffix": "리",
+      "pos": "VV",
+      "frequency": 14,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "있어",
+          "count": 10
+        },
+        {
+          "term": "다음",
+          "count": 10
+        },
+        {
+          "term": "음식",
+          "count": 2
+        },
+        {
+          "term": "어디",
+          "count": 2
+        },
+        {
+          "term": "많이",
+          "count": 2
+        },
+        {
+          "term": "있으려고",
+          "count": 2
+        },
+        {
+          "term": "이거",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12,
+        "generic": 2
+      },
+      "sourceStats": {
+        "unknown": 6,
+        "자유게시판": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "그라다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "그리다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "리",
+      "targetSuffix": "려오",
+      "pos": "VV",
+      "frequency": 14,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "가자미식해",
+          "count": 12
+        },
+        {
+          "term": "함경도",
+          "count": 12
+        },
+        {
+          "term": "강원도",
+          "count": 12
+        },
+        {
+          "term": "정착한",
+          "count": 12
+        },
+        {
+          "term": "가다",
+          "count": 1
+        },
+        {
+          "term": "다시",
+          "count": 1
+        },
+        {
+          "term": "수도",
+          "count": 1
+        },
+        {
+          "term": "있다",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12,
+        "voice": 2
+      },
+      "sourceStats": {
+        "unknown": 12,
+        "STT_ENGINE_03": 2
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "내리다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "내려오다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "사",
+      "targetSuffix": "서",
+      "pos": "VV",
+      "frequency": 14,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "EC+VX+EF",
+        "ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "사장님",
+          "count": 4
+        },
+        {
+          "term": "뒤에",
+          "count": 4
+        },
+        {
+          "term": "그래야",
+          "count": 4
+        },
+        {
+          "term": "무릅쓰면서",
+          "count": 2
+        },
+        {
+          "term": "폭행당하고",
+          "count": 2
+        },
+        {
+          "term": "있는",
+          "count": 2
+        },
+        {
+          "term": "버릇없",
+          "count": 2
+        },
+        {
+          "term": "어른들",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12,
+        "voice": 2
+      },
+      "sourceStats": {
+        "unknown": 12,
+        "STT_ENGINE_01": 1,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "사다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "서다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "없",
+      "targetSuffix": "어이없",
+      "pos": "VA",
+      "frequency": 14,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "분이",
+          "count": 14
+        },
+        {
+          "term": "이런",
+          "count": 14
+        },
+        {
+          "term": "실수",
+          "count": 14
+        },
+        {
+          "term": "하시다니",
+          "count": 14
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 14
+      },
+      "sourceStats": {
+        "unknown": 14
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "없다",
+          "count": 14
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "어이없다",
+          "count": 14
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "둘러보",
+      "targetSuffix": "들르",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+VX+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "상황이므",
+          "count": 13
+        },
+        {
+          "term": "자주",
+          "count": 13
+        },
+        {
+          "term": "합니다",
+          "count": 13
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 13
+      },
+      "sourceStats": {
+        "unknown": 13
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "둘러보다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "들르다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "오르",
+      "targetSuffix": "모르",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EP+EF",
+        "EP+EC",
+        "EP+ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "언어",
+          "count": 2
+        },
+        {
+          "term": "가끔",
+          "count": 2
+        },
+        {
+          "term": "곤혹스럽다",
+          "count": 2
+        },
+        {
+          "term": "알고",
+          "count": 2
+        },
+        {
+          "term": "있느냐",
+          "count": 2
+        },
+        {
+          "term": "척해주",
+          "count": 1
+        },
+        {
+          "term": "태형",
+          "count": 1
+        },
+        {
+          "term": "이런",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 6,
+        "voice": 7
+      },
+      "sourceStats": {
+        "unknown": 6,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 2
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "오르다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "모르다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "늘",
+      "targetSuffix": "듣",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "그런",
+          "count": 2
+        },
+        {
+          "term": "보니까",
+          "count": 1
+        },
+        {
+          "term": "제가",
+          "count": 1
+        },
+        {
+          "term": "강의",
+          "count": 1
+        },
+        {
+          "term": "문법",
+          "count": 1
+        },
+        {
+          "term": "수업",
+          "count": 1
+        },
+        {
+          "term": "시간",
+          "count": 1
+        },
+        {
+          "term": "최선이란",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 2,
+        "keyboard": 2,
+        "voice": 9
+      },
+      "sourceStats": {
+        "자유게시판": 1,
+        "SNS": 1,
+        "unknown": 2,
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 6,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "늘다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "데",
+      "targetSuffix": "오",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "호두",
+          "count": 13
+        },
+        {
+          "term": "귤껍질",
+          "count": 13
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 13
+      },
+      "sourceStats": {
+        "unknown": 13
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "데다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "오다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "돼",
+      "targetSuffix": "되",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "행위",
+          "count": 4
+        },
+        {
+          "term": "범죄구성요소",
+          "count": 4
+        },
+        {
+          "term": "위법성",
+          "count": 4
+        },
+        {
+          "term": "조각",
+          "count": 4
+        },
+        {
+          "term": "하나",
+          "count": 1
+        },
+        {
+          "term": "만들어주시면",
+          "count": 1
+        },
+        {
+          "term": "구하면",
+          "count": 1
+        },
+        {
+          "term": "생각하면",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 8,
+        "keyboard": 5
+      },
+      "sourceStats": {
+        "자유게시판": 1,
+        "질문게시판": 4,
+        "SNS": 3,
+        "unknown": 5
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "돼다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "되다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "듣",
+      "targetSuffix": "만들",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EF",
+        "EC+VX+EC",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "나만",
+          "count": 4
+        },
+        {
+          "term": "포트폴리오",
+          "count": 4
+        },
+        {
+          "term": "나중",
+          "count": 4
+        },
+        {
+          "term": "면접",
+          "count": 4
+        },
+        {
+          "term": "돼요",
+          "count": 2
+        },
+        {
+          "term": "작업",
+          "count": 1
+        },
+        {
+          "term": "어렵게",
+          "count": 1
+        },
+        {
+          "term": "계산",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 4,
+        "voice": 9
+      },
+      "sourceStats": {
+        "unknown": 4,
+        "STT_ENGINE_01": 4,
+        "STT_ENGINE_02": 2,
+        "STT_ENGINE_03": 3
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "듣다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "만들다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "마",
+      "targetSuffix": "말",
+      "pos": "VX",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC",
+        "ETM",
+        "EF",
+        "EF+SSC+JKQ",
+        "EP+EF+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "하지",
+          "count": 4
+        },
+        {
+          "term": "너무",
+          "count": 3
+        },
+        {
+          "term": "것도",
+          "count": 3
+        },
+        {
+          "term": "한다",
+          "count": 3
+        },
+        {
+          "term": "같을",
+          "count": 2
+        },
+        {
+          "term": "등을",
+          "count": 2
+        },
+        {
+          "term": "보인",
+          "count": 2
+        },
+        {
+          "term": "앞에서",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "generic": 3,
+        "keyboard": 9,
+        "voice": 1
+      },
+      "sourceStats": {
+        "자유게시판": 2,
+        "SNS": 1,
+        "unknown": 9,
+        "STT_ENGINE_02": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "마다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "말다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "보",
+      "targetSuffix": "쳐다보",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EC",
+        "EF",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "큰소리",
+          "count": 11
+        },
+        {
+          "term": "통화하기",
+          "count": 11
+        },
+        {
+          "term": "째려보",
+          "count": 11
+        },
+        {
+          "term": "여자",
+          "count": 1
+        },
+        {
+          "term": "똑바",
+          "count": 1
+        },
+        {
+          "term": "못하",
+          "count": 1
+        },
+        {
+          "term": "숙맥",
+          "count": 1
+        },
+        {
+          "term": "하니",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12,
+        "voice": 1
+      },
+      "sourceStats": {
+        "unknown": 12,
+        "STT_ENGINE_03": 1
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "보다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "쳐다보다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "보",
+      "targetSuffix": "풀",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EC",
+        "EC+VX+EP+EC",
+        "EC+VX+EF",
+        "EC+VX+ETM",
+        "EC+VX+EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "문제",
+          "count": 3
+        },
+        {
+          "term": "한번씩",
+          "count": 2
+        },
+        {
+          "term": "많이",
+          "count": 2
+        },
+        {
+          "term": "돼요",
+          "count": 2
+        },
+        {
+          "term": "미리",
+          "count": 2
+        },
+        {
+          "term": "스스",
+          "count": 1
+        },
+        {
+          "term": "하나",
+          "count": 1
+        },
+        {
+          "term": "여러분들",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 13
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 3,
+        "STT_ENGINE_02": 3,
+        "STT_ENGINE_03": 7
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "보다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "풀다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "뿌리",
+      "targetSuffix": "찌푸리",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETN+JX",
+        "EC+VX+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "눈살",
+          "count": 13
+        },
+        {
+          "term": "있는",
+          "count": 7
+        },
+        {
+          "term": "하니",
+          "count": 7
+        },
+        {
+          "term": "진짜",
+          "count": 7
+        },
+        {
+          "term": "봐도",
+          "count": 6
+        },
+        {
+          "term": "메스꺼워",
+          "count": 6
+        },
+        {
+          "term": "구역질",
+          "count": 6
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 13
+      },
+      "sourceStats": {
+        "unknown": 13
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "뿌리다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "찌푸리다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "서",
+      "targetSuffix": "잇",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "정말",
+          "count": 12
+        },
+        {
+          "term": "잘못된",
+          "count": 12
+        },
+        {
+          "term": "설거지",
+          "count": 1
+        },
+        {
+          "term": "나의",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 13
+      },
+      "sourceStats": {
+        "unknown": 13
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "서다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "잇다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "쓰",
+      "targetSuffix": "서",
+      "pos": "VV",
+      "frequency": 13,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EF",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "있는",
+          "count": 2
+        },
+        {
+          "term": "근데",
+          "count": 2
+        },
+        {
+          "term": "이제",
+          "count": 2
+        },
+        {
+          "term": "윤리",
+          "count": 1
+        },
+        {
+          "term": "하는",
+          "count": 1
+        },
+        {
+          "term": "보고",
+          "count": 1
+        },
+        {
+          "term": "싶습니다",
+          "count": 1
+        },
+        {
+          "term": "분이",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 3,
+        "voice": 10
+      },
+      "sourceStats": {
+        "자유게시판": 3,
+        "STT_ENGINE_01": 1,
+        "STT_ENGINE_02": 2,
+        "STT_ENGINE_03": 7
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "쓰다",
+          "count": 13
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "서다",
+          "count": 13
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "구하",
+      "targetSuffix": "참",
+      "pos": "VV",
+      "frequency": 12,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EC+VX+EC",
+        "EC+VV+EF",
+        "EC+VX+EF",
+        "EC+VV+EP+EC",
+        "EC+VV+EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "명령어",
+          "count": 2
+        },
+        {
+          "term": "지문",
+          "count": 2
+        },
+        {
+          "term": "한번",
+          "count": 1
+        },
+        {
+          "term": "강의",
+          "count": 1
+        },
+        {
+          "term": "훌륭하게",
+          "count": 1
+        },
+        {
+          "term": "실전",
+          "count": 1
+        },
+        {
+          "term": "있을",
+          "count": 1
+        },
+        {
+          "term": "거라서",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 12
+      },
+      "sourceStats": {
+        "자유게시판": 9,
+        "질문게시판": 2,
+        "대화체": 1
+      },
+      "irregularClasses": [
+        "HA"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "구하다",
+          "count": 12
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "참다",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "오르",
+      "targetSuffix": "올라가",
+      "pos": "VV",
+      "frequency": 12,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EF",
+        "ETM",
+        "EC",
+        "EP+EF",
+        "EP+ETM"
+      ],
+      "contextHints": [
+        {
+          "term": "성적",
+          "count": 2
+        },
+        {
+          "term": "난이도",
+          "count": 2
+        },
+        {
+          "term": "상시",
+          "count": 1
+        },
+        {
+          "term": "있죠",
+          "count": 1
+        },
+        {
+          "term": "작품",
+          "count": 1
+        },
+        {
+          "term": "가격",
+          "count": 1
+        },
+        {
+          "term": "얘기죠",
+          "count": 1
+        },
+        {
+          "term": "들으면",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "voice": 12
+      },
+      "sourceStats": {
+        "STT_ENGINE_01": 2,
+        "STT_ENGINE_02": 6,
+        "STT_ENGINE_03": 4
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "오르다",
+          "count": 12
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "올라가다",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "오르",
+      "targetSuffix": "피어오르",
+      "pos": "VV",
+      "frequency": 12,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETM",
+        "EF"
+      ],
+      "contextHints": [
+        {
+          "term": "아지랑이",
+          "count": 10
+        },
+        {
+          "term": "것을",
+          "count": 10
+        },
+        {
+          "term": "보니",
+          "count": 10
+        },
+        {
+          "term": "아름다운",
+          "count": 2
+        },
+        {
+          "term": "노을",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12
+      },
+      "sourceStats": {
+        "unknown": 12
+      },
+      "irregularClasses": [
+        "REU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "오르다",
+          "count": 12
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "피어오르다",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "추",
+      "targetSuffix": "감추",
+      "pos": "VV",
+      "frequency": 12,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "EF",
+        "EC"
+      ],
+      "contextHints": [
+        {
+          "term": "씁쓸한",
+          "count": 9
+        },
+        {
+          "term": "표정",
+          "count": 9
+        },
+        {
+          "term": "못했다",
+          "count": 9
+        },
+        {
+          "term": "불안해하며",
+          "count": 3
+        },
+        {
+          "term": "열등감",
+          "count": 3
+        },
+        {
+          "term": "살아간다",
+          "count": 3
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12
+      },
+      "sourceStats": {
+        "unknown": 12
+      },
+      "irregularClasses": [
+        "CHU"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "추다",
+          "count": 12
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "감추다",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "치",
+      "targetSuffix": "펼치",
+      "pos": "VV",
+      "frequency": 12,
+      "generatorScore": 0.68,
+      "suffixSlots": [
+        "ETM",
+        "EP+EF"
+      ],
+      "contextHints": [
+        {
+          "term": "근절",
+          "count": 11
+        },
+        {
+          "term": "캠페인",
+          "count": 11
+        },
+        {
+          "term": "회사",
+          "count": 11
+        },
+        {
+          "term": "학폭",
+          "count": 11
+        },
+        {
+          "term": "어떤",
+          "count": 1
+        },
+        {
+          "term": "정책",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 11,
+        "voice": 1
+      },
+      "sourceStats": {
+        "unknown": 11,
+        "STT_ENGINE_02": 1
+      },
+      "irregularClasses": [
+        "CHI"
+      ],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "치다",
+          "count": 12
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "펼치다",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "뀌",
+      "targetSuffix": "꾸",
+      "pos": "VV",
+      "frequency": 12,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+ETM",
+        "ETN"
+      ],
+      "contextHints": [
+        {
+          "term": "사는",
+          "count": 10
+        },
+        {
+          "term": "장소",
+          "count": 10
+        },
+        {
+          "term": "것이",
+          "count": 10
+        },
+        {
+          "term": "아니라",
+          "count": 10
+        },
+        {
+          "term": "너의",
+          "count": 2
+        },
+        {
+          "term": "인식",
+          "count": 2
+        },
+        {
+          "term": "위해서",
+          "count": 2
+        },
+        {
+          "term": "찾아",
+          "count": 2
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12
+      },
+      "sourceStats": {
+        "unknown": 6
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "바뀌다",
+          "count": 12
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "바꾸다",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "놓",
+      "targetSuffix": "드러내",
+      "pos": "VV",
+      "frequency": 12,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "EC+VX+EC"
+      ],
+      "contextHints": [
+        {
+          "term": "누런",
+          "count": 12
+        },
+        {
+          "term": "이를",
+          "count": 12
+        },
+        {
+          "term": "웃는데",
+          "count": 12
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12
+      },
+      "sourceStats": {
+        "unknown": 12
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "놓다",
+          "count": 12
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "드러내다",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "데",
+      "targetSuffix": "대",
+      "pos": "VV",
+      "frequency": 12,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETN+JKS",
+        "ETN+JKB",
+        "ETN",
+        "ETN+JKG",
+        "ETN+JX",
+        "EC+JX"
+      ],
+      "contextHints": [
+        {
+          "term": "그럼",
+          "count": 3
+        },
+        {
+          "term": "짤따란",
+          "count": 3
+        },
+        {
+          "term": "나무",
+          "count": 3
+        },
+        {
+          "term": "끝에",
+          "count": 3
+        },
+        {
+          "term": "태양",
+          "count": 2
+        },
+        {
+          "term": "온도",
+          "count": 2
+        },
+        {
+          "term": "오염",
+          "count": 1
+        },
+        {
+          "term": "물질",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "generic": 7,
+        "keyboard": 4,
+        "voice": 1
+      },
+      "sourceStats": {
+        "질문게시판": 3,
+        "SNS": 1,
+        "unknown": 4,
+        "STT_ENGINE_01": 1,
+        "대화체": 1,
+        "뉴스기사": 2
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "데다",
+          "count": 12
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "대다",
+          "count": 12
+        }
+      ]
+    },
+    {
+      "sourceSuffix": "두",
+      "targetSuffix": "들",
+      "pos": "VV",
+      "frequency": 12,
+      "generatorScore": 0.65,
+      "suffixSlots": [
+        "ETM",
+        "ETM+NNB+JKB"
+      ],
+      "contextHints": [
+        {
+          "term": "살아가면서",
+          "count": 6
+        },
+        {
+          "term": "어떤",
+          "count": 6
+        },
+        {
+          "term": "탁월해지려면",
+          "count": 6
+        },
+        {
+          "term": "훈련하고",
+          "count": 6
+        },
+        {
+          "term": "너무",
+          "count": 4
+        },
+        {
+          "term": "옷에든",
+          "count": 3
+        },
+        {
+          "term": "아름다움",
+          "count": 1
+        },
+        {
+          "term": "것을",
+          "count": 1
+        }
+      ],
+      "interfaceStats": {
+        "keyboard": 12
+      },
+      "sourceStats": {
+        "unknown": 12
+      },
+      "irregularClasses": [],
+      "sourceLemmaExamples": [
+        {
+          "lemma": "두다",
+          "count": 12
+        }
+      ],
+      "targetLemmaExamples": [
+        {
+          "lemma": "들다",
+          "count": 12
+        }
+      ]
+    }
+  ]
+}

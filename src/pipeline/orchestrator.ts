@@ -24,6 +24,10 @@ export class PipelineOrchestrator {
   private stageListener: ((trace: StageTrace) => void) | null = null;
   private useLocalApi = false;
   private provider: 'wasm' | 'webgpu' = 'wasm';
+  private preferLocalApi =
+    typeof window !== 'undefined' &&
+    (new URLSearchParams(window.location.search).get('localApi') === '1' ||
+      import.meta.env.VITE_PREFER_LOCAL_API === '1');
 
   constructor() {
     this.worker = new Worker(new URL('../worker/inference.worker.ts', import.meta.url), { type: 'module' });
@@ -162,7 +166,7 @@ export class PipelineOrchestrator {
 
   async init(provider: 'wasm' | 'webgpu'): Promise<InitResult> {
     this.provider = provider;
-    const hasApi = await this.checkLocalApi();
+    const hasApi = this.preferLocalApi ? await this.checkLocalApi() : false;
     this.useLocalApi = hasApi;
     if (hasApi) {
       return {

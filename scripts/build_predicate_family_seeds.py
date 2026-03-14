@@ -359,6 +359,8 @@ def should_keep_auto_edge(src_lemma: str, edge: Dict) -> bool:
     edit = char_edit_distance(src_lemma, replacement)
     if sim < 0.48:
         return False
+    if src_lemma and replacement and src_lemma[0] != replacement[0] and sim < 0.7:
+        return False
     if replacement in BROAD_VOICE_BLACKLIST and (src_lemma, replacement) not in BROAD_TARGET_ALLOWLIST:
         return False
     stats = edge.get("interfaceStats") or {}
@@ -372,7 +374,10 @@ def should_keep_auto_edge(src_lemma: str, edge: Dict) -> bool:
         return False
     suffix_slots = edge.get("suffixSlots") or []
     surface_examples = edge.get("surfaceExamples") or []
+    context_hints = edge.get("contextHints") or []
     if not suffix_slots and not surface_examples:
+        return False
+    if sim < 0.58 and not context_hints:
         return False
     return True
 

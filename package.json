@@ -4,14 +4,16 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "prepare:kiwi": "node scripts/prepare_kiwi_assets.mjs",
+    "dev": "npm run prepare:kiwi && vite",
+    "build": "npm run prepare:kiwi && tsc -b && vite build",
     "deploy:firebase": "npm run build && firebase deploy --only hosting",
     "preview": "vite preview",
-    "check": "tsc -b --pretty false"
+    "check": "npm run prepare:kiwi && tsc -b --pretty false"
   },
   "dependencies": {
     "idb": "^8.0.3",
+    "kiwi-nlp": "^0.22.1",
     "onnxruntime-web": "^1.23.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

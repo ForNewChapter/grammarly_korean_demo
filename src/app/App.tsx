@@ -24,6 +24,9 @@ export default function App(): JSX.Element {
     () => state.pipelineResult?.assetStatus.modelReady ?? {},
     [state.pipelineResult?.assetStatus.modelReady]
   );
+  const rulesReady = state.pipelineResult?.assetStatus.rulesReady ?? false;
+  const kiwiReady = state.pipelineResult?.assetStatus.kiwiReady ?? false;
+  const assetErrors = state.pipelineResult?.assetStatus.assetErrors ?? [];
 
   const runPipeline = useCallback(async () => {
     if (!orchestratorRef.current) return;
@@ -123,7 +126,13 @@ export default function App(): JSX.Element {
             online={state.offlineSimulation ? false : state.online}
             offlineReady={state.pipelineResult?.assetStatus.offlineCapable ?? false}
           />
-          <AssetStatusPanel provider={state.provider} modelReady={modelReady} />
+          <AssetStatusPanel
+            provider={state.provider}
+            modelReady={modelReady}
+            rulesReady={rulesReady}
+            kiwiReady={kiwiReady}
+            assetErrors={assetErrors}
+          />
         </div>
       </header>
 

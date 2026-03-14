@@ -28,7 +28,7 @@ TYPED_CONFUSION_GRAPH_PATH = BASE_DIR / "public" / "assets" / "dict" / "typed_co
 HIGH_PRECISION_SURFACE_FIXES_PATH = BASE_DIR / "public" / "assets" / "rules" / "high_precision_surface_fixes.json"
 PHRASE_MEMORY_PATH = BASE_DIR / "public" / "assets" / "dict" / "phrase_memory.json"
 PREDICATE_FAMILY_SEEDS_PATH = BASE_DIR / "public" / "assets" / "dict" / "predicate_family_seeds.json"
-LEMMA_FAMILY_GRAPH_PATH = BASE_DIR / "public" / "assets" / "dict" / "lemma_family_graph.json"
+INFLECTION_RECOVERY_RULES_PATH = BASE_DIR / "public" / "assets" / "dict" / "inflection_recovery_rules.json"
 
 RULE_MISSPELLINGS = [
     {"from": "되요", "to": "돼요", "reasonTag": "common_misspelling", "confidence": 0.99},
@@ -71,6 +71,7 @@ CURATED_CANDIDATE_SOURCES = {
     "AUTO_FAMILY_SEED",
     "FAMILY_SURFACE_EXAMPLE",
     "PHRASE_MEMORY",
+    "INFLECTION_RULE",
 }
 RUNTIME_BROAD_LEMMA_TARGETS = {"하다", "되다", "가다", "나다", "나오다", "알다", "있다"}
 RUNTIME_BROAD_LEMMA_ALLOWLIST = {
@@ -133,13 +134,14 @@ class CorrectionEngine:
         self.typed_confusion_resource = self._load_typed_confusion_resource()
         self.phrase_memory = self._load_phrase_memory()
         self.predicate_family_seeds = self._load_predicate_family_seeds()
-        self.lemma_family_graph = self._load_lemma_family_graph()
+        self.inflection_recovery_rules = self._load_inflection_recovery_rules()
         self.phrase_memory_index = self._build_phrase_memory_index()
         self.phrase_memory_target_index = self._build_phrase_memory_target_index()
         self.rule_misspellings = self._load_surface_fix_rules()
         self.surface_fix_index = self._build_surface_fix_index(self.rule_misspellings)
         self.surface_confusion_map = self._build_surface_confusion_map()
         self.lemma_confusion_map = self._build_lemma_confusion_map()
+        self.predicate_lemma_index = self._build_predicate_lemma_index()
         self._load_local_edit_tagger()
         self.profile_proto_emb = self._build_profile_prototypes(self._sentence_embedding)
         self.profile_proto_emb_electra = self._build_profile_prototypes(
@@ -215,13 +217,13 @@ class CorrectionEngine:
         except Exception:
             return {"lemmas": {}}
 
-    def _load_lemma_family_graph(self) -> Dict[str, Any]:
-        if not LEMMA_FAMILY_GRAPH_PATH.exists():
-            return {"lemmas": {}}
+    def _load_inflection_recovery_rules(self) -> Dict[str, Any]:
+        if not INFLECTION_RECOVERY_RULES_PATH.exists():
+            return {"rules": []}
         try:
-            return json.loads(LEMMA_FAMILY_GRAPH_PATH.read_text(encoding="utf-8"))
+            return json.loads(INFLECTION_RECOVERY_RULES_PATH.read_text(encoding="utf-8"))
         except Exception:
-            return {"lemmas": {}}
+            return {"rules": []}
 
     def _build_phrase_memory_index(self) -> Dict[str, List[Dict[str, Any]]]:
         index: Dict[str, List[Dict[str, Any]]] = {}
@@ -303,6 +305,10 @@ class CorrectionEngine:
             surface_graph[surface] = self._merge_candidates(existing, replacements)
         return surface_graph
 
+    @staticmethod
+    def _coarse_predicate_pos(tag: str) -> str:
+        return str(tag or "").split("-", 1)[0]
+
     def _build_lemma_confusion_map(self) -> Dict[str, List[Dict[str, Any]]]:
         graph: Dict[str, Dict[str, Dict[str, Any]]] = {}
 
@@ -314,6 +320,12 @@ class CorrectionEngine:
             source_name = str(payload.get("source") or "")
             if left in RUNTIME_BROAD_LEMMA_SOURCES and source_name in {"DATA_CONFUSION", "LEMMA_DATA_CONFUSION", "AUTO_FAMILY_SEED"}:
                 return False
+            if source_name in {"AUTO_FAMILY_SEED", "LEMMA_FAMILY_GRAPH", "LEMMA_DATA_CONFUSION"}:
+                similarity = float(payload.get("surfaceSimilarity") or self._typo_similarity(left, right))
+                if left and right and left[0] != right[0] and similarity < 0.7:
+                    return False
+                if similarity < 0.58 and not payload.get("contextHints"):
+                    return False
             return True
 
         def merge_hint_rows(
@@ -460,6 +472,30 @@ class CorrectionEngine:
                 )
 
         return {lemma: list(targets.values()) for lemma, targets in graph.items()}
+
+    def _build_predicate_lemma_index(self) -> Dict[str, List[str]]:
+        buckets: Dict[str, set[str]] = {}
+
+        def register(lemma: str, pos: Optional[str]) -> None:
+            normalized = str(lemma or "").strip()
+            coarse_pos = self._coarse_predicate_pos(str(pos or ""))
+            if not normalized or not normalized.endswith("다"):
+                return
+            if coarse_pos not in {"VV", "VA", "VX"}:
+                return
+            buckets.setdefault(coarse_pos, set()).add(normalized)
+
+        for lemma, replacements in self.lemma_confusion_map.items():
+            replacement_list = replacements or []
+            if replacement_list:
+                register(lemma, replacement_list[0].get("pos"))
+            for replacement in replacement_list:
+                register(replacement.get("replacement"), replacement.get("pos"))
+
+        return {
+            pos: sorted(values, key=lambda item: (len(item), item))
+            for pos, values in buckets.items()
+        }
 
     def _warmup_runtime(self) -> None:
         warm_sentence = "오늘 날씨가 좋다"
@@ -930,12 +966,16 @@ class CorrectionEngine:
             return 0.97
         if source == "AUTO_FAMILY_SEED":
             return 0.96
+        if source == "INFLECTION_RULE":
+            return 0.95
         if source == "LEMMA_CONFUSION":
             return 0.95
         if source == "FAMILY_SURFACE_EXAMPLE":
             return 0.95
         if source == "MORPH":
             return 0.9
+        if source == "JAMO_FALLBACK":
+            return 0.72
         if source == "JAMO":
             return 0.7
         if source == "MLM_TOPK":
@@ -1672,6 +1712,225 @@ class CorrectionEngine:
         bundles = self._token_morph_bundles(sentence, start, end, top_n=1)
         return bundles[0] if bundles else None
 
+    @staticmethod
+    def _stem_from_lemma(lemma: str, fallback: str = "") -> str:
+        normalized = str(lemma or "").strip()
+        if normalized.endswith("다"):
+            return normalized[:-1]
+        return fallback or normalized
+
+    @staticmethod
+    def _infer_irregular_class_from_lemma(lemma: str) -> Optional[str]:
+        normalized = str(lemma or "").strip()
+        if normalized.endswith("하다"):
+            return "HA"
+        if normalized.endswith("르다"):
+            return "REU"
+        if normalized.endswith("치다"):
+            return "CHI"
+        if normalized.endswith("추다"):
+            return "CHU"
+        if normalized.endswith("히다"):
+            return "HI"
+        if normalized.endswith("키다"):
+            return "KI"
+        if normalized.endswith("우다"):
+            return "U"
+        return None
+
+    def _canonical_predicate_states(
+        self,
+        sentence: str,
+        start: int,
+        end: int,
+        top_n: int = 5,
+    ) -> List[Dict[str, Any]]:
+        bundles = self._token_morph_bundles(sentence, start, end, top_n=top_n)
+        states: List[Dict[str, Any]] = []
+        seen = set()
+        for bundle in bundles:
+            predicate = bundle["predicate"]
+            lemma = str(predicate.lemma or "").strip()
+            if not lemma:
+                continue
+            coarse_pos = self._coarse_predicate_pos(predicate.tag)
+            if coarse_pos not in {"VV", "VA", "VX"}:
+                continue
+            state = {
+                "surface": sentence[start:end],
+                "lemma": lemma,
+                "pos": coarse_pos,
+                "tag": predicate.tag,
+                "slot": bundle.get("suffixSlot"),
+                "suffixMorphs": bundle["suffixMorphs"],
+                "analysisRank": int(bundle.get("analysisRank", 0)),
+                "analysisScore": float(bundle.get("analysisScore", 0.0)),
+                "irregularClass": self._infer_irregular_class_from_lemma(lemma),
+                "stem": self._stem_from_lemma(lemma, predicate.form),
+            }
+            key = (
+                state["lemma"],
+                state["pos"],
+                state["slot"],
+                state["irregularClass"],
+            )
+            if key in seen:
+                continue
+            seen.add(key)
+            states.append(state)
+        return states
+
+    def _predicate_lemma_exists(self, lemma: str, coarse_pos: str) -> bool:
+        if not lemma:
+            return False
+        return lemma in (self.predicate_lemma_index.get(coarse_pos) or [])
+
+    def _reinflect_candidate(
+        self,
+        state: Dict[str, Any],
+        target_lemma: str,
+        *,
+        source: str,
+        generator_score: float,
+        token: str,
+        extra: Optional[Dict[str, Any]] = None,
+    ) -> Optional[Dict[str, Any]]:
+        target_tag = self._infer_lemma_tag(target_lemma, state["tag"])
+        target_stem = self._stem_from_lemma(target_lemma, target_lemma)
+        morph_seq = [(target_stem, target_tag), *[(m.form, m.tag) for m in state["suffixMorphs"]]]
+        try:
+            restored = self.kiwi.join(morph_seq, lm_search=True)
+        except TypeError:
+            try:
+                restored = self.kiwi.join(morph_seq)
+            except Exception:
+                return None
+        except Exception:
+            return None
+        if not restored or restored == token:
+            return None
+        payload = {
+            "replacement": restored,
+            "source": source,
+            "generatorScore": max(0.0, float(generator_score)),
+            "pos": target_tag,
+            "suffixSlot": state.get("slot"),
+            "familyLemmas": [state["lemma"], target_lemma],
+            "irregularClass": self._infer_irregular_class_from_lemma(target_lemma) or state.get("irregularClass"),
+        }
+        if extra:
+            payload.update({key: value for key, value in extra.items() if value not in (None, "", [])})
+        return payload
+
+    def _productive_inflection_rule_candidates(
+        self,
+        state: Dict[str, Any],
+        token: str,
+    ) -> List[Dict[str, Any]]:
+        rules = self.inflection_recovery_rules.get("rules") or []
+        if not rules:
+            return []
+        current_lemma = state["lemma"]
+        current_stem = state["stem"]
+        coarse_pos = state["pos"]
+        slot = state.get("slot")
+        dedup: Dict[str, Dict[str, Any]] = {}
+        for rule in rules:
+            rule_pos = self._coarse_predicate_pos(str(rule.get("pos") or ""))
+            if rule_pos and rule_pos != coarse_pos:
+                continue
+            source_suffix = str(rule.get("sourceSuffix") or "")
+            target_suffix = str(rule.get("targetSuffix") or "")
+            if not source_suffix or not target_suffix:
+                continue
+            if not current_stem.endswith(source_suffix):
+                continue
+            rule_slots = rule.get("suffixSlots") or []
+            if slot and rule_slots and not any(
+                slot == candidate_slot
+                or slot.startswith(f"{candidate_slot}+")
+                or str(candidate_slot).startswith(f"{slot}+")
+                for candidate_slot in rule_slots
+            ):
+                continue
+            target_stem = f"{current_stem[:-len(source_suffix)]}{target_suffix}"
+            target_lemma = f"{target_stem}다"
+            if target_lemma == current_lemma:
+                continue
+            if not self._predicate_lemma_exists(target_lemma, coarse_pos):
+                continue
+            rule_score = float(rule.get("generatorScore", 0.0))
+            analysis_penalty = min(0.08, 0.02 * int(state.get("analysisRank", 0)))
+            payload = self._reinflect_candidate(
+                state,
+                target_lemma,
+                source="INFLECTION_RULE",
+                generator_score=max(0.0, rule_score - analysis_penalty),
+                token=token,
+                extra={
+                    "contextHints": rule.get("contextHints"),
+                    "interfaceStats": rule.get("interfaceStats"),
+                    "suffixSlots": rule_slots,
+                    "sourceStats": rule.get("sourceStats"),
+                    "surfaceExamples": None,
+                    "irregularClass": (rule.get("irregularClasses") or [None])[0],
+                },
+            )
+            if payload is None:
+                continue
+            existing = dedup.get(payload["replacement"])
+            if existing is None or float(payload["generatorScore"]) > float(existing.get("generatorScore", 0.0)):
+                dedup[payload["replacement"]] = payload
+        return list(dedup.values())
+
+    def _jamo_weighted_fallback_candidates(
+        self,
+        state: Dict[str, Any],
+        token: str,
+        limit: int = 3,
+    ) -> List[Dict[str, Any]]:
+        current_lemma = state["lemma"]
+        current_stem = state["stem"]
+        coarse_pos = state["pos"]
+        if not current_stem or len(current_stem) < 2:
+            return []
+        scored: List[Tuple[float, str]] = []
+        for lemma in self.predicate_lemma_index.get(coarse_pos, []):
+            if lemma == current_lemma:
+                continue
+            candidate_stem = self._stem_from_lemma(lemma)
+            if abs(len(candidate_stem) - len(current_stem)) > 1:
+                continue
+            if current_stem[0] != candidate_stem[0]:
+                continue
+            similarity = self._typo_similarity(current_stem, candidate_stem)
+            if similarity < 0.72:
+                continue
+            if self._char_edit_distance(current_stem, candidate_stem) > 2:
+                continue
+            scored.append((similarity, lemma))
+        scored.sort(key=lambda item: (item[0], item[1]), reverse=True)
+        dedup: Dict[str, Dict[str, Any]] = {}
+        for similarity, lemma in scored[:limit]:
+            payload = self._reinflect_candidate(
+                state,
+                lemma,
+                source="JAMO_FALLBACK",
+                generator_score=0.58 + ((similarity - 0.72) * 0.4),
+                token=token,
+                extra={
+                    "contextHints": [],
+                    "interfaceStats": {"generic": 1},
+                },
+            )
+            if payload is None:
+                continue
+            payload["generatorScore"] = round(float(payload["generatorScore"]), 4)
+            existing = dedup.get(payload["replacement"])
+            if existing is None or float(payload["generatorScore"]) > float(existing.get("generatorScore", 0.0)):
+                dedup[payload["replacement"]] = payload
+        return list(dedup.values())
+
     def _infer_lemma_tag(self, lemma: str, fallback_tag: str) -> str:
         tag_base = fallback_tag.split("-")[0]
         try:
@@ -1708,11 +1967,19 @@ class CorrectionEngine:
             return None
 
         lemmas: List[str] = []
-        bundles = self._token_morph_bundles(sentence, start, end, top_n=5)
-        for bundle in bundles:
-            original_lemma = bundle["predicate"].lemma
+        slot_hints: List[str] = []
+        pos_hints: List[str] = []
+        states = self._canonical_predicate_states(sentence, start, end, top_n=5)
+        for state in states:
+            original_lemma = str(state.get("lemma") or "").strip()
             if original_lemma and original_lemma not in lemmas:
                 lemmas.append(original_lemma)
+            slot_hint = str(state.get("slot") or "").strip()
+            if slot_hint and slot_hint not in slot_hints:
+                slot_hints.append(slot_hint)
+            pos_hint = str(state.get("pos") or "").strip()
+            if pos_hint and pos_hint not in pos_hints:
+                pos_hints.append(pos_hint)
 
         for lemma in self._predicate_lemmas_from_text(best_replacement):
             if lemma not in lemmas:
@@ -1733,6 +2000,8 @@ class CorrectionEngine:
             "bestReplacement": best_replacement,
             "lemmas": expanded_lemmas,
             "surfaces": surfaces,
+            "slotHints": slot_hints,
+            "posHints": pos_hints,
         }
 
     def _candidate_family_lemmas(self, replacement: str) -> List[str]:
@@ -1813,6 +2082,39 @@ class CorrectionEngine:
 
         return [*family_hits, *kept_outsiders]
 
+    @staticmethod
+    def _candidate_pos_compatible_with_prior(item: Dict[str, Any], family_prior: Optional[Dict[str, Any]]) -> bool:
+        if not family_prior:
+            return True
+        pos_hints = [str(value) for value in (family_prior.get("posHints") or []) if value]
+        if not pos_hints:
+            return True
+        item_pos = str(item.get("pos") or "")
+        if not item_pos:
+            return True
+        coarse_item_pos = item_pos.split("-", 1)[0]
+        return coarse_item_pos in pos_hints
+
+    @staticmethod
+    def _candidate_slot_compatible_with_prior(item: Dict[str, Any], family_prior: Optional[Dict[str, Any]]) -> bool:
+        if not family_prior:
+            return True
+        slot_hints = [str(value) for value in (family_prior.get("slotHints") or []) if value]
+        if not slot_hints:
+            return True
+        candidate_slots = CorrectionEngine._variant_suffix_slots(item)
+        if not candidate_slots:
+            return True
+        for bundle_slot in slot_hints:
+            for slot in candidate_slots:
+                if (
+                    bundle_slot == slot
+                    or bundle_slot.startswith(f"{slot}+")
+                    or slot.startswith(f"{bundle_slot}+")
+                ):
+                    return True
+        return False
+
     def _build_join_candidates(
         self,
         sentence: str,
@@ -1820,53 +2122,48 @@ class CorrectionEngine:
         start: int,
         end: int,
     ) -> List[Dict[str, Any]]:
-        bundles = self._token_morph_bundles(sentence, start, end, top_n=5)
-        if not bundles:
+        states = self._canonical_predicate_states(sentence, start, end, top_n=5)
+        if not states:
             return []
         dedup: Dict[str, Dict[str, Any]] = {}
 
-        for bundle in bundles:
-            predicate = bundle["predicate"]
-            predicate_lemma = predicate.lemma
-            predicate_tag = predicate.tag
-            predicate_stem = predicate_lemma[:-1] if predicate_lemma.endswith("다") else predicate.form
-            suffix_morphs = bundle["suffixMorphs"]
-            bundle_slot = bundle.get("suffixSlot")
-            bundle_penalty = min(0.08, 0.03 * int(bundle.get("analysisRank", 0)))
+        def keep_best(candidate: Dict[str, Any]) -> None:
+            replacement = candidate["replacement"]
+            existing = dedup.get(replacement)
+            if existing is None or float(candidate.get("generatorScore", 0.0)) > float(existing.get("generatorScore", 0.0)):
+                dedup[replacement] = candidate
+
+        bundles = self._token_morph_bundles(sentence, start, end, top_n=5)
+        bundle_by_rank = {int(bundle.get("analysisRank", 0)): bundle for bundle in bundles}
+
+        for state in states:
+            predicate_lemma = state["lemma"]
+            bundle_slot = state.get("slot")
+            bundle_penalty = min(0.08, 0.03 * int(state.get("analysisRank", 0)))
+            bundle = bundle_by_rank.get(int(state.get("analysisRank", 0)))
 
             lemma_variants = self.lemma_confusion_map.get(predicate_lemma, [])
             for variant in lemma_variants:
                 if not self._suffix_slot_compatible(bundle_slot, variant):
                     continue
                 target_lemma = variant["replacement"]
-                target_stem = target_lemma[:-1] if target_lemma.endswith("다") else target_lemma
-                target_tag = self._infer_lemma_tag(target_lemma, predicate_tag)
-                morph_seq = [(target_stem, target_tag), *[(m.form, m.tag) for m in suffix_morphs]]
-                try:
-                    restored = self.kiwi.join(morph_seq, lm_search=True)
-                except TypeError:
-                    try:
-                        restored = self.kiwi.join(morph_seq)
-                    except Exception:
-                        continue
-                except Exception:
-                    continue
-                if not restored or restored == token:
-                    continue
-                payload = {
-                    "replacement": restored,
-                    "source": variant.get("source", "LEMMA_CONFUSION"),
-                    "generatorScore": max(0.0, float(variant["generatorScore"]) - bundle_penalty),
-                    "interfaceType": variant.get("interfaceType"),
-                    "interfaceStats": variant.get("interfaceStats"),
-                    "contextHints": variant.get("contextHints"),
-                    "pos": variant.get("pos", target_tag),
-                    "suffixSlot": variant.get("suffixSlot") or variant.get("suffixSlots"),
-                    "familyLemmas": [predicate_lemma, target_lemma],
-                }
-                existing = dedup.get(restored)
-                if existing is None or float(payload["generatorScore"]) > float(existing.get("generatorScore", 0.0)):
-                    dedup[restored] = payload
+                payload = self._reinflect_candidate(
+                    state,
+                    target_lemma,
+                    source=variant.get("source", "LEMMA_CONFUSION"),
+                    generator_score=max(0.0, float(variant["generatorScore"]) - bundle_penalty),
+                    token=token,
+                    extra={
+                        "interfaceType": variant.get("interfaceType"),
+                        "interfaceStats": variant.get("interfaceStats"),
+                        "contextHints": variant.get("contextHints"),
+                        "pos": variant.get("pos"),
+                        "suffixSlot": variant.get("suffixSlot") or variant.get("suffixSlots"),
+                        "surfaceExamples": variant.get("surfaceExamples"),
+                    },
+                )
+                if payload is not None:
+                    keep_best(payload)
 
                 for example in variant.get("surfaceExamples") or []:
                     example_from = str(example.get("from") or "").strip()
@@ -1886,14 +2183,24 @@ class CorrectionEngine:
                         "interfaceType": variant.get("interfaceType"),
                         "interfaceStats": variant.get("interfaceStats"),
                         "contextHints": variant.get("contextHints"),
-                        "pos": variant.get("pos", target_tag),
+                        "pos": variant.get("pos"),
                         "suffixSlot": variant.get("suffixSlot") or variant.get("suffixSlots"),
                         "familyLemmas": [predicate_lemma, target_lemma],
                     }
-                    existing = dedup.get(example_to)
-                    if existing is None or float(example_payload["generatorScore"]) > float(existing.get("generatorScore", 0.0)):
-                        dedup[example_to] = example_payload
+                    keep_best(example_payload)
 
+            for inflection_candidate in self._productive_inflection_rule_candidates(state, token):
+                keep_best(inflection_candidate)
+
+            for fallback_candidate in self._jamo_weighted_fallback_candidates(state, token):
+                keep_best(fallback_candidate)
+
+            if not bundle:
+                continue
+
+            predicate = bundle["predicate"]
+            predicate_stem = self._stem_from_lemma(state["lemma"], predicate.form)
+            predicate_tag = state["tag"]
             for idx, morph in enumerate(bundle["morphs"]):
                 normalized = MORPHEME_CONFUSION_RULES.get((morph.raw_form, morph.tag))
                 if not normalized:
@@ -1923,11 +2230,9 @@ class CorrectionEngine:
                         "replacement": restored,
                         "source": variant["source"],
                         "generatorScore": max(0.0, float(variant["generatorScore"]) - bundle_penalty),
-                        "familyLemmas": [predicate_lemma],
+                        "familyLemmas": [state["lemma"]],
                     }
-                    existing = dedup.get(restored)
-                    if existing is None or float(payload["generatorScore"]) > float(existing.get("generatorScore", 0.0)):
-                        dedup[restored] = payload
+                    keep_best(payload)
 
         return list(dedup.values())
 
@@ -2379,6 +2684,12 @@ class CorrectionEngine:
                 context_hint_score = float(item.get("contextHintScore", 0.0))
                 interface_score = float(item.get("interfaceScore", 0.86))
                 family_match = bool(item.get("familyMatch"))
+                pos_compatible = self._candidate_pos_compatible_with_prior(item, family_prior)
+                slot_compatible = self._candidate_slot_compatible_with_prior(item, family_prior)
+                if not pos_compatible:
+                    continue
+                if not slot_compatible and not self._is_curated_candidate_source(source):
+                    continue
                 if family_prior and family_matched_items and not family_match and not self._is_curated_candidate_source(source):
                     if context_hint_score < 0.18 and prefilter < curated_best + 0.04:
                         continue
@@ -2391,20 +2702,24 @@ class CorrectionEngine:
                 verifier_score = (
                     0.42 * typo_similarity
                     + 0.24 * generator_norm
-                    + 0.16 * prefilter
-                    + 0.08 * context_hint_score
-                    + 0.05 * interface_score
+                    + 0.2 * prefilter
+                    + 0.06 * context_hint_score
+                    + 0.04 * interface_score
                 )
                 if family_prior and family_match:
                     verifier_score += 0.08
                 if self._is_curated_candidate_source(source):
                     verifier_score += 0.05
+                if slot_compatible:
+                    verifier_score += 0.03
 
                 scored_items.append(
                     {
                         **item,
                         "candidateVerifierScore": round(float(verifier_score), 4),
                         "familyMatch": family_match,
+                        "posCompatible": pos_compatible,
+                        "slotCompatible": slot_compatible,
                     }
                 )
 

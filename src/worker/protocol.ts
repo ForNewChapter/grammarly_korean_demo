@@ -14,8 +14,10 @@ export type WorkerResponse =
       assetStatus: {
         appShellReady: boolean;
         rulesReady: boolean;
+        kiwiReady?: boolean;
         smallModelsReady: boolean;
         offlineCapable: boolean;
+        assetErrors?: string[];
       };
     }
   | { type: 'PIPELINE_RESULT'; result: PipelineResult }

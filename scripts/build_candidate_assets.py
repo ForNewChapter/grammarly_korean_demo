@@ -14,6 +14,7 @@ COMMANDS = [
     [PYTHON, str(BASE_DIR / 'scripts' / 'build_typed_confusion_graph.py')],
     [PYTHON, str(BASE_DIR / 'scripts' / 'build_lemma_family_graph.py')],
     [PYTHON, str(BASE_DIR / 'scripts' / 'build_predicate_family_seeds.py')],
+    [PYTHON, str(BASE_DIR / 'scripts' / 'build_inflection_recovery_rules.py')],
     [PYTHON, str(BASE_DIR / 'scripts' / 'build_phrase_memory.py')],
 ]
 

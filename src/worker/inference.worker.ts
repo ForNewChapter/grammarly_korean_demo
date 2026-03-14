@@ -8,11 +8,13 @@ import { detectProtectedSpans } from '../stages/protectedSpan';
 import { normalizeText } from '../stages/normalizer';
 import { classifyProfile } from '../stages/profileClassifier';
 import { runRuleCorrector } from '../stages/ruleCorrector';
+import { runPhrasePreNormalizer } from '../stages/phrasePreNormalizer';
 import { proposeSpacing } from '../stages/spacingProposer';
 import { classifySpacingBoundaries, spacingToEdits } from '../stages/boundaryClassifier';
 import { runEditTagger } from '../stages/editTagger';
 import type { TaggedToken } from '../stages/editTagger';
 import { generateCandidates } from '../stages/candidateGenerator';
+import { verifyCandidates } from '../stages/candidateVerifier';
 import { rerankCandidates } from '../stages/reranker';
 import { guardrailDecision, policyForEdit } from '../stages/guardrail';
 import { runPolicyEngine } from '../stages/policyEngine';
@@ -29,6 +31,8 @@ import {
   scoreFromVector,
   softmaxConfidence,
 } from './onnxHelpers';
+import { loadRuntimeAssets } from './runtimeAssets';
+import { analyzeCanonicalTokens, ensureKiwiRuntime, getKiwiRuntimeStatus } from './kiwiRuntime';
 
 const modelManager = new ModelManager();
 const PROFILE_LABELS: Profile[] = ['NORMAL', 'CHAT', 'NOISY', 'MIXED', 'QUERY'];
@@ -227,6 +231,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   traces.push(makeTrace('RangeExtractor', text, range, t1, now(), '현재 교정해야 할 절만 잘라서 지연시간을 줄입니다.'));
 
   let clause = range.clauseText;
+  const assets = await loadRuntimeAssets();
 
   const t2 = now();
   const protectedOut = detectProtectedSpans(clause);
@@ -256,11 +261,28 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   const profile: Profile = profileOut.profile;
 
   const t4 = now();
-  const ruleEdits = runRuleCorrector(clause, protectedOut.protectedSpans);
+  const ruleEdits = runRuleCorrector(clause, protectedOut.protectedSpans, assets.surfaceFixRules);
   traces.push(makeTrace('RuleCorrector', clause, ruleEdits, t4, now(), '확실한 교정 규칙을 먼저 적용합니다.'));
   if (ruleEdits.length) {
     clause = applyEdits(clause, ruleEdits);
     allEdits.push(...ruleEdits);
+  }
+
+  const t41 = now();
+  const phraseEdits = runPhrasePreNormalizer(clause, protectedOut.protectedSpans, assets.phraseRules);
+  traces.push(
+    makeTrace(
+      'PhrasePreNormalizer',
+      clause,
+      phraseEdits,
+      t41,
+      now(),
+      '고정밀 구문 교정 메모리를 먼저 적용해 후보 공간을 줄입니다.'
+    )
+  );
+  if (phraseEdits.length) {
+    clause = applyEdits(clause, phraseEdits);
+    allEdits.push(...phraseEdits);
   }
 
   const t5 = now();
@@ -292,8 +314,26 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
     allEdits.push(...spacingEdits);
   }
 
+  const t65 = now();
+  const kiwiAnalysis = await analyzeCanonicalTokens(clause);
+  traces.push(
+    makeTrace(
+      'KiwiCanonicalizer',
+      clause,
+      {
+        ready: kiwiAnalysis.ready,
+        version: kiwiAnalysis.version,
+        tokenCount: kiwiAnalysis.tokensByRange.size,
+        error: kiwiAnalysis.error,
+      },
+      t65,
+      now(),
+      'Kiwi wasm으로 lemma/POS/활용 슬롯을 추출해 후보 생성의 기준 단위를 canonical state로 올립니다.'
+    )
+  );
+
   const t7 = now();
-  const taggedBase = runEditTagger(clause, protectedOut.protectedSpans);
+  const taggedBase = runEditTagger(clause, protectedOut.protectedSpans, assets, kiwiAnalysis);
   const taggedOut = await refineTaggerWithOnnx(taggedBase, profile);
   const tagged = taggedOut.tags;
   traces.push(
@@ -311,9 +351,22 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   );
 
   const t8 = now();
-  const generated = generateCandidates(clause, tagged);
+  const generated = await generateCandidates(clause, tagged, assets, kiwiAnalysis);
   traces.push(
     makeTrace('CandidateGenerator', clause, generated, t8, now(), 'OPEN_REPLACE 토큰에 대한 교체 후보를 만듭니다.')
+  );
+
+  const t82 = now();
+  const verified = verifyCandidates(clause, generated, assets, kiwiAnalysis);
+  traces.push(
+    makeTrace(
+      'CandidateVerifier',
+      clause,
+      verified,
+      t82,
+      now(),
+      'POS/활용 슬롯/오타 거리 기준으로 구조적으로 말이 되는 후보만 남깁니다.'
+    )
   );
 
   const tagConf: Record<string, number> = {};
@@ -322,7 +375,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   }
 
   const t9 = now();
-  const rerankedBase = rerankCandidates(clause, profile, generated, tagConf);
+  const rerankedBase = rerankCandidates(clause, profile, verified, tagConf);
   const rerankedOut = await refineRerankerWithOnnx(clause, profile, rerankedBase);
   const reranked = rerankedOut.candidates;
   traces.push(
@@ -412,6 +465,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
 
   const modelReady = modelManager.getModelReadyMap();
   const smallModelsReady = Object.values(modelReady).some(Boolean);
+  const kiwiStatus = getKiwiRuntimeStatus();
 
   return {
     original: text,
@@ -424,11 +478,13 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
     traces,
     assetStatus: {
       appShellReady: true,
-      rulesReady: true,
+      rulesReady: assets.ready,
+      kiwiReady: kiwiAnalysis.ready,
       smallModelsReady,
-      offlineCapable: typeof navigator !== 'undefined' ? !navigator.onLine || true : true,
+      offlineCapable: assets.ready && kiwiAnalysis.ready,
       provider: modelManager.getExecutionProvider(),
       modelReady,
+      assetErrors: kiwiStatus.error ? [...assets.errors, kiwiStatus.error] : assets.errors,
     },
   };
 }
@@ -439,15 +495,20 @@ self.onmessage = async (evt: MessageEvent<WorkerRequest>): Promise<void> => {
   try {
     if (msg.type === 'INIT') {
       await modelManager.init(msg.provider);
+      const assets = await loadRuntimeAssets();
+      void ensureKiwiRuntime();
+      const kiwiStatus = getKiwiRuntimeStatus();
       const response: WorkerResponse = {
         type: 'INIT_DONE',
         provider: modelManager.getExecutionProvider(),
         modelReady: modelManager.getModelReadyMap(),
         assetStatus: {
           appShellReady: true,
-          rulesReady: true,
+          rulesReady: assets.ready,
+          kiwiReady: kiwiStatus.ready,
           smallModelsReady: Object.values(modelManager.getModelReadyMap()).some(Boolean),
-          offlineCapable: true,
+          offlineCapable: assets.ready && kiwiStatus.ready,
+          assetErrors: kiwiStatus.error ? [...assets.errors, kiwiStatus.error] : assets.errors,
         },
       };
       self.postMessage(response);

@@ -19,35 +19,51 @@
 
 현재 프로젝트는 두 가지 실행 경로를 가집니다.
 
-### 권장 실행 경로: 로컬 API 모드
+### 기본 실행 경로: 브라우저 정적 모드
 
-이 경로가 현재 가장 품질이 좋은 경로입니다.
+이 경로가 현재 배포 기준 기본 경로입니다.
 
-- Python FastAPI 서버
-- Kiwi
-- KoBERT
-- KoELECTRA
-- fine-tuned Edit Tagger
-- KoBERT-MLM
+- Web Worker
+- ONNX Runtime Web
+- Kiwi wasm
+- 정적 JSON 후보 자산
+- 브라우저 규칙/후보 생성/랭커
 
 이 경로에서는 아래 기능이 동작합니다.
 
-- 형태 분석을 이용한 후보 생성
-- 잘못된 활용형을 자연스러운 형태로 복원
-- 후보를 1차로 걸러내는 검증 단계
-- 문맥을 보고 최종 후보를 다시 고르는 단계
+- 정적 웹 호스팅만으로 실행 가능
+- 중앙 API 없이 팀원이 같은 URL에서 테스트 가능
+- ONNX 소형 모델 + Kiwi wasm + 자산 기반 후보 생성 사용
 
-### 대체 실행 경로: 브라우저 fallback 모드
+정리 문서:
+- [docs/static_web_migration.md](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/docs/static_web_migration.md)
 
-`/api/health`가 없으면 프론트는 Web Worker 기반 fallback 경로로 동작합니다.
+### 대체 실행 경로: 로컬 API 모드
 
-- ONNX Runtime Web
-- Web Worker
-- 브라우저 안의 규칙, 휴리스틱, ONNX 자산
+로컬에서 더 무거운 Python 파이프라인을 확인하고 싶다면 API 모드를 강제로 켤 수 있습니다.
 
-이 경로도 데모는 가능하지만, 현재는 로컬 API 모드보다 품질이 약합니다.
+- `VITE_PREFER_LOCAL_API=1` 또는 `?localApi=1`
+- Python FastAPI 서버
+- Kiwi
+- KoBERT / KoELECTRA / KoBERT-MLM
 
-즉, 지금 품질 그대로 보려면 로컬 API 모드 실행이 권장됩니다.
+즉, 정적 웹 배포는 브라우저 경로가 기본이고, 로컬 API는 비교/개발용 경로입니다.
+
+### GitHub Pages 자동 배포
+
+정적 웹 배포용 GitHub Actions가 포함되어 있습니다.
+
+- 워크플로우: [.github/workflows/deploy-static-pages.yml](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/.github/workflows/deploy-static-pages.yml)
+- `main` 브랜치에 푸시하면 `dist/`를 GitHub Pages로 배포합니다.
+- Pages 설정에서 **GitHub Actions**를 배포 소스로 선택하면 됩니다.
+
+프로젝트 페이지 경로를 위해 build 시 `VITE_BASE_PATH=/<repo-name>/`가 자동 적용됩니다.
+
+정적 웹 빌드 전에는 Kiwi wasm 모델 자산을 자동으로 내려받습니다.
+
+- 명령: `npm run prepare:kiwi`
+- 내려받는 위치: `public/assets/kiwi/model/`
+- 첫 브라우저 실행에서는 `100MB+` 수준의 Kiwi 자산 로딩 때문에 초기 `inspect`가 상대적으로 느릴 수 있습니다.
 
 ---
 

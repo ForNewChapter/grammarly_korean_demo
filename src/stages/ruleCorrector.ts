@@ -1,16 +1,21 @@
 import type { ProtectedSpan, TextEdit } from '../pipeline/types';
 import { isProtected } from './protectedSpan';
+import type { SurfaceFixRule } from '../worker/runtimeAssets';
 
-const COMMON: Array<{ from: string; to: string; reasonTag: string; confidence: number }> = [
+const COMMON: SurfaceFixRule[] = [
   { from: '되요', to: '돼요', reasonTag: 'common_misspelling', confidence: 0.99 },
-  { from: '왠', to: '웬', reasonTag: 'common_misspelling', confidence: 0.97 },
   { from: '삿어요', to: '샀어요', reasonTag: 'common_misspelling', confidence: 0.99 },
   { from: '잇어요', to: '있어요', reasonTag: 'common_misspelling', confidence: 0.96 },
 ];
 
-export function runRuleCorrector(text: string, protectedSpans: ProtectedSpan[]): TextEdit[] {
+export function runRuleCorrector(
+  text: string,
+  protectedSpans: ProtectedSpan[],
+  dynamicRules: SurfaceFixRule[] = []
+): TextEdit[] {
   const edits: TextEdit[] = [];
-  for (const rule of COMMON) {
+  const rules = [...dynamicRules, ...COMMON];
+  for (const rule of rules) {
     let from = 0;
     while (from < text.length) {
       const idx = text.indexOf(rule.from, from);
