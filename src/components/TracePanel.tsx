@@ -21,6 +21,7 @@ function getStageDisplay(stageName: string): StageDisplay {
     [/Spacing Boundary Classifier/i, { title: '6단계. 띄어쓰기 후보 판정', description: '띄어쓰기 후보 중 실제로 적용할 위치만 남깁니다.' }],
     [/Spacing Edit Converter/i, { title: '6-1단계. 띄어쓰기 수정안 생성', description: '선택된 띄어쓰기 후보를 실제 수정안으로 바꿉니다.' }],
     [/Kiwi Pre-normalizer/i, { title: '6-2단계. 고정밀 정규화', description: 'Kiwi와 로컬 사전으로 자주 틀리는 표면 오류를 먼저 정리합니다.' }],
+    [/Kiwi Canonicalizer/i, { title: '6-3단계. canonical state 추출', description: 'Kiwi wasm으로 lemma/POS/활용 슬롯을 추출해 후보 생성 기준 단위를 만듭니다.' }],
     [/Edit Tagger \(/i, { title: '7단계. 오류 감지', description: '문맥상 이상한 토큰이 있는지 보고, 어떤 종류의 교정인지 태깅합니다.' }],
     [/Edit Tagger Routing/i, { title: '7-1단계. 후속 처리 결정', description: '탐지된 오류를 띄어쓰기 체인으로 보낼지, 문맥 교정으로 보낼지 정합니다.' }],
     [/High-precision Lock Guard/i, { title: '7-2단계. 고정밀 수정 보호', description: '앞단에서 확실하게 고친 span은 약한 후속 제안이 다시 뒤집지 못하게 막습니다.' }],
@@ -223,6 +224,18 @@ function renderSummary(stageName: string, inputText: string, output: unknown): J
       </ul>
     ) : (
       <div className="trace-summary-empty">고정밀 정규화에서 적용한 수정이 없습니다.</div>
+    );
+  }
+
+  if (/Kiwi Canonicalizer/i.test(stageName)) {
+    const data = output as { ready?: boolean; version?: string; tokenCount?: number; error?: string };
+    return (
+      <ul className="trace-summary-list">
+        <li>준비 상태: {data?.ready ? 'ready' : 'not ready'}</li>
+        <li>토큰 수: {data?.tokenCount ?? 0}</li>
+        <li>버전: {data?.version ?? '-'}</li>
+        <li>오류: {data?.error ?? '-'}</li>
+      </ul>
     );
   }
 

@@ -57,6 +57,77 @@ function groupBestBySpan(candidates: Candidate[]): Candidate[] {
   return [...map.values()];
 }
 
+function groupCandidatesForTrace(candidates: Candidate[]): Array<{
+  original: string;
+  items: Array<{ replacement: string; source: string; finalScore?: number; verifyScore?: number }>;
+}> {
+  const grouped = new Map<string, {
+    original: string;
+    items: Array<{ replacement: string; source: string; finalScore?: number; verifyScore?: number }>;
+  }>();
+
+  for (const candidate of candidates) {
+    const key = `${candidate.span.start}:${candidate.span.end}`;
+    const current = grouped.get(key) ?? { original: candidate.original, items: [] };
+    current.items.push({
+      replacement: candidate.replacement,
+      source: candidate.source,
+      finalScore: candidate.finalScore,
+      verifyScore: candidate.verifyScore,
+    });
+    grouped.set(key, current);
+  }
+
+  return [...grouped.values()].map((group) => ({
+    ...group,
+    items: group.items.sort((a, b) => (b.finalScore ?? 0) - (a.finalScore ?? 0)),
+  }));
+}
+
+function groupVerifierForTrace(generated: Candidate[], verified: Candidate[]): Array<{
+  original: string;
+  candidateVerifier: { inputCount: number; keptCount: number; keptSources: string[] };
+}> {
+  const inputCounts = new Map<string, { original: string; count: number }>();
+  for (const candidate of generated) {
+    const key = `${candidate.span.start}:${candidate.span.end}`;
+    const current = inputCounts.get(key) ?? { original: candidate.original, count: 0 };
+    current.count += 1;
+    inputCounts.set(key, current);
+  }
+
+  const kept = new Map<string, { count: number; sources: Set<string> }>();
+  for (const candidate of verified) {
+    const key = `${candidate.span.start}:${candidate.span.end}`;
+    const current = kept.get(key) ?? { count: 0, sources: new Set<string>() };
+    current.count += 1;
+    current.sources.add(candidate.source);
+    kept.set(key, current);
+  }
+
+  return [...inputCounts.entries()].map(([key, input]) => ({
+    original: input.original,
+    candidateVerifier: {
+      inputCount: input.count,
+      keptCount: kept.get(key)?.count ?? 0,
+      keptSources: [...(kept.get(key)?.sources ?? new Set<string>())],
+    },
+  }));
+}
+
+function groupRerankerForTrace(candidates: Candidate[]): Array<{
+  original: string;
+  best?: { replacement: string; finalScore: number };
+}> {
+  return groupBestBySpan(candidates).map((candidate) => ({
+    original: candidate.original,
+    best: {
+      replacement: candidate.replacement,
+      finalScore: candidate.finalScore ?? 0,
+    },
+  }));
+}
+
 function summarizeGuardrails(decisions: GuardrailDecision[]): GuardrailDecision {
   if (decisions.some((d) => d.decision === 'REJECT')) {
     return { decision: 'REJECT', reasonCodes: ['HAS_REJECT'], score: 0.2 };
@@ -228,7 +299,20 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
 
   const t1 = now();
   const range = extractRange(text, cursor, mode);
-  traces.push(makeTrace('RangeExtractor', text, range, t1, now(), '현재 교정해야 할 절만 잘라서 지연시간을 줄입니다.'));
+  traces.push(
+    makeTrace(
+      'Input Range Extractor',
+      text,
+      {
+        clauseText: range.clauseText,
+        clauseRange: range.range,
+        strategy: mode === 'inspect' ? 'full_text_inspect' : 'cursor_window',
+      },
+      t1,
+      now(),
+      '현재 교정해야 할 절만 잘라서 지연시간을 줄입니다.'
+    )
+  );
 
   let clause = range.clauseText;
   const assets = await loadRuntimeAssets();
@@ -236,7 +320,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   const t2 = now();
   const protectedOut = detectProtectedSpans(clause);
   traces.push(
-    makeTrace('ProtectedSpanDetector', clause, protectedOut, t2, now(), 'URL/숫자/고유명사 같은 구간은 교정에서 제외합니다.')
+    makeTrace('Protected Span Detector', clause, protectedOut, t2, now(), 'URL/숫자/고유명사 같은 구간은 교정에서 제외합니다.')
   );
 
   const t3 = now();
@@ -245,7 +329,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   const profileOut = await refineProfileWithOnnx(normalized, profileHeuristic);
   traces.push(
     makeTrace(
-      'ProfileClassifier',
+      'Profile Classifier',
       normalized,
       {
         profile: profileOut.profile,
@@ -262,7 +346,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
 
   const t4 = now();
   const ruleEdits = runRuleCorrector(clause, protectedOut.protectedSpans, assets.surfaceFixRules);
-  traces.push(makeTrace('RuleCorrector', clause, ruleEdits, t4, now(), '확실한 교정 규칙을 먼저 적용합니다.'));
+  traces.push(makeTrace('Rule Corrector', clause, ruleEdits, t4, now(), '확실한 교정 규칙을 먼저 적용합니다.'));
   if (ruleEdits.length) {
     clause = applyEdits(clause, ruleEdits);
     allEdits.push(...ruleEdits);
@@ -272,7 +356,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   const phraseEdits = runPhrasePreNormalizer(clause, protectedOut.protectedSpans, assets.phraseRules);
   traces.push(
     makeTrace(
-      'PhrasePreNormalizer',
+      'Phrase Pre-normalizer',
       clause,
       phraseEdits,
       t41,
@@ -291,9 +375,10 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   const spacingCandidates = spacingModelOut.candidates;
   traces.push(
     makeTrace(
-      'SpacingProposer',
+      'Spacing Candidate Generator',
       clause,
       {
+        spacedText: clause,
         candidates: spacingCandidates,
         method: spacingModelOut.modelUsed ? 'onnx+heuristic' : 'heuristic',
       },
@@ -307,7 +392,10 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   const spacingAccepted = classifySpacingBoundaries(clause, spacingCandidates, profile);
   const spacingEdits = spacingToEdits(spacingAccepted);
   traces.push(
-    makeTrace('BoundaryClassifier', clause, { accepted: spacingAccepted, edits: spacingEdits }, t6, now(), '후보 중 적용할 띄어쓰기만 선별합니다.')
+    makeTrace('Spacing Boundary Classifier', clause, spacingAccepted, t6, now(), '후보 중 적용할 띄어쓰기만 선별합니다.')
+  );
+  traces.push(
+    makeTrace('Spacing Edit Converter', clause, spacingEdits, t6, now(), '채택된 띄어쓰기 후보를 실제 수정안으로 바꿉니다.')
   );
   if (spacingEdits.length) {
     clause = applyEdits(clause, spacingEdits);
@@ -318,7 +406,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   const kiwiAnalysis = await analyzeCanonicalTokens(clause);
   traces.push(
     makeTrace(
-      'KiwiCanonicalizer',
+      'Kiwi Canonicalizer',
       clause,
       {
         ready: kiwiAnalysis.ready,
@@ -338,12 +426,9 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   const tagged = taggedOut.tags;
   traces.push(
     makeTrace(
-      'EditTagger',
+      'Edit Tagger (Browser)',
       clause,
-      {
-        tokens: tagged,
-        method: taggedOut.modelUsed ? 'onnx+heuristic' : 'heuristic',
-      },
+      tagged,
       t7,
       now(),
       '토큰별 KEEP/OPEN_REPLACE 등 편집 태그를 예측합니다.'
@@ -353,7 +438,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   const t8 = now();
   const generated = await generateCandidates(clause, tagged, assets, kiwiAnalysis);
   traces.push(
-    makeTrace('CandidateGenerator', clause, generated, t8, now(), 'OPEN_REPLACE 토큰에 대한 교체 후보를 만듭니다.')
+    makeTrace('Open Candidate Generation', clause, groupCandidatesForTrace(generated), t8, now(), 'OPEN_REPLACE 토큰에 대한 교체 후보를 만듭니다.')
   );
 
   const t82 = now();
@@ -362,7 +447,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
     makeTrace(
       'CandidateVerifier',
       clause,
-      verified,
+      groupVerifierForTrace(generated, verified),
       t82,
       now(),
       'POS/활용 슬롯/오타 거리 기준으로 구조적으로 말이 되는 후보만 남깁니다.'
@@ -382,7 +467,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
     makeTrace(
       'Reranker',
       clause,
-      { candidates: reranked, method: rerankedOut.modelUsed ? 'onnx+heuristic' : 'heuristic' },
+      groupRerankerForTrace(reranked),
       t9,
       now(),
       '후보 문맥 점수를 계산해 우선순위를 정합니다.'
@@ -425,10 +510,11 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
     makeTrace(
       'Guardrail',
       clause,
-      {
-        edits: openEdits.map((o) => ({ edit: o.edit, guardrail: o.guardrail })),
-        method: openEdits.some((o) => o.modelUsed) ? 'onnx+heuristic' : 'heuristic',
-      },
+      openEdits.map((o) => ({
+        original: o.edit.sourceText,
+        replacement: o.edit.replacement,
+        guardrail: o.guardrail,
+      })),
       t10,
       now(),
       '과교정/의미변경 위험을 검사해 자동 적용 여부를 제한합니다.'
@@ -443,20 +529,41 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
 
   const policy = runPolicyEngine(decisions.map((d) => ({ edit: d.edit, decision: d.decision })));
   traces.push(
-    makeTrace('PolicyEngine', clause, policy, t11, now(), '자동 적용/제안/차단을 최종 분류합니다.')
+    makeTrace(
+      'Policy Engine',
+      clause,
+      decisions.map((d) => ({
+        original: d.edit.sourceText,
+        replacement: d.edit.replacement,
+        decision: d.decision,
+      })),
+      t11,
+      now(),
+      '자동 적용/제안/차단을 최종 분류합니다.'
+    )
   );
 
   lastGuardrail = summarizeGuardrails(decisions.map((d) => d.guardrail));
 
   const t12 = now();
   const clauseAfterPolicy = applyEdits(clause, policy.autoApply.filter((e) => e.editType === 'OPEN_REPLACE'));
+  const suggestedClause = applyEdits(
+    clauseAfterPolicy,
+    policy.suggestOnly.filter((e) => e.editType === 'OPEN_REPLACE')
+  );
   const corrected = `${text.slice(0, range.range.start)}${clauseAfterPolicy}${text.slice(range.range.end)}`;
+  const suggestedText = `${text.slice(0, range.range.start)}${suggestedClause}${text.slice(range.range.end)}`;
   const finalEdits = [...allEdits, ...policy.suggestOnly, ...policy.reject, ...policy.autoApply.filter((e) => e.editType === 'OPEN_REPLACE')];
   traces.push(
     makeTrace(
-      'PatchApplier',
+      'Final Output',
       text,
-      { corrected, autoApplyCount: policy.autoApply.length, suggestCount: policy.suggestOnly.length, rejectCount: policy.reject.length },
+      {
+        finalClause: clauseAfterPolicy,
+        autoCount: policy.autoApply.length,
+        suggestCount: policy.suggestOnly.length,
+        rejectCount: policy.reject.length,
+      },
       t12,
       now(),
       '정책에 따라 자동 적용 수정만 반영해 최종 교정문을 만듭니다.'
@@ -470,6 +577,7 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
   return {
     original: text,
     corrected,
+    suggestedText,
     profile,
     protectedSpans: protectedOut.protectedSpans,
     edits: finalEdits,
