@@ -1,27 +1,47 @@
 # 웹페이지용 온디바이스 한국어 맞춤법 교정 데모
 
-## 현재 권장 실행 방식
+## 빠른 실행
 
-현재 팀 테스트 기준 권장 구조는 아래입니다.
+이 저장소의 권장 팀 테스트 구조는 아래와 같습니다.
 
 - 프론트: GitHub Pages
 - 백엔드: 로컬 FastAPI 서버
 - 외부 공유: Cloudflare Quick Tunnel
 
-이유는 간단합니다.  
-현재 백엔드는 `Kiwi + KoBERT + KoBERT-MLM + KoELECTRA + local edit tagger`를 로드하는 무거운 ML 서버라서,
-Cloud Run 같은 scale-to-zero 환경보다 **로컬에서 계속 켜두는 방식**이 더 단순하고 안정적입니다.
+### 1. 저장소 준비
 
-실행 문서는 여기로 보는 게 맞습니다.
+```bash
+git clone https://github.com/ForNewChapter/grammarly_korean_demo.git
+cd grammarly_korean_demo
+npm install
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r apps/backend/requirements.txt
+```
 
-- [docs/local_backend_tunnel.md](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/docs/local_backend_tunnel.md)
-- [docs/backend_api_contract.md](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/docs/backend_api_contract.md)
-
-빠른 시작:
+### 2. 백엔드 실행
 
 ```bash
 npm run backend:dev
 ```
+
+기본 설정에서는 `http://127.0.0.1:8000`에서 FastAPI 백엔드가 실행됩니다.
+
+### 3. 프론트 실행
+
+새 터미널:
+
+```bash
+npm run dev
+```
+
+로컬 테스트 주소:
+
+```text
+http://127.0.0.1:4174/?apiBase=http://127.0.0.1:8000
+```
+
+### 4. 팀원과 공유
 
 새 터미널:
 
@@ -29,15 +49,30 @@ npm run backend:dev
 npm run tunnel:quick
 ```
 
-공유 링크 생성:
+그러면 `https://<something>.trycloudflare.com` 주소가 뜹니다.
+
+그다음 공유 링크 생성:
 
 ```bash
 npm run share:url -- https://fornewchapter.github.io/grammarly_korean_demo/ https://<your-trycloudflare-url>
 ```
 
+팀원은 이 최종 링크로 접속해 테스트합니다.
+
+### 5. 운영 규칙
+
+- 공용 웹사이트는 **입력 / 검사 / 결과 확인용 UI**입니다.
+- 실제 맞춤법 교정 프로세스는 **각자 로컬 백엔드**에서 돌아갑니다.
+- 팀원이 방법론을 바꾸려면 자기 브랜치에서 백엔드를 수정한 뒤, 자기 Quick Tunnel 링크를 공유하면 됩니다.
+
+상세 문서:
+
+- [docs/local_backend_tunnel.md](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/docs/local_backend_tunnel.md)
+- [docs/backend_api_contract.md](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/docs/backend_api_contract.md)
+
 ## 현재 저장소 구조
 
-이 저장소는 **repo를 나누지 않는 monorepo 방식**으로 정리되어 있습니다.
+이 저장소는 **repo를 나누지 않는 monorepo 방식**으로 구성되어 있습니다.
 
 - `apps/frontend`
   - Vite/React 프론트엔드
@@ -52,7 +87,7 @@ npm run share:url -- https://fornewchapter.github.io/grammarly_korean_demo/ http
 - `docs`
   - 팀 운영 문서
 
-기본 공유 링크는 일반 맞춤법 교정기처럼 단순 UI만 보여줍니다.
+기본 공유 링크는 일반 맞춤법 교정기처럼 단순 UI만 제공합니다.
 
 - 입력
 - 검사 버튼
@@ -60,15 +95,15 @@ npm run share:url -- https://fornewchapter.github.io/grammarly_korean_demo/ http
 
 상단 상태 패널에서는 현재 붙은 백엔드의 이름 / 브랜치 / 버전을 확인할 수 있습니다.
 
-이 프로젝트는 단순히 문장을 고치는 웹사이트가 아니라,
-**온디바이스 한국어 맞춤법 교정이 어떤 단계들을 거쳐 동작하는지 보여주는 데모**입니다.
+이 프로젝트는 단순 문장 교정 사이트가 아니라,
+**온디바이스 한국어 맞춤법 교정 파이프라인을 웹에서 검증하기 위한 데모**입니다.
 
-이 데모를 웹사이트로 만든 이유는 두 가지입니다.
+웹 기반으로 운영하는 목적은 두 가지입니다.
 
 1. Android로 바로 만들면 네이티브 C++ 통합까지 들어가야 해서, 실기기나 에뮬레이터에서만 테스트할 수 있습니다.
 2. 웹으로 만들면 접근성이 좋고, 설치 없이도 바로 테스트할 수 있습니다.
 
-즉, 이 저장소의 목적은 아래 두 가지를 보여주는 것입니다.
+즉, 이 저장소의 목적은 아래 두 가지입니다.
 
 1. 한국어 맞춤법 교정이 실제로 어떤 단계들을 거쳐 이뤄지는지
 2. 이 과정을 로컬 자산과 로컬 추론으로 구현할 수 있는지
