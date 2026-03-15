@@ -1,0 +1,7 @@
+{
+  "editTaggerRoots": [
+    "/assets/browser-models-local/edit_tagger_v2",
+    "/assets/browser-models/edit_tagger_v2",
+    "https://pub-05fa215f3cd648e1bc26ff97190207cb.r2.dev/grammarly-korean/edit_tagger_v2"
+  ]
+}

@@ -1,0 +1,16 @@
+.git
+.github
+.tmp
+.cache
+.venv
+node_modules
+dist
+r2-upload
+src
+docs
+notebooks
+*.pyc
+__pycache__
+public/assets/browser-models
+public/assets/browser-models-local
+public/assets/models-local

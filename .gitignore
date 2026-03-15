@@ -34,7 +34,9 @@ vite.config.js
 vite.config.d.ts
 app.js
 styles.css
-!src/styles.css
+!apps/backend/app.js
+!apps/backend/styles.css
+!apps/frontend/src/styles.css
 
 # Optional model checkpoints not used by current runtime
 models/kobart-spell-20250814_183630/
@@ -43,3 +45,13 @@ models/edit_tagger_v2_koelectra/
 
 # Downloaded browser-only Kiwi assets
 public/assets/kiwi/model/
+
+# Local runtime assets for teammate branches
+.local-assets/
+public/assets/models-local/
+public/assets/browser-models-local/
+public/assets/browser-models/
+public/assets/transformers/
+
+# Temporary upload staging
+r2-upload/

@@ -1,5 +1,65 @@
 # 웹페이지용 온디바이스 한국어 맞춤법 교정 데모
 
+## 현재 권장 실행 방식
+
+현재 팀 테스트 기준 권장 구조는 아래입니다.
+
+- 프론트: GitHub Pages
+- 백엔드: 로컬 FastAPI 서버
+- 외부 공유: Cloudflare Quick Tunnel
+
+이유는 간단합니다.  
+현재 백엔드는 `Kiwi + KoBERT + KoBERT-MLM + KoELECTRA + local edit tagger`를 로드하는 무거운 ML 서버라서,
+Cloud Run 같은 scale-to-zero 환경보다 **로컬에서 계속 켜두는 방식**이 더 단순하고 안정적입니다.
+
+실행 문서는 여기로 보는 게 맞습니다.
+
+- [docs/local_backend_tunnel.md](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/docs/local_backend_tunnel.md)
+- [docs/backend_api_contract.md](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/docs/backend_api_contract.md)
+
+빠른 시작:
+
+```bash
+npm run backend:dev
+```
+
+새 터미널:
+
+```bash
+npm run tunnel:quick
+```
+
+공유 링크 생성:
+
+```bash
+npm run share:url -- https://fornewchapter.github.io/grammarly_korean_demo/ https://<your-trycloudflare-url>
+```
+
+## 현재 저장소 구조
+
+이 저장소는 **repo를 나누지 않는 monorepo 방식**으로 정리되어 있습니다.
+
+- `apps/frontend`
+  - Vite/React 프론트엔드
+- `apps/backend`
+  - FastAPI 백엔드
+- `public/assets`
+  - 웹/백엔드가 같이 참조하는 정적 자산
+- `models`
+  - 백엔드 모델 체크포인트
+- `scripts`
+  - 자산 준비, 실행, 공유 링크 생성 스크립트
+- `docs`
+  - 팀 운영 문서
+
+기본 공유 링크는 일반 맞춤법 교정기처럼 단순 UI만 보여줍니다.
+
+- 입력
+- 검사 버튼
+- 제안 문장
+
+상단 상태 패널에서는 현재 붙은 백엔드의 이름 / 브랜치 / 버전을 확인할 수 있습니다.
+
 이 프로젝트는 단순히 문장을 고치는 웹사이트가 아니라,
 **온디바이스 한국어 맞춤법 교정이 어떤 단계들을 거쳐 동작하는지 보여주는 데모**입니다.
 
@@ -17,11 +77,12 @@
 
 ## 1. 현재 실행 구조
 
-현재 프로젝트는 두 가지 실행 경로를 가집니다.
+현재 프로젝트는 두 가지 실행 경로를 가집니다.  
+다만 **팀 공유/검증 기준 권장 경로는 로컬 백엔드 + tunnel**이고, 브라우저 정적 경로는 개발/실험용 보조 경로입니다.
 
-### 기본 실행 경로: 브라우저 정적 모드
+### 보조 실행 경로: 브라우저 정적 모드
 
-이 경로가 현재 배포 기준 기본 경로입니다.
+이 경로는 현재도 남아 있지만, 팀 공유용 주 경로로 권장하지 않습니다.
 
 - Web Worker
 - ONNX Runtime Web
@@ -34,6 +95,23 @@
 - 정적 웹 호스팅만으로 실행 가능
 - 중앙 API 없이 팀원이 같은 URL에서 테스트 가능
 - ONNX 소형 모델 + Kiwi wasm + 자산 기반 후보 생성 사용
+
+정적 사이트 사용 시 실제 흐름은 이렇습니다.
+
+1. 사용자가 사이트에 처음 접속
+2. 브라우저가 앱 코드, Kiwi wasm, Kiwi 모델 파일, rules/dict JSON, ONNX 모델을 다운로드
+3. 서비스워커 캐시에 저장
+4. 이후 새로고침/재방문 시 캐시된 자산 재사용
+
+즉 일반적인 새로고침으로는 자산이 매번 다시 날아가지 않습니다.
+다시 다운로드하는 경우는 보통:
+
+- 첫 방문
+- 브라우저 캐시/사이트 데이터 삭제
+- 새 버전 배포
+- 서비스워커 갱신
+
+현재 서비스워커는 `models / kiwi / wasm / onnx`를 `CacheFirst`로 캐시합니다.
 
 정리 문서:
 - [docs/static_web_migration.md](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/docs/static_web_migration.md)
@@ -49,12 +127,79 @@
 
 즉, 정적 웹 배포는 브라우저 경로가 기본이고, 로컬 API는 비교/개발용 경로입니다.
 
+### 팀 브랜치 협업용 로컬 자산 실행
+
+중앙 서버 비용 없이 팀원이 각자 브랜치에서 같은 런타임을 쓰려면,
+모델과 Kiwi 자산을 **각자 로컬 디스크에 준비한 뒤** 브라우저에서 실행하면 됩니다.
+
+중요한 점:
+
+- 원격으로 배포된 정적 사이트는 팀원의 로컬 디스크를 직접 읽을 수 없습니다.
+- 대신 각 팀원이 **자기 브랜치에서 로컬로 웹페이지를 띄울 때**, 로컬 자산을 같이 서빙하는 방식은 가능합니다.
+
+#### 표준 경로
+
+- 로컬 모델 원본: `.local-assets/models/`
+- 브라우저가 실제로 읽는 경로: `public/assets/models-local/`
+- Kiwi 자산 경로: `public/assets/kiwi/model/`
+
+#### 준비 절차
+
+1. 브랜치 체크아웃
+2. 실제 ONNX 모델 5개를 `.local-assets/models/`에 넣기
+   - `profile_classifier.onnx`
+   - `spacing_boundary.onnx`
+   - `edit_tagger.onnx`
+   - `reranker.onnx`
+   - `guardrail.onnx`
+3. 아래 실행
+
+```bash
+npm install
+npm run prepare:runtime
+npm run prepare:browser-edit-tagger:local
+npm run smoke:browser-edit-tagger
+npm run validate:runtime:strict
+npm run dev
+```
+
+`prepare:runtime`은:
+
+- Kiwi wasm 자산 다운로드
+- `.local-assets/models/`의 실모델을 `public/assets/models-local/`로 복사
+
+를 수행합니다.
+
+브라우저에서 실제 transformer edit tagger를 검증하려면 추가로:
+
+- `npm run prepare:browser-edit-tagger:local`
+- `npm run smoke:browser-edit-tagger`
+
+를 실행하면 됩니다.
+
+이 경로는 `models/edit_tagger_v2_best/best`에서 브라우저용 ONNX + tokenizer 자산을 생성하고,
+샘플 토큰(`아기를`, `나았다`)에 대해 `KEEP`, `OPEN_REPLACE`가 나오는지 확인합니다.
+
+#### 동작 원리
+
+브라우저는 모델을 아래 우선순위로 찾습니다.
+
+1. `/assets/models-local/*.onnx`
+2. `/assets/models/*.onnx`
+3. 둘 다 실모델이 아니면 heuristic 경로 사용
+
+기본 repo에 들어 있는 `public/assets/models/*.onnx`는 placeholder일 수 있으므로,
+실제 팀 테스트에서는 **`models-local`이 잡혀야 정상**입니다.
+
+앱 상단 `AssetStatusPanel`의 model chip은 `ready/local`, `ready/bundled`, `missing`으로 표시됩니다.
+팀 브랜치 협업에서는 `ready/local`이 보여야 합니다.
+
 ### GitHub Pages 자동 배포
 
 정적 웹 배포용 GitHub Actions가 포함되어 있습니다.
 
 - 워크플로우: [.github/workflows/deploy-static-pages.yml](/Users/joh/Desktop/joh9911/MyProject/grammarly_korean/.github/workflows/deploy-static-pages.yml)
-- `main` 브랜치에 푸시하면 `dist/`를 GitHub Pages로 배포합니다.
+- `main` 브랜치에 푸시하면 `apps/frontend/dist/`를 GitHub Pages로 배포합니다.
 - Pages 설정에서 **GitHub Actions**를 배포 소스로 선택하면 됩니다.
 
 프로젝트 페이지 경로를 위해 build 시 `VITE_BASE_PATH=/<repo-name>/`가 자동 적용됩니다.
@@ -258,8 +403,8 @@ v2 데이터셋은 현재 로컬에서 아래 규모로 생성되는 것을 확�
 cd grammarly_korean
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn server:app --host 127.0.0.1 --port 8000
+pip install -r apps/backend/requirements.txt
+uvicorn server:app --app-dir apps/backend --host 127.0.0.1 --port 8000
 ```
 
 정상 실행 확인:
