@@ -34,6 +34,7 @@ vite.config.js
 vite.config.d.ts
 app.js
 styles.css
+!src/styles.css
 
 # Optional model checkpoints not used by current runtime
 models/kobart-spell-20250814_183630/
