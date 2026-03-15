@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { registerSW } from 'virtual:pwa-register';
 import { EditorPanel } from '../components/EditorPanel';
 import { FinalOutputPanel } from '../components/FinalOutputPanel';
 import { AssetStatusPanel } from '../components/AssetStatusPanel';
@@ -54,16 +53,6 @@ export default function App(): JSX.Element {
   }, [dispatch]);
 
   useEffect(() => {
-    const pwaUpdate = registerSW({
-      onNeedRefresh() {
-        console.log('새 버전 업데이트 가능');
-      },
-      onOfflineReady() {
-        console.log('오프라인 준비 완료');
-      },
-    });
-    void pwaUpdate;
-
     const onOnline = () => dispatch({ type: 'SET_ONLINE', value: true });
     const onOffline = () => dispatch({ type: 'SET_ONLINE', value: false });
     window.addEventListener('online', onOnline);
