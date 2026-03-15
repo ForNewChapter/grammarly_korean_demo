@@ -25,6 +25,7 @@ export interface KiwiCanonicalAnalysis {
   ready: boolean;
   version?: string;
   error?: string;
+  tokens: KiwiCanonicalToken[];
   tokensByRange: Map<string, KiwiCanonicalToken>;
 }
 
@@ -64,6 +65,35 @@ function whitespaceTokens(text: string): Array<{ token: string; start: number; e
     out.push({ token: match[0], start: match.index, end: match.index + match[0].length });
   }
   return out;
+}
+
+function tokensFromKiwiMorphs(text: string, morphs: TokenInfo[]): Array<{ token: string; start: number; end: number }> {
+  const groups = new Map<string, { start: number; end: number }>();
+  for (const morph of morphs) {
+    const key = `${morph.sentPosition}:${morph.wordPosition}`;
+    const start = morph.position;
+    const end = morph.position + morph.length;
+    const current = groups.get(key);
+    if (!current) {
+      groups.set(key, { start, end });
+      continue;
+    }
+    current.start = Math.min(current.start, start);
+    current.end = Math.max(current.end, end);
+  }
+
+  const ordered = [...groups.values()].sort((a, b) => a.start - b.start || a.end - b.end);
+  if (!ordered.length) {
+    return whitespaceTokens(text);
+  }
+
+  return ordered
+    .map(({ start, end }) => ({
+      token: text.slice(start, end),
+      start,
+      end,
+    }))
+    .filter((token) => token.token.trim().length > 0);
 }
 
 function isPredicateTag(tag: string): boolean {
@@ -153,16 +183,18 @@ export async function analyzeCanonicalTokens(text: string): Promise<KiwiCanonica
     return {
       ready: false,
       error: runtimeError ?? 'Kiwi runtime unavailable',
+      tokens: [],
       tokensByRange: new Map(),
     };
   }
 
   try {
     const tokens = runtime.kiwi.tokenize(text, Match.allWithNormalizing);
-    const spacedTokens = whitespaceTokens(text);
+    const groupedTokens = tokensFromKiwiMorphs(text, tokens);
     const byRange = new Map<string, KiwiCanonicalToken>();
+    const canonicalTokens: KiwiCanonicalToken[] = [];
 
-    for (const token of spacedTokens) {
+    for (const token of groupedTokens) {
       const morphs = tokens
         .filter((morph) => morph.position >= token.start && morph.position < token.end)
         .map(
@@ -175,12 +207,15 @@ export async function analyzeCanonicalTokens(text: string): Promise<KiwiCanonica
           })
         );
       if (!morphs.length) continue;
-      byRange.set(rangeKey(token.start, token.end), buildCanonicalToken(token, morphs));
+      const canonical = buildCanonicalToken(token, morphs);
+      byRange.set(rangeKey(token.start, token.end), canonical);
+      canonicalTokens.push(canonical);
     }
 
     return {
       ready: true,
       version: runtime.version,
+      tokens: canonicalTokens,
       tokensByRange: byRange,
     };
   } catch (error) {
@@ -188,6 +223,7 @@ export async function analyzeCanonicalTokens(text: string): Promise<KiwiCanonica
       ready: false,
       version: runtime.version,
       error: error instanceof Error ? error.message : 'Kiwi canonical analysis failed',
+      tokens: [],
       tokensByRange: new Map(),
     };
   }

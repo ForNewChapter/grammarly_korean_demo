@@ -33,6 +33,9 @@ import {
 } from './onnxHelpers';
 import { loadRuntimeAssets } from './runtimeAssets';
 import { analyzeCanonicalTokens, ensureKiwiRuntime, getKiwiRuntimeStatus } from './kiwiRuntime';
+import type { KiwiCanonicalAnalysis } from './kiwiRuntime';
+import type { ProtectedSpan } from '../pipeline/types';
+import { isProtected } from '../stages/protectedSpan';
 
 const modelManager = new ModelManager();
 const PROFILE_LABELS: Profile[] = ['NORMAL', 'CHAT', 'NOISY', 'MIXED', 'QUERY'];
@@ -126,6 +129,26 @@ function groupRerankerForTrace(candidates: Candidate[]): Array<{
       finalScore: candidate.finalScore ?? 0,
     },
   }));
+}
+
+function kiwiSpacingFallback(
+  text: string,
+  analysis: KiwiCanonicalAnalysis,
+  protectedSpans: ProtectedSpan[]
+): Array<{ index: number; action: 'INSERT_SPACE'; score: number }> {
+  if (!analysis.ready || analysis.tokens.length < 2) return [];
+  const out: Array<{ index: number; action: 'INSERT_SPACE'; score: number }> = [];
+  const ordered = [...analysis.tokens].sort((a, b) => a.range.start - b.range.start);
+  for (let i = 1; i < ordered.length; i += 1) {
+    const prev = ordered[i - 1];
+    const next = ordered[i];
+    if (next.range.start <= prev.range.end) continue;
+    const gap = text.slice(prev.range.end, next.range.start);
+    if (gap.includes(' ')) continue;
+    if (isProtected({ start: Math.max(0, next.range.start - 1), end: next.range.start + 1 }, protectedSpans)) continue;
+    out.push({ index: next.range.start, action: 'INSERT_SPACE', score: 0.96 });
+  }
+  return out;
 }
 
 function summarizeGuardrails(decisions: GuardrailDecision[]): GuardrailDecision {
@@ -390,18 +413,6 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
 
   const t6 = now();
   const spacingAccepted = classifySpacingBoundaries(clause, spacingCandidates, profile);
-  const spacingEdits = spacingToEdits(spacingAccepted);
-  traces.push(
-    makeTrace('Spacing Boundary Classifier', clause, spacingAccepted, t6, now(), '후보 중 적용할 띄어쓰기만 선별합니다.')
-  );
-  traces.push(
-    makeTrace('Spacing Edit Converter', clause, spacingEdits, t6, now(), '채택된 띄어쓰기 후보를 실제 수정안으로 바꿉니다.')
-  );
-  if (spacingEdits.length) {
-    clause = applyEdits(clause, spacingEdits);
-    allEdits.push(...spacingEdits);
-  }
-
   const t65 = now();
   const kiwiAnalysis = await analyzeCanonicalTokens(clause);
   traces.push(
@@ -419,6 +430,20 @@ async function runPipeline(text: string, cursor: number, mode: 'realtime' | 'ins
       'Kiwi wasm으로 lemma/POS/활용 슬롯을 추출해 후보 생성의 기준 단위를 canonical state로 올립니다.'
     )
   );
+
+  const spacingAcceptedFinal =
+    spacingAccepted.length > 0 ? spacingAccepted : kiwiSpacingFallback(clause, kiwiAnalysis, protectedOut.protectedSpans);
+  const spacingEdits = spacingToEdits(spacingAcceptedFinal);
+  traces.push(
+    makeTrace('Spacing Boundary Classifier', clause, spacingAcceptedFinal, t6, now(), '후보 중 적용할 띄어쓰기만 선별합니다.')
+  );
+  traces.push(
+    makeTrace('Spacing Edit Converter', clause, spacingEdits, t6, now(), '채택된 띄어쓰기 후보를 실제 수정안으로 바꿉니다.')
+  );
+  if (spacingEdits.length) {
+    clause = applyEdits(clause, spacingEdits);
+    allEdits.push(...spacingEdits);
+  }
 
   const t7 = now();
   const taggedBase = runEditTagger(clause, protectedOut.protectedSpans, assets, kiwiAnalysis);

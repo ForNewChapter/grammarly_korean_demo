@@ -54,6 +54,11 @@ export class ModelManager {
         this.modelReady[modelName] = false;
         return null;
       }
+      const contentLength = Number(head.headers.get('content-length') ?? '0');
+      if (!Number.isFinite(contentLength) || contentLength < 1024) {
+        this.modelReady[modelName] = false;
+        return null;
+      }
       const session = await ort.InferenceSession.create(url, {
         executionProviders: [this.provider],
       });
