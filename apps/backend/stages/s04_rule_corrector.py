@@ -1,4 +1,6 @@
-# 4단계: 하드코딩된 맞춤법 규칙과 고정밀 표면 치환 규칙으로 확실한 오류를 교정한다.
+# [4단계] 확실한 오타 바로 고치기
+# "되요→돼요", "잇어요→있어요" 처럼 100% 확실한 맞춤법 규칙을
+# 사전에 등록해두고, 해당 패턴이 보이면 바로 고친다.
 
 from typing import Any, Dict, List
 
@@ -18,7 +20,7 @@ def _find_surface_fix_edits(
     stage_name: str,
     reason_prefix: str,
 ) -> List[Dict[str, Any]]:
-    """규칙 목록을 순회하며 표면 치환 편집을 생성한다."""
+    """등록된 규칙("되요→돼요" 등)과 일치하는 부분을 찾아서 수정 목록을 만든다."""
     edits: List[Dict[str, Any]] = []
     for rule in rules:
         at = 0
@@ -49,7 +51,7 @@ def _find_surface_fix_edits(
 def run_rule_corrector(
     models: ModelLoader, text: str, protected: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
-    """하드코딩 규칙과 고정밀 표면 치환 규칙으로 확실한 오류를 교정한다."""
+    """확실한 맞춤법 규칙을 적용해서 틀린 부분을 바로 고친다."""
     return _find_surface_fix_edits(
         text=text,
         protected=protected,

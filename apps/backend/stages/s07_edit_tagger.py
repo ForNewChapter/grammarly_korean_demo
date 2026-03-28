@@ -1,4 +1,7 @@
-# 7단계: 토큰별로 편집 라벨(KEEP/OPEN_REPLACE/JOSA_FIX 등)을 예측하고, 라우팅과 가드를 적용한다.
+# [7단계] 각 단어가 틀렸는지 판별하기 + 교정 후보 만들기
+# AI 모델이 각 단어를 보고 "이건 맞다/틀렸다/조사가 이상하다" 등을 판별하고,
+# 틀렸다고 판단한 단어에 대해 "이걸로 바꾸면 어떨까?" 하는 후보를 만든다.
+# 이 파일은 가장 크지만, 모두 '틀린 단어 찾기 → 후보 만들기'라는 하나의 흐름이다.
 
 import math
 import re
@@ -493,6 +496,7 @@ def _build_join_candidates(
     start: int,
     end: int,
 ) -> List[Dict[str, Any]]:
+    """사전에 등록된 비슷한 단어를 활용해서 교정 후보를 만든다."""
     states = _canonical_predicate_states(models, sentence, start, end, top_n=5)
     if not states:
         return []
@@ -953,6 +957,7 @@ def _hint_lookup(hints: List[Dict[str, Any]]) -> Dict[str, int]:
 
 
 def _context_hint_score(models: ModelLoader, sentence: str, start: int, end: int, item: Dict[str, Any]) -> float:
+    """주변 단어(문맥)를 보고, 이 후보가 얼마나 어울리는지 점수를 매긴다."""
     hints = item.get("contextHints") or []
     if not hints:
         return 0.0
@@ -1024,6 +1029,7 @@ def _enrich_candidate_context(
 def _prefilter_candidates(
     models: ModelLoader, token: str, candidates: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
+    """후보가 너무 많으면 점수 낮은 것을 미리 걸러낸다."""
     prefiltered: List[Dict[str, Any]] = []
     for item in _dedupe_candidates(candidates):
         replacement = item["replacement"]
@@ -1108,6 +1114,7 @@ def _rank_replacement_candidates(
     candidates: List[Dict[str, Any]],
     baseline: Optional[Dict[str, float]] = None,
 ) -> List[Dict[str, Any]]:
+    """여러 교정 후보 중 어떤 게 제일 자연스러운지 점수를 매겨 순위를 정한다."""
     original_mlm = models.pseudo_logprob_for_replacement(sentence, start, end, token)
     original_normal = baseline["koelectraScore"] if baseline is not None else models.koelectra_normal_score(sentence)
     original_kiwi = baseline["kiwiScore"] if baseline is not None else models.kiwi_sentence_score(sentence)
@@ -1231,6 +1238,7 @@ def generate_contextual_candidates_for_token(
     expensive: bool = True,
     assumed_channel: str = "generic",
 ) -> List[Dict[str, Any]]:
+    """틀렸다고 의심되는 단어에 대해, 문맥을 고려한 교정 후보 목록을 만든다."""
     curated_candidates = _enrich_candidate_context(
         models,
         sentence,
@@ -1584,6 +1592,7 @@ def _run_finetuned_edit_tagger(
 def run_edit_tagger(
     models: ModelLoader, text: str, protected: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
+    """AI 모델로 각 단어가 맞는지 틀렸는지 판별한다."""
     if models.edit_tagger_model is not None:
         return _run_finetuned_edit_tagger(models, text, protected)
     return _run_heuristic_edit_tagger(models, text, protected)
@@ -1593,6 +1602,7 @@ def run_edit_tagger(
 
 
 def route_tagger_labels(tag_labels: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """판별 결과를 분류해서, 어떤 단어를 교정 대상으로 넘길지 정한다."""
     routed: List[Dict[str, Any]] = []
     for label in tag_labels:
         effective_label = label["label"]
@@ -1700,6 +1710,7 @@ def apply_high_precision_lock_guard(
     labels: List[Dict[str, Any]],
     locked_spans: List[Dict[str, int]],
 ) -> List[Dict[str, Any]]:
+    """이미 4단계에서 확실히 고친 부분은 다시 건드리지 않도록 잠근다."""
     if not locked_spans:
         return labels
     guarded: List[Dict[str, Any]] = []
@@ -1734,6 +1745,7 @@ def apply_meta_comparison_guard(
     labels: List[Dict[str, Any]],
     locked_spans: List[Dict[str, int]],
 ) -> List[Dict[str, Any]]:
+    """'A냐 B냐?' 같은 비교 문장은 오타가 아니므로 교정 대상에서 뺀다."""
     if not locked_spans:
         return labels
     guarded: List[Dict[str, Any]] = []

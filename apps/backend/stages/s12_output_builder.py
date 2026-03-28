@@ -1,4 +1,5 @@
-# 12단계: 파이프라인의 모든 결과를 종합하여 최종 응답(finalText, suggestedText, proposals)을 조립한다.
+# [12단계] 최종 결과 만들기
+# 모든 단계의 결과를 모아서, 프론트엔드에 보낼 최종 응답을 만든다.
 
 from typing import Any, Dict, List
 
@@ -17,7 +18,7 @@ def build_output(
     traces: List[Dict[str, Any]],
     mode: str,
 ) -> Dict[str, Any]:
-    """파이프라인 결과를 최종 응답 딕셔너리로 조립한다."""
+    """모든 교정 결과를 모아서 프론트엔드에 보낼 응답을 만든다."""
 
     clause_range = range_art["clauseRange"]
 

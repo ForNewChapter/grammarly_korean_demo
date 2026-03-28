@@ -1,4 +1,6 @@
-# 8단계: OPEN_REPLACE로 태깅된 토큰에 대해 교정 후보 그룹을 생성하고 검증한다.
+# [8단계] 교정 후보 묶기 + 검증
+# 7단계에서 '틀렸다'고 판별된 단어들에 대해 교정 후보를 모아서 묶고,
+# 각 후보가 정말 말이 되는지 점수를 매겨 검증한다.
 
 from typing import Any, Dict, List
 
@@ -27,6 +29,7 @@ from utils.hangul import typo_similarity
 def generate_open_candidates(
     models: ModelLoader, sentence: str, tag_labels: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
+    """틀렸다고 판별된 단어들의 교정 후보를 모아서 그룹으로 묶는다."""
     out: List[Dict[str, Any]] = []
     index = 0
     while index < len(tag_labels):
@@ -106,6 +109,7 @@ def generate_open_candidates(
 def verify_candidate_groups(
     models: ModelLoader, groups: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
+    """각 후보 그룹에서 점수를 매겨 진짜 괜찮은 후보만 남긴다."""
     verified: List[Dict[str, Any]] = []
     for group in groups:
         original = group["original"]

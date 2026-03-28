@@ -1,4 +1,6 @@
-# 2단계: URL, 이메일, 전화번호 등 교정에서 보호할 영역을 감지하고 마스킹한다.
+# [2단계] 건드리면 안 되는 부분 찾기
+# URL, 이메일, 전화번호, 브랜드명 등은 맞춤법 교정 대상이 아니므로
+# 미리 찾아서 표시해두고, 이후 단계에서 건드리지 않도록 보호한다.
 
 from typing import Any, Dict, List
 
@@ -6,7 +8,7 @@ from model_loader import PROTECTED_PATTERNS, DOMAIN_ENTITIES, USER_DICT
 
 
 def detect_protected_spans(text: str) -> List[Dict[str, Any]]:
-    """보호 패턴(URL, 이메일 등)과 도메인 엔티티, 사용자 사전 항목의 위치를 감지한다."""
+    """텍스트에서 URL, 이메일, 전화번호, 브랜드명 등 '건드리면 안 되는 부분'을 찾아낸다."""
     spans: List[Dict[str, Any]] = []
     for kind, regex in PROTECTED_PATTERNS:
         for m in regex.finditer(text):
@@ -52,7 +54,7 @@ def detect_protected_spans(text: str) -> List[Dict[str, Any]]:
 
 
 def apply_mask(text: str, protected: List[Dict[str, Any]]) -> str:
-    """보호 영역을 플레이스홀더로 치환한 텍스트를 반환한다."""
+    """보호 영역을 임시 표시(__URL_0__ 등)로 바꿔서, 다른 단계가 실수로 고치지 않게 한다."""
     if not protected:
         return text
     out = []

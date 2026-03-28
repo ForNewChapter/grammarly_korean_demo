@@ -1,4 +1,6 @@
-# 10단계: 위험한 교정을 필터링하고, 각 후보에 AUTO_APPLY/SUGGEST_ONLY/REJECT 정책을 부여한다.
+# [10단계] 안전장치 — 위험한 교정 걸러내기
+# 교정이 오히려 글을 망칠 수 있는 경우(영문 포함, 너무 큰 변경 등)를 걸러내고,
+# 각 교정에 "자동 적용/제안만/거부" 딱지를 붙인다.
 
 import re
 from typing import Any, Dict, List, Optional
@@ -16,6 +18,7 @@ def guardrail(
     protected: List[Dict[str, Any]],
     score: float,
 ) -> Dict[str, Any]:
+    """이 교정이 안전한지 검사한다. 위험하면 거부한다."""
     reason_codes: List[str] = []
     if is_range_protected(span, protected):
         return {"decision": "REJECT", "reasonCodes": ["PROTECTED_SPAN"], "score": 0.01}
@@ -31,6 +34,7 @@ def guardrail(
 
 
 def policy(edit_type: str, guardrail_decision: str, confidence: float) -> str:
+    """교정 종류와 신뢰도에 따라 '자동 적용/제안만/거부'를 결정한다."""
     if guardrail_decision == "REJECT":
         return "REJECT"
     if edit_type in {"SPACE_INSERT", "SPACE_DELETE", "SPELL"} and confidence >= 0.95:
@@ -47,6 +51,7 @@ def _proposal_option_for_candidate(
     profile: str,
     protected: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
+    """하나의 교정 후보에 대해 안전 검사를 하고 점수를 매긴다."""
     original = str(group["original"])
     span = group["span"]
     replacement = str(candidate.get("replacement") or original)
@@ -103,6 +108,7 @@ def _build_group_proposal_options(
     protected: List[Dict[str, Any]],
     candidate_limit: int = 3,
 ) -> List[Dict[str, Any]]:
+    """한 그룹의 교정 후보들에 안전장치를 적용하고, 선택지 목록을 만든다."""
     ranked_items = list(group.get("ranked") or [])
     options: List[Dict[str, Any]] = []
     seen_replacements = set()
@@ -142,6 +148,7 @@ def _build_group_proposal_options(
 
 
 def _proposal_edit_from_option(option: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """선택된 교정 옵션을 실제 수정 명령으로 바꾼다."""
     if not option.get("applyEdit"):
         return None
     return create_edit(

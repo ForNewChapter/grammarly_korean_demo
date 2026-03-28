@@ -1,4 +1,5 @@
-# 편집(Edit) 객체의 생성, 적용, 중복 제거, 겹침 해소 유틸리티.
+# 수정 명령 다루기 도구 모음
+# "여기를 이걸로 바꿔라" 하는 수정 명령을 만들고, 적용하고, 정리하는 도구들.
 
 import re
 from typing import Any, Dict, List, Tuple
@@ -17,7 +18,7 @@ def create_edit(
     auto_applicable: bool,
     reason_tag: str,
 ) -> Dict[str, Any]:
-    """하나의 편집 객체를 생성한다."""
+    """수정 명령 하나를 만든다. (어디를, 뭘로, 왜 바꾸는지)"""
     return {
         "stage": stage,
         "range": {"start": start, "end": end},
@@ -31,7 +32,7 @@ def create_edit(
 
 
 def apply_edits(text: str, edits: List[Dict[str, Any]]) -> str:
-    """텍스트에 편집 목록을 적용한다."""
+    """수정 명령 목록을 텍스트에 실제로 적용해서 결과물을 돌려준다."""
     if not edits:
         return text
     sorted_edits = sorted(edits, key=lambda e: (e["range"]["start"], e["range"]["end"]))
@@ -47,7 +48,7 @@ def apply_edits(text: str, edits: List[Dict[str, Any]]) -> str:
 
 
 def dedupe_edits(edits: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """동일 범위·교체문의 중복 편집을 제거한다."""
+    """같은 내용의 수정 명령이 중복되면 하나만 남긴다."""
     out: List[Dict[str, Any]] = []
     seen: set = set()
     for e in edits:
@@ -60,7 +61,7 @@ def dedupe_edits(edits: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
 
 def non_overlapping_edits(edits: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """겹치는 편집 중 우선순위가 높은 것만 남긴다."""
+    """수정 범위가 겹치면, 더 중요한 것만 남기고 나머지는 뺀다."""
     ordered = sorted(
         edits,
         key=lambda e: (
@@ -81,7 +82,7 @@ def non_overlapping_edits(edits: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
 
 def tokenize_with_ranges(text: str) -> List[Tuple[str, int, int]]:
-    """텍스트를 토큰으로 분리하고 각 토큰의 (문자열, 시작, 끝) 위치를 반환한다."""
+    """텍스트를 단어 단위로 쪼개고, 각 단어의 위치(시작~끝)도 함께 알려준다."""
     out = []
     for m in TOKEN_PATTERN.finditer(text):
         out.append((m.group(0), m.start(), m.end()))
@@ -89,12 +90,12 @@ def tokenize_with_ranges(text: str) -> List[Tuple[str, int, int]]:
 
 
 def normalize_phrase_surface(text: str) -> str:
-    """구문 표면형을 정규화한다 (공백 통일)."""
+    """구문의 공백을 통일한다. ('먹고  싶다' → '먹고 싶다')"""
     return " ".join(TOKEN_PATTERN.findall(text)).strip()
 
 
 def is_range_protected(span: Dict[str, int], protected: List[Dict[str, Any]]) -> bool:
-    """주어진 범위가 보호 영역과 겹치는지 확인한다."""
+    """이 범위가 보호 영역(URL 등)과 겹치는지 확인한다."""
     return any(
         span["start"] < p["range"]["end"] and span["end"] > p["range"]["start"] for p in protected
     )

@@ -1,18 +1,19 @@
-# 한글 자모 분해, 음절 처리, 유사도 계산 등 한글 텍스트 기초 유틸리티.
+# 한글 글자 다루기 도구 모음
+# 한글 자모 분해, 글자끼리 얼마나 비슷한지 비교 등 기본 도구들.
 
 import re
 from typing import Optional, Tuple
 
 
 def hangul_ratio(text: str) -> float:
-    """텍스트 내 한글 비율을 반환한다."""
+    """글자 중에 한글이 몇 %인지 알려준다."""
     if not text:
         return 0.0
     return len(re.findall(r"[가-힣]", text)) / len(text)
 
 
 def hangul_syllable_parts(char: str) -> Optional[Tuple[int, int, int]]:
-    """한글 음절을 (초성, 중성, 종성) 인덱스로 분해한다."""
+    """한글 한 글자를 초성·중성·종성으로 쪼갠다. 예: '한' → (ㅎ, ㅏ, ㄴ)"""
     if not char or len(char) != 1:
         return None
     code = ord(char)
@@ -27,7 +28,7 @@ def hangul_syllable_parts(char: str) -> Optional[Tuple[int, int, int]]:
 
 
 def char_similarity(a: str, b: str) -> float:
-    """두 한글 음절의 자모 유사도를 반환한다 (0.0~1.0)."""
+    """두 한글 글자가 얼마나 비슷한지 0~1 사이 점수로 알려준다."""
     if a == b:
         return 1.0
     parts_a = hangul_syllable_parts(a)
@@ -39,7 +40,7 @@ def char_similarity(a: str, b: str) -> float:
 
 
 def char_edit_distance(a: str, b: str) -> int:
-    """두 문자열 사이의 편집 거리(레벤슈타인)를 반환한다."""
+    """한 글자를 다른 글자로 바꾸려면 몇 번 고쳐야 하는지 알려준다."""
     if a == b:
         return 0
     if not a:
@@ -64,7 +65,7 @@ def char_edit_distance(a: str, b: str) -> int:
 
 
 def typo_similarity(original: str, candidate: str) -> float:
-    """오타 수준의 표면 유사도를 반환한다 (0.0~1.0)."""
+    """두 단어가 오타 수준으로 얼마나 비슷한지 0~1 사이 점수로 알려준다."""
     if not original or not candidate:
         return 0.0
     if original == candidate:
@@ -103,13 +104,13 @@ def typo_similarity(original: str, candidate: str) -> float:
 
 
 def has_jongseong_l(char: str) -> bool:
-    """해당 음절의 종성이 'ㄹ'인지 확인한다."""
+    """이 글자의 받침이 'ㄹ'인지 확인한다."""
     parts = hangul_syllable_parts(char)
     return bool(parts and parts[2] == 8)
 
 
 def normalize_context_token(token: str) -> str:
-    """문맥 토큰에서 조사를 제거하여 어근만 남긴다."""
+    """단어에서 '은/는/이/가' 같은 조사를 떼어낸다."""
     normalized = re.sub(r"^[^가-힣A-Za-z0-9]+|[^가-힣A-Za-z0-9]+$", "", token)
     if not re.fullmatch(r"[가-힣]+", normalized):
         return normalized

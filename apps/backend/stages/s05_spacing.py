@@ -1,4 +1,6 @@
-# 5단계: Kiwi 형태소 분석기를 활용하여 띄어쓰기 오류를 교정한다.
+# [5단계] 띄어쓰기 고치기
+# Kiwi 분석기가 제안하는 띄어쓰기와 원문을 비교해서
+# 빠진 띄어쓰기를 찾아 넣어준다.
 
 from typing import Any, Dict, List, Tuple
 
@@ -13,7 +15,7 @@ from utils.hangul import hangul_ratio
 
 
 def _has_strong_inline_fix(models: ModelLoader, token: str) -> bool:
-    """토큰에 대해 surface_fix 또는 single-token phrase 후보가 있는지 확인한다."""
+    """이 단어에 대해 이미 확실한 교정 규칙이 있는지 확인한다."""
     if token in models.surface_fix_index:
         return True
     # _single_token_phrase_candidates 인라인 구현
@@ -31,7 +33,7 @@ def _has_strong_inline_fix(models: ModelLoader, token: str) -> bool:
 
 
 def _is_compact_compound_token(token: str) -> bool:
-    """토큰이 compact compound 패턴에 매칭되는지 확인한다."""
+    """'부탁드립니다' 같은 붙여쓰기 복합어인지 확인한다."""
     if hangul_ratio(token) < 0.7 or len(token) < 4:
         return False
     return any(pattern.match(token) for pattern in COMPACT_COMPOUND_TOKEN_PATTERNS)
@@ -40,7 +42,7 @@ def _is_compact_compound_token(token: str) -> bool:
 def _compact_preserve_ranges(
     models: ModelLoader, text: str, protected: List[Dict[str, Any]]
 ) -> List[Tuple[int, int]]:
-    """띄어쓰기 삽입을 억제해야 하는 compact compound 토큰 범위를 반환한다."""
+    """띄어쓰기를 넣으면 안 되는 복합어 구간을 찾아낸다."""
     ranges: List[Tuple[int, int]] = []
     for token, start, end in tokenize_with_ranges(text):
         span = {"start": start, "end": end}
@@ -56,7 +58,7 @@ def _compact_preserve_ranges(
 def spacing_candidates_from_kiwi(
     models: ModelLoader, text: str, protected: List[Dict[str, Any]]
 ) -> Dict[str, Any]:
-    """Kiwi의 space() 결과와 원문을 비교하여 띄어쓰기 삽입 후보를 생성한다."""
+    """Kiwi가 제안하는 띄어쓰기와 원문을 비교해서, 빠진 띄어쓰기 위치를 찾아낸다."""
     spaced = models.kiwi.space(text)
     candidates: List[Dict[str, Any]] = []
     preserve_ranges = _compact_preserve_ranges(models, text, protected)
@@ -92,7 +94,7 @@ def spacing_candidates_from_kiwi(
 def classify_spacing_boundaries(
     candidates: List[Dict[str, Any]], profile: str
 ) -> List[Dict[str, Any]]:
-    """프로필에 따라 띄어쓰기 후보를 필터링하고 점수를 보정한다."""
+    """글 스타일에 따라 띄어쓰기 후보를 걸러낸다. 일반 문장은 더 적극적으로 고친다."""
     out = []
     bonus = 0.03 if profile == "NORMAL" else 0.0
     for c in candidates:
@@ -103,7 +105,7 @@ def classify_spacing_boundaries(
 
 
 def spacing_to_edits(boundaries: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """확정된 띄어쓰기 경계를 편집 객체 목록으로 변환한다."""
+    """확정된 띄어쓰기 위치를 실제 수정 명령 목록으로 바꾼다."""
     edits: List[Dict[str, Any]] = []
     for b in boundaries:
         if b["action"] == "INSERT_SPACE":

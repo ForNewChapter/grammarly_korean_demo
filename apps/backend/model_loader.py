@@ -1,5 +1,6 @@
-# ML 모델(Kiwi, KoBERT, KoELECTRA, Edit Tagger, Seq2Seq)과
-# JSON 리소스(혼동 사전, 규칙, 구문 메모리 등)를 로딩하는 초기화 모듈.
+# AI 모델과 사전 데이터 불러오기
+# 서버 시작 시 필요한 AI 모델들(Kiwi, KoBERT 등)과
+# 맞춤법 사전, 혼동 단어 목록 등을 한 번에 불러와서 보관한다.
 
 import json
 import logging

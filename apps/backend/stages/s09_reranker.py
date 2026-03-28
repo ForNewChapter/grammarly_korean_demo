@@ -1,4 +1,6 @@
-# 9단계: MLM 확률, KoELECTRA 유사도, Kiwi 점수를 종합하여 교정 후보의 최종 순위를 결정한다.
+# [9단계] 교정 후보 최종 순위 매기기
+# 여러 AI 모델의 판단을 종합해서, 어떤 교정 후보가 가장 자연스러운지
+# 최종 순위를 매긴다.
 
 from typing import Any, Dict, List
 
@@ -12,6 +14,7 @@ from stages.s07_edit_tagger import (
 def rerank(
     models: ModelLoader, sentence: str, groups: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
+    """여러 AI 모델의 판단을 종합해서 교정 후보의 최종 순위를 매긴다."""
     if not groups:
         return []
     ranked: List[Dict[str, Any]] = []

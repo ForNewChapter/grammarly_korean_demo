@@ -1,4 +1,6 @@
-# 3단계: 텍스트의 성격(NORMAL/CHAT/NOISY 등)을 분류하여 이후 단계의 임계값을 조정한다.
+# [3단계] 글 스타일 파악하기
+# 입력 텍스트가 일반 문장인지, 채팅체인지, 띄어쓰기 없는 글인지 등을 판별한다.
+# 채팅체("ㅋㅋ")에는 교정을 느슨하게, 일반 문장에는 엄격하게 적용하기 위함.
 
 import re
 from typing import Any, Dict
@@ -9,7 +11,7 @@ from model_loader import ModelLoader, PROFILE_PROTOTYPES
 
 
 def classify_profile(models: ModelLoader, text: str) -> Dict[str, Any]:
-    """규칙 기반 분류와 임베딩 기반 분류를 결합하여 텍스트 프로필을 결정한다."""
+    """이 글이 일반 문장인지, 채팅체인지, 띄어쓰기 없는 글인지 등을 판별한다."""
     length = max(len(text), 1)
     hangul_ratio = len(re.findall(r"[가-힣]", text)) / length
     latin_ratio = len(re.findall(r"[A-Za-z]", text)) / length

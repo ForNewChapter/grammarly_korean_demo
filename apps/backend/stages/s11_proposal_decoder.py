@@ -1,4 +1,6 @@
-# 11단계: 빔 서치로 최적 교정 조합을 디코딩하고, Seq2Seq 모델의 제안을 병합한다.
+# [11단계] 최적의 교정 조합 찾기
+# 여러 단어를 동시에 고칠 때 어떤 조합이 가장 좋은지 찾고,
+# AI 번역 모델(Seq2Seq)의 제안도 함께 합쳐서 최종 후보를 만든다.
 
 import difflib
 import math
@@ -167,6 +169,7 @@ def _decode_sentence_proposals(
     top_k: int = PROPOSAL_TOP_K,
     beam_width: int = PROPOSAL_BEAM_WIDTH,
 ) -> List[Dict[str, Any]]:
+    """여러 교정을 동시에 적용할 때, 가장 좋은 조합을 찾아낸다."""
     if not groups:
         return [
             {
@@ -319,6 +322,7 @@ def _seq2seq_sentence_proposals(
     tag_labels: Optional[List[Dict[str, Any]]] = None,
     top_k: int = PROPOSAL_TOP_K,
 ) -> List[Dict[str, Any]]:
+    """AI 번역 모델이 문장 전체를 보고 제안하는 교정을 만든다."""
     if models.proposal_seq2seq_model is None or models.proposal_seq2seq_tokenizer is None:
         return []
     dedup: Dict[str, Dict[str, Any]] = {}
@@ -425,6 +429,7 @@ def _merge_sentence_proposals(
     secondary: List[Dict[str, Any]],
     top_k: int = PROPOSAL_TOP_K,
 ) -> List[Dict[str, Any]]:
+    """두 가지 방식의 교정 제안을 합쳐서 중복을 제거한다."""
     merged: Dict[str, Dict[str, Any]] = {}
     for proposal in [*primary, *secondary]:
         key = str(proposal.get("suggestedClause") or proposal.get("text") or "")

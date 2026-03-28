@@ -1,4 +1,6 @@
-# 6단계: 구문 메모리와 형태소 혼동 규칙으로 표면형을 정규화한다.
+# [6단계] 알려진 틀린 표현 미리 고치기
+# "모르겟습니다→모르겠습니다" 같은 자주 틀리는 표현이나
+# 구문 사전에 등록된 틀린 표현을 미리 잡아서 고친다.
 
 from typing import Any, Dict, List
 
@@ -21,7 +23,7 @@ def _run_phrase_normalizations(
     *,
     single_token_only: bool = False,
 ) -> List[Dict[str, Any]]:
-    """구문 메모리 인덱스를 조회하여 표면형 정규화 편집을 생성한다."""
+    """구문 사전('약을 먹고 낫다→나았다' 등)에 등록된 틀린 표현을 찾아 고친다."""
     edits: List[Dict[str, Any]] = []
     token_ranges = tokenize_with_ranges(text)
     for index, (token, start, _) in enumerate(token_ranges):
@@ -68,7 +70,7 @@ def _run_phrase_normalizations(
 def _run_morpheme_normalizations(
     models: ModelLoader, text: str, protected: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
-    """형태소 혼동 규칙을 적용하여 형태소 수준의 정규화 편집을 생성한다."""
+    """'겟→겠', '엇→었' 같은 자주 틀리는 글자 조합을 찾아 고친다."""
     edits: List[Dict[str, Any]] = []
     token_ranges = tokenize_with_ranges(text)
     for token, start, end in token_ranges:
@@ -134,7 +136,7 @@ def _run_morpheme_normalizations(
 def run_pre_spacing_phrase_normalizer(
     models: ModelLoader, text: str, protected: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
-    """띄어쓰기 교정 전에 단일 토큰 구문 메모리 정규화를 수행한다."""
+    """띄어쓰기 교정 전에, 한 단어짜리 구문 사전 교정을 먼저 적용한다."""
     return _run_phrase_normalizations(
         models,
         text,
@@ -146,7 +148,7 @@ def run_pre_spacing_phrase_normalizer(
 def run_kiwi_pre_normalizer(
     models: ModelLoader, text: str, protected: List[Dict[str, Any]]
 ) -> List[Dict[str, Any]]:
-    """구문 메모리와 형태소 혼동 규칙을 모두 적용하여 정규화 편집 목록을 반환한다."""
+    """구문 사전 교정 + 틀린 글자 조합 교정을 모두 적용한다."""
     edits = [
         *_run_phrase_normalizations(models, text, protected),
         *_run_morpheme_normalizations(models, text, protected),
