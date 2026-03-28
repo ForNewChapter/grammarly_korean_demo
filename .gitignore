@@ -43,6 +43,10 @@ models/kobart-spell-20250814_183630/
 models/kobart-spell-20250815_160551/
 models/edit_tagger_v2_koelectra/
 
+# Training checkpoints (not needed for inference)
+models/proposal_seq2seq_best/checkpoint-*/
+models/proposal_seq2seq_best_backup_*/
+
 # Downloaded browser-only Kiwi assets
 public/assets/kiwi/model/
 
